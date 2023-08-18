@@ -27,7 +27,7 @@ function Recipes() {
   const {
     data: recipes,
     isLoading,
-    isError, // error,
+    isError,
   }: UseQueryResult<RecipeProp[], [string, number]> = useQuery(
     ["recipes", page],
     fetchRecipes,
