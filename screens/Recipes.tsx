@@ -1,37 +1,39 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FlatList, Text, View, StyleSheet } from "react-native";
 import RecipeCard from "../components/RecipeCard";
 import { QueryFunctionContext, UseQueryResult, useQuery } from "react-query";
-import Ionicons from "@expo/vector-icons/Ionicons";
+// import Ionicons from "@expo/vector-icons/Ionicons";
+import { Colors } from "../utils/colors";
+import { RecipeType } from "../utils/types";
+import { useStore } from "../store/store";
+import Title from "../components/Title";
 
-export interface RecipeProp {
-  title: string;
-  picture: string;
-  description: string;
-  cookTime: number;
-  author: string;
-  difficulty: number;
-  id: number;
-}
 const fetchRecipes: (
   context: QueryFunctionContext<[string, number]>,
-) => Promise<RecipeProp[]> = async (context) => {
+) => Promise<RecipeType[]> = async (context) => {
   const page = context.queryKey[1];
   const response = await fetch(`http://localhost:3000/recipes/?_page=${page}`); // TODO: ne radi na androidu
-  const jsonData = (await response.json()) as RecipeProp[];
+  const jsonData = (await response.json()) as RecipeType[];
   return jsonData;
 };
+
 function Recipes() {
   const [page, setPage] = useState<number>(1);
+  const recipesContext = useStore((state) => state.recipes);
+  const addRecipes = useStore((state) => state.addRecipes);
 
   const {
     data: recipes,
     isLoading,
     isError,
-  }: UseQueryResult<RecipeProp[], [string, number]> = useQuery(
+  }: UseQueryResult<RecipeType[], [string, number]> = useQuery(
     ["recipes", page],
     fetchRecipes,
   );
+
+  useEffect(() => {
+    if (recipes) addRecipes(recipes);
+  }, [recipes]);
 
   if (isLoading) {
     return <Text>Loading...</Text>;
@@ -43,15 +45,25 @@ function Recipes() {
 
   return (
     <View style={styles.container}>
-      <Text>a</Text>
-      <FlatList
-        data={recipes}
-        renderItem={({ item }) => <RecipeCard recipe={item} />}
-        keyExtractor={(item) => item.id.toString()}
-      />
-      <View style={styles.pagination}>
-        <Ionicons
-          name="remove"
+      <Title>Recipes</Title>
+      <View style={styles.list}>
+        <FlatList
+          data={recipesContext}
+          renderItem={({ item }) => <RecipeCard recipe={item} />}
+          keyExtractor={(item) => item.id.toString()}
+          onEndReached={() => {
+            if (recipes?.length !== 0) {
+              setPage((prev) => {
+                return prev + 1;
+              });
+            }
+          }}
+          onEndReachedThreshold={0.5} // todo koja vrednost je ok ovde
+        />
+      </View>
+
+      {/* <View style={styles.pagination}>
+        <Pressable
           disabled={page === 1}
           onPress={() =>
             setPage((prev) => {
@@ -60,18 +72,23 @@ function Recipes() {
               } else return prev;
             })
           }
-        />
-        <Text>{page}</Text>
-        <Ionicons
-          name="add"
+          style={styles.paginationButton}
+        >
+          <Ionicons name="remove" />
+        </Pressable>
+        <Text style={styles.paginationPage}>{page}</Text>
+        <Pressable
           disabled={recipes?.length !== 10}
           onPress={() =>
             setPage((prev) => {
               return prev + 1;
             })
           }
-        />
-      </View>
+          style={styles.paginationButton}
+        >
+          <Ionicons name="add" />
+        </Pressable>
+      </View> */}
     </View>
   );
 }
@@ -79,16 +96,27 @@ function Recipes() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    // backgroundColor: "#ccc",
-    // padding: 10,
     width: "100%",
-    // minHeight: 100,
-    // flexDirection: "row",
-    // alignItems: "center",
+    alignItems: "center",
+    padding: 20,
+  },
+  list: {
+    width: "100%",
+    flex: 1,
   },
   pagination: {
     flexDirection: "row",
     gap: 10,
+    alignSelf: "center",
+    marginTop: 15,
+  },
+  paginationButton: {
+    backgroundColor: Colors.lightGrey,
+    padding: 5,
+    borderRadius: 5,
+  },
+  paginationPage: {
+    fontSize: 20,
   },
 });
 

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { ReactNode } from "react";
 import {
   Text,
   StyleSheet,
@@ -8,14 +8,14 @@ import {
 import { Colors } from "../utils/colors";
 
 interface ButtonProps {
-  text: string;
+  children: ReactNode;
   onPress: ((event: GestureResponderEvent) => void) | null | undefined;
 }
 function Button(props: ButtonProps) {
-  const { text, onPress } = props;
+  const { children, onPress } = props;
   return (
     <Pressable style={styles.container} onPress={onPress}>
-      <Text style={styles.text}>{text}</Text>
+      <Text style={styles.text}>{children}</Text>
     </Pressable>
   );
 }

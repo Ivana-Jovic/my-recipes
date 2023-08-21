@@ -1,8 +1,8 @@
 import React from "react";
 import { Controller, useForm } from "react-hook-form";
-import { TextInput, View, Text, StyleSheet, Button } from "react-native";
+import { TextInput, View, Text, StyleSheet } from "react-native";
 import { Colors } from "../utils/colors";
-// import Button from "../components/Button";
+import Button from "../components/Button";
 
 interface FormData {
   name: string;
@@ -45,7 +45,7 @@ function SignInScreen() {
         {errors.name && <Text>This field is required</Text>}
         {/* //TODO: kako ovo resiti na bolji nacin */}
         {/* eslint-disable-next-line @typescript-eslint/no-misused-promises */}
-        <Button title={"Done"} onPress={handleSubmit(onSubmit)} />
+        <Button onPress={handleSubmit(onSubmit)}>Done</Button>
       </View>
     </View>
   );
