@@ -14,6 +14,7 @@ const fetchRecipes: (
   const page = context.queryKey[1];
   const response = await fetch(`http://localhost:3000/recipes/?_page=${page}`); // TODO: ne radi na androidu
   const jsonData = (await response.json()) as RecipeType[];
+  console.log(jsonData);
   return jsonData;
 };
 
@@ -21,7 +22,6 @@ function Recipes() {
   const [page, setPage] = useState<number>(1);
   const recipesContext = useStore((state) => state.recipes);
   const addRecipes = useStore((state) => state.addRecipes);
-
   const {
     data: recipes,
     isLoading,

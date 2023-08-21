@@ -1,18 +1,20 @@
 import { create } from "zustand";
-import { RecipeType } from "../utils/types"; // todo change name
+import { RecipeDetailsType, RecipeType } from "../utils/types"; // todo change name
 
 interface StoreState {
   recipes: RecipeType[];
-  addRecipes: (recipesList: RecipeType[]) => void;
+  recentRecipe: RecipeType | undefined;
+  addRecipes: (recipesList: RecipeType[]) => void; //todo vrati na details
+  addRecentRecipes: (recipe: RecipeType) => void;
   // getRecipeId: (id: number) => RecipeType;
 }
 
 export const useStore = create<StoreState>((set) => ({
   recipes: [],
-  // increasePopulation: () => set((state) => ({ bears: state.bears + 1 })),
-  // removeAllBears: () => set({ bears: 0 }),
+  recentRecipe: undefined,
   addRecipes: (recipesList) =>
     set((state) => ({ recipes: state.recipes.concat(recipesList) })),
+  addRecentRecipes: (recipe) => set({ recentRecipe: recipe }),
   // getRecipeId: (recipeId) => {
   //   // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
   //   return useStore

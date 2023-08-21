@@ -7,8 +7,10 @@
           "description": "Pasta",
           "cookTime": 15,
           "author": "Ivana",
-          "difficulty": 5
-      },
+          "difficulty": 5,
+          "instructions": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ac nibh at velit tristique venenatis. Nullam vitae neque odio. Proin volutpat, eros eu interdum tincidunt, tortor felis fringilla dui, non gravida libero urna quis risus. Nam mattis semper justo, in convallis nulla viverra sit amet. Integer rhoncus, nisl in tincidunt sagittis, libero odio tincidunt justo, a iaculis arcu odio eget libero. In scelerisque orci id est rhoncus fringilla. Ut vel elit ac felis gravida vehicula. Vivamus ut fermentum quam. Duis ac sapien sed purus lacinia egestas. Nullam malesuada, ante at finibus gravida, arcu urna vehicula augue, a dignissim nisi libero et turpis. Duis bibendum tincidunt justo, sit amet egestas neque hendrerit at. Vivamus sit amet metus et dui vulputate varius. Pellentesque et cursus libero. Nam et efficitur lorem, eget varius mi. Sed dictum arcu a venenatis iaculis.",
+          "ingredients": ["1 Egg", "2Tbs Milk", "1Cup Water"]
+        },
       {
           "id": 2,
           "title": "Pasta2",
@@ -16,7 +18,9 @@
           "description": "Pasta2",
           "cookTime": 10,
           "author": "Ivana2",
-          "difficulty": 1
+          "difficulty": 1,
+          "ingredients": ["1 Egg", "2Tbs Milk", "1Cup Water"],
+          "instructions": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ac nibh at velit tristique venenatis."
       },
       {
           "id": 3,
@@ -25,7 +29,11 @@
           "description": "Pasta2",
           "cookTime": 10,
           "author": "Ivana2",
-          "difficulty": 1
+          "difficulty": 1,
+          "ingredients": ["1 Egg", "2Tbs Milk", "1Cup Water"],
+          "instructions": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ac nibh at velit tristique venenatis."
+    
+
       },
       {
           "id": 4,
@@ -34,7 +42,9 @@
           "description": "Pasta2",
           "cookTime": 10,
           "author": "Ivana2",
-          "difficulty": 1
+          "difficulty": 1,
+          "ingredients": ["1 Egg", "2Tbs Milk", "1Cup Water"],
+          "instructions": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ac nibh at velit tristique venenatis."
       },
       {
           "id": 5,
@@ -43,7 +53,9 @@
           "description": "Pasta2",
           "cookTime": 10,
           "author": "Ivana2",
-          "difficulty": 1
+          "difficulty": 1,
+          "ingredients": ["1 Egg", "2Tbs Milk", "1Cup Water"],
+          "instructions": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ac nibh at velit tristique venenatis."
       },
       {
           "id": 6,
@@ -52,7 +64,9 @@
           "description": "Pasta2",
           "cookTime": 10,
           "author": "Ivana2",
-          "difficulty": 1
+          "difficulty": 1,
+          "ingredients": ["1 Egg", "2Tbs Milk", "1Cup Water"],
+          "instructions": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ac nibh at velit tristique venenatis."
       },
       {
           "id": 7,
@@ -61,7 +75,9 @@
           "description": "Pasta2",
           "cookTime": 10,
           "author": "Ivana2",
-          "difficulty": 1
+          "difficulty": 1,
+          "ingredients": ["1 Egg", "2Tbs Milk", "1Cup Water"],
+          "instructions": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ac nibh at velit tristique venenatis."
       },
       {
           "id": 8,
@@ -70,7 +86,9 @@
           "description": "Pasta2",
           "cookTime": 10,
           "author": "Ivana2",
-          "difficulty": 1
+          "difficulty": 1,
+          "ingredients": ["1 Egg", "2Tbs Milk", "1Cup Water"],
+          "instructions": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ac nibh at velit tristique venenatis."
       },
       {
           "id": 9,
@@ -79,7 +97,9 @@
           "description": "Pasta2",
           "cookTime": 10,
           "author": "Ivana2",
-          "difficulty": 1
+          "difficulty": 1,
+          "ingredients": ["1 Egg", "2Tbs Milk", "1Cup Water"],
+          "instructions": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ac nibh at velit tristique venenatis."
       },
       {
           "id": 10,
@@ -88,7 +108,9 @@
           "description": "Pasta2",
           "cookTime": 10,
           "author": "Ivana2",
-          "difficulty": 1
+          "difficulty": 1,
+          "ingredients": ["1 Egg", "2Tbs Milk", "1Cup Water"],
+          "instructions": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ac nibh at velit tristique venenatis."
       },
       {
           "id": 11,
@@ -97,7 +119,9 @@
           "description": "Pasta2",
           "cookTime": 10,
           "author": "Ivana2",
-          "difficulty": 1
+          "difficulty": 1,
+          "ingredients": ["1 Egg", "2Tbs Milk", "1Cup Water"],
+          "instructions": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ac nibh at velit tristique venenatis."
       },
       {
           "id": 12,
@@ -106,7 +130,9 @@
           "description": "Pasta2",
           "cookTime": 10,
           "author": "Ivana2",
-          "difficulty": 1
+          "difficulty": 1,
+          "ingredients": ["1 Egg", "2Tbs Milk", "1Cup Water"],
+          "instructions": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ac nibh at velit tristique venenatis."
       },
       {
           "id": 13,
@@ -115,7 +141,9 @@
           "description": "Pasta2",
           "cookTime": 10,
           "author": "Ivana2",
-          "difficulty": 1
+          "difficulty": 1,
+          "ingredients": ["1 Egg", "2Tbs Milk", "1Cup Water"],
+          "instructions": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ac nibh at velit tristique venenatis."
       },
       {
           "id": 14,
@@ -124,7 +152,9 @@
           "description": "Pasta2",
           "cookTime": 10,
           "author": "Ivana2",
-          "difficulty": 1
+          "difficulty": 1,
+          "ingredients": ["1 Egg", "2Tbs Milk", "1Cup Water"],
+          "instructions": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ac nibh at velit tristique venenatis."
       }
   ]
 }

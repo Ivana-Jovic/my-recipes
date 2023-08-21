@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Text, StyleSheet, View, Image } from "react-native";
 import { RecipeType } from "../utils/types";
 import { useRoute } from "@react-navigation/native";
@@ -7,22 +7,55 @@ import { RootStackParamList } from "../App";
 import { useStore } from "../store/store";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import Title from "../components/Title";
+import { QueryFunctionContext, UseQueryResult, useQuery } from "react-query";
 
 type Props = NativeStackScreenProps<RootStackParamList, "RecipeDetails">;
 
 type RecipeDetailsScreenRouteProp = Props["route"];
 
+const fetchRecipes: (
+  context: QueryFunctionContext<[string, number]>,
+) => Promise<RecipeType> = async (context) => {
+  const id = context.queryKey[1];
+  const response = await fetch(`http://localhost:3000/recipes/${id}`);
+  const jsonData = (await response.json()) as RecipeType;
+  return jsonData;
+};
+
 function RecipeDetails() {
   const router = useRoute<RecipeDetailsScreenRouteProp>();
   const recipeId = parseInt(router.params.recipeId);
-  const recipesContext = useStore((state) => state.recipes);
-  const currRecipe = recipesContext.find(
-    (recipe: RecipeType) => recipe.id === recipeId,
+
+  const addRecentRecipes = useStore((state) => state.addRecentRecipes);
+  const {
+    data: currRecipe,
+    isLoading,
+    isError,
+  }: UseQueryResult<RecipeType, [string, number]> = useQuery(
+    ["recipes", recipeId],
+    fetchRecipes,
   );
 
+  // const recipesContext = useStore((state) => state.recipes);
+  // const currRecipe = recipesContext.find(
+  //   (recipe: RecipeDetailsType) => recipe.id === recipeId,
+  // );
+  useEffect(() => {
+    if (currRecipe) addRecentRecipes(currRecipe);
+  }, [currRecipe]);
+
   if (!currRecipe) {
+    return <Text>-{recipeId}Loading...</Text>;
+  }
+
+  if (isLoading) {
     return <Text>Loading...</Text>;
   }
+
+  if (isError) {
+    return <Text>Error fetching data</Text>;
+  }
+
   return (
     <View style={styles.container}>
       {/* <Text style={styles.text}>Title:{currRecipe?.title}</Text> */}

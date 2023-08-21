@@ -11,6 +11,7 @@ interface ButtonProps {
   children: ReactNode;
   onPress: ((event: GestureResponderEvent) => void) | null | undefined;
 }
+
 function Button(props: ButtonProps) {
   const { children, onPress } = props;
   return (
