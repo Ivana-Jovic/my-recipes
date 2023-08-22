@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Text, StyleSheet, View, Image } from "react-native";
+import { Text, StyleSheet, View, Image, ScrollView } from "react-native";
 import { RecipeType } from "../utils/types";
 import { useRoute } from "@react-navigation/native";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
@@ -27,6 +27,8 @@ function RecipeDetails() {
   const recipeId = parseInt(router.params.recipeId);
 
   const addRecentRecipes = useStore((state) => state.addRecentRecipes);
+  const recentRecipe = useStore((state) => state.recentRecipe);
+
   const {
     data: currRecipe,
     isLoading,
@@ -35,16 +37,16 @@ function RecipeDetails() {
     ["recipes", recipeId],
     fetchRecipes,
   );
-
   // const recipesContext = useStore((state) => state.recipes);
   // const currRecipe = recipesContext.find(
   //   (recipe: RecipeDetailsType) => recipe.id === recipeId,
   // );
   useEffect(() => {
-    if (currRecipe) addRecentRecipes(currRecipe);
+    if (currRecipe && (!recentRecipe || recentRecipe?.id !== recipeId))
+      addRecentRecipes(currRecipe);
   }, [currRecipe]);
 
-  if (!currRecipe) {
+  if (!recentRecipe) {
     return <Text>-{recipeId}Loading...</Text>;
   }
 
@@ -57,30 +59,39 @@ function RecipeDetails() {
   }
 
   return (
-    <View style={styles.container}>
-      {/* <Text style={styles.text}>Title:{currRecipe?.title}</Text> */}
-      <Title>{currRecipe.title}</Title>
-      {/* eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-assignment */}
-      <Image source={require("../assets/pasta.jpeg")} style={styles.image} />
-      <View style={styles.containerRight}>
-        <View style={styles.details}>
-          <View style={styles.detailsItem}>
-            <Ionicons name="timer-outline" />
-            <Text>{currRecipe.cookTime}</Text>
+    <ScrollView>
+      <View style={styles.container}>
+        <Title>{recentRecipe.title}</Title>
+        <Image
+          //eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-assignment
+          source={require("../assets/pasta.jpeg")}
+          style={styles.image}
+        />
+        <View style={styles.innerContainer}>
+          <View style={styles.details}>
+            <View style={styles.detailsItem}>
+              <Ionicons name="timer-outline" />
+              <Text>{recentRecipe.cookTime}</Text>
+            </View>
+            <View style={styles.detailsItem}>
+              <Ionicons name="ios-analytics" />
+              <Text>{recentRecipe.difficulty}</Text>
+            </View>
+            <View style={styles.detailsItem}>
+              <Ionicons name="person-outline" />
+              <Text>{recentRecipe.author}</Text>
+            </View>
           </View>
-          <View style={styles.detailsItem}>
-            <Ionicons name="ios-analytics" />
-            <Text>{currRecipe.difficulty}</Text>
+          <Text>{recentRecipe.description}</Text>
+          <View style={styles.ingredients}>
+            {recentRecipe.ingredients?.map((ingredient) => (
+              <Text key={ingredient}>- {ingredient}</Text>
+            ))}
           </View>
-          <View style={styles.detailsItem}>
-            <Ionicons name="person-outline" />
-            <Text>{currRecipe.author}</Text>
-          </View>
+          <Text>{recentRecipe.instructions}</Text>
         </View>
-        <Text>{currRecipe.description}</Text>
-        {/* //sastojci */}
       </View>
-    </View>
+    </ScrollView>
   );
 }
 
@@ -88,23 +99,19 @@ export default RecipeDetails;
 
 const styles = StyleSheet.create({
   container: {
-    // backgroundColor: Colors.cardColor,
-    padding: 20,
-    minHeight: 100,
     flex: 1,
+    padding: 20,
     width: "100%",
-    gap: 20,
+    gap: 10,
     alignItems: "center",
   },
-  containerRight: {
-    flex: 2,
+  innerContainer: {
     width: "100%",
     gap: 10,
   },
   image: {
     width: "100%",
-    height: "100%",
-    flex: 1,
+    height: 200,
   },
   details: {
     flexDirection: "row",
@@ -115,5 +122,8 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     gap: 5,
     alignItems: "center",
+  },
+  ingredients: {
+    gap: 7,
   },
 });
