@@ -15,7 +15,10 @@ interface ButtonProps {
 function Button(props: ButtonProps) {
   const { children, onPress } = props;
   return (
-    <Pressable style={styles.container} onPress={onPress}>
+    <Pressable
+      style={({ pressed }) => [styles.container, pressed && styles.pressed]}
+      onPress={onPress}
+    >
       <Text style={styles.text}>{children}</Text>
     </Pressable>
   );
@@ -29,5 +32,6 @@ const styles = StyleSheet.create({
     padding: 10,
     borderRadius: 5,
   },
+  pressed: { opacity: 0.7 },
   text: { color: "white" },
 });

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { FlatList, Text, View, StyleSheet } from "react-native";
 import RecipeCard from "../components/RecipeCard";
 import { QueryFunctionContext, UseQueryResult, useQuery } from "react-query";
@@ -14,7 +14,6 @@ const fetchRecipes: (
   const page = context.queryKey[1];
   const response = await fetch(`http://localhost:3000/recipes/?_page=${page}`); // TODO: ne radi na androidu
   const jsonData = (await response.json()) as RecipeType[];
-  // console.log(jsonData);
   return jsonData;
 };
 
@@ -33,16 +32,13 @@ function Recipes() {
     ["recipes", page],
     fetchRecipes,
     {
-      // onSuccess: addRecipes,
-      // enabled: recipesContext.length === 0, //|| pageChanged
+      onSuccess(data) {
+        if (recipesContext.length === 0 || pageChanged) {
+          addRecipes(data);
+        }
+      },
     },
   );
-
-  console.log(recipesContext.length);
-
-  useEffect(() => {
-    if (recipes) addRecipes(recipes);
-  }, [recipes]);
 
   if (isLoading) {
     return <Text>Loading...</Text>;
@@ -61,14 +57,16 @@ function Recipes() {
           renderItem={({ item }) => <RecipeCard recipe={item} />}
           keyExtractor={(item) => item.id.toString()}
           onEndReached={() => {
+            console.log("before setPageChanged(true);");
             if (recipes?.length !== 0) {
               setPage((prev) => {
                 return prev + 1;
               });
               setPageChanged(true);
+              console.log("setPageChanged(true);");
             }
           }}
-          onEndReachedThreshold={0.5} // todo koja vrednost je ok ovde
+          onEndReachedThreshold={0.1} // todo koja vrednost je ok ovde
         />
       </View>
 

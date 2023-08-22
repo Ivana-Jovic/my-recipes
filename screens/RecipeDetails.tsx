@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { Text, StyleSheet, View, Image, ScrollView } from "react-native";
 import { RecipeType } from "../utils/types";
 import { useRoute } from "@react-navigation/native";
@@ -29,22 +29,16 @@ function RecipeDetails() {
   const addRecentRecipes = useStore((state) => state.addRecentRecipes);
   const recentRecipe = useStore((state) => state.recentRecipe);
 
-  const {
-    data: currRecipe,
-    isLoading,
-    isError,
-  }: UseQueryResult<RecipeType, [string, number]> = useQuery(
-    ["recipes", recipeId],
-    fetchRecipes,
-  );
-  // const recipesContext = useStore((state) => state.recipes);
-  // const currRecipe = recipesContext.find(
-  //   (recipe: RecipeDetailsType) => recipe.id === recipeId,
-  // );
-  useEffect(() => {
-    if (currRecipe && (!recentRecipe || recentRecipe?.id !== recipeId))
-      addRecentRecipes(currRecipe);
-  }, [currRecipe]);
+  const { isLoading, isError }: UseQueryResult<RecipeType, [string, number]> =
+    useQuery(["recipes", recipeId], fetchRecipes, {
+      // todo nema poente jer imamo u kontekstu
+      onSuccess(data) {
+        if (!recentRecipe || recentRecipe?.id !== recipeId) {
+          addRecentRecipes(data);
+        }
+      },
+      enabled: !recentRecipe || recentRecipe?.id !== recipeId,
+    });
 
   if (!recentRecipe) {
     return <Text>-{recipeId}Loading...</Text>;
