@@ -4,19 +4,29 @@ import {
   StyleSheet,
   Pressable,
   GestureResponderEvent,
+  StyleProp,
+  ViewStyle,
 } from "react-native";
 import { Colors } from "../utils/colors";
 
 interface ButtonProps {
   children: ReactNode;
-  onPress: ((event: GestureResponderEvent) => void) | null | undefined;
+  additionalStyle?: StyleProp<ViewStyle>;
+  onPress:
+    | ((event: GestureResponderEvent) => void | Promise<void>)
+    | null
+    | undefined;
 }
 
 function Button(props: ButtonProps) {
-  const { children, onPress } = props;
+  const { children, onPress, additionalStyle } = props;
   return (
     <Pressable
-      style={({ pressed }) => [styles.container, pressed && styles.pressed]}
+      style={({ pressed }) => [
+        styles.container,
+        pressed && styles.pressed,
+        additionalStyle,
+      ]}
       onPress={onPress}
     >
       <Text style={styles.text}>{children}</Text>

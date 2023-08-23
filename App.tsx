@@ -50,7 +50,7 @@ export default function App() {
     <QueryClientProvider client={queryClient}>
       <NavigationContainer>
         <Stack.Navigator>
-          <Stack.Screen name="SignInScreen" component={SignInScreen} />
+          {/* <Stack.Screen name="SignInScreen" component={SignInScreen} /> */}
           <Stack.Screen
             name="Recipes"
             component={Recipes}
