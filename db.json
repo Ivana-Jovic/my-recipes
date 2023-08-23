@@ -1,160 +1,227 @@
 {
   "recipes": [
-      {
-          "id": 1,
-          "title": "Pasta",
-          "picture": "Lorem",
-          "description": "Pasta",
-          "cookTime": 15,
-          "author": "Ivana",
-          "difficulty": 5,
-          "instructions": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ac nibh at velit tristique venenatis. Nullam vitae neque odio. Proin volutpat, eros eu interdum tincidunt, tortor felis fringilla dui, non gravida libero urna quis risus. Nam mattis semper justo, in convallis nulla viverra sit amet. Integer rhoncus, nisl in tincidunt sagittis, libero odio tincidunt justo, a iaculis arcu odio eget libero. In scelerisque orci id est rhoncus fringilla. Ut vel elit ac felis gravida vehicula. Vivamus ut fermentum quam. Duis ac sapien sed purus lacinia egestas. Nullam malesuada, ante at finibus gravida, arcu urna vehicula augue, a dignissim nisi libero et turpis. Duis bibendum tincidunt justo, sit amet egestas neque hendrerit at. Vivamus sit amet metus et dui vulputate varius. Pellentesque et cursus libero. Nam et efficitur lorem, eget varius mi. Sed dictum arcu a venenatis iaculis.",
-          "ingredients": ["1 Egg", "2Tbs Milk", "1Cup Water"]
-        },
-      {
-          "id": 2,
-          "title": "Pasta2",
-          "picture": "Lorem",
-          "description": "Pasta2",
-          "cookTime": 10,
-          "author": "Ivana2",
-          "difficulty": 1,
-          "ingredients": ["1 Egg", "2Tbs Milk", "1Cup Water"],
-          "instructions": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ac nibh at velit tristique venenatis."
-      },
-      {
-          "id": 3,
-          "title": "Pasta3",
-          "picture": "Lorem",
-          "description": "Pasta2",
-          "cookTime": 10,
-          "author": "Ivana2",
-          "difficulty": 1,
-          "ingredients": ["1 Egg", "2Tbs Milk", "1Cup Water"],
-          "instructions": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ac nibh at velit tristique venenatis."
-    
-
-      },
-      {
-          "id": 4,
-          "title": "Pasta4",
-          "picture": "Lorem",
-          "description": "Pasta2",
-          "cookTime": 10,
-          "author": "Ivana2",
-          "difficulty": 1,
-          "ingredients": ["1 Egg", "2Tbs Milk", "1Cup Water"],
-          "instructions": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ac nibh at velit tristique venenatis."
-      },
-      {
-          "id": 5,
-          "title": "Pasta5",
-          "picture": "Lorem",
-          "description": "Pasta2",
-          "cookTime": 10,
-          "author": "Ivana2",
-          "difficulty": 1,
-          "ingredients": ["1 Egg", "2Tbs Milk", "1Cup Water"],
-          "instructions": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ac nibh at velit tristique venenatis."
-      },
-      {
-          "id": 6,
-          "title": "Pasta6",
-          "picture": "Lorem",
-          "description": "Pasta2",
-          "cookTime": 10,
-          "author": "Ivana2",
-          "difficulty": 1,
-          "ingredients": ["1 Egg", "2Tbs Milk", "1Cup Water"],
-          "instructions": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ac nibh at velit tristique venenatis."
-      },
-      {
-          "id": 7,
-          "title": "Pasta7",
-          "picture": "Lorem",
-          "description": "Pasta2",
-          "cookTime": 10,
-          "author": "Ivana2",
-          "difficulty": 1,
-          "ingredients": ["1 Egg", "2Tbs Milk", "1Cup Water"],
-          "instructions": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ac nibh at velit tristique venenatis."
-      },
-      {
-          "id": 8,
-          "title": "Pasta8",
-          "picture": "Lorem",
-          "description": "Pasta2",
-          "cookTime": 10,
-          "author": "Ivana2",
-          "difficulty": 1,
-          "ingredients": ["1 Egg", "2Tbs Milk", "1Cup Water"],
-          "instructions": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ac nibh at velit tristique venenatis."
-      },
-      {
-          "id": 9,
-          "title": "Pasta9",
-          "picture": "Lorem",
-          "description": "Pasta2",
-          "cookTime": 10,
-          "author": "Ivana2",
-          "difficulty": 1,
-          "ingredients": ["1 Egg", "2Tbs Milk", "1Cup Water"],
-          "instructions": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ac nibh at velit tristique venenatis."
-      },
-      {
-          "id": 10,
-          "title": "Pasta10",
-          "picture": "Lorem",
-          "description": "Pasta2",
-          "cookTime": 10,
-          "author": "Ivana2",
-          "difficulty": 1,
-          "ingredients": ["1 Egg", "2Tbs Milk", "1Cup Water"],
-          "instructions": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ac nibh at velit tristique venenatis."
-      },
-      {
-          "id": 11,
-          "title": "Pasta11",
-          "picture": "Lorem",
-          "description": "Pasta2",
-          "cookTime": 10,
-          "author": "Ivana2",
-          "difficulty": 1,
-          "ingredients": ["1 Egg", "2Tbs Milk", "1Cup Water"],
-          "instructions": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ac nibh at velit tristique venenatis."
-      },
-      {
-          "id": 12,
-          "title": "Pasta12",
-          "picture": "Lorem",
-          "description": "Pasta2",
-          "cookTime": 10,
-          "author": "Ivana2",
-          "difficulty": 1,
-          "ingredients": ["1 Egg", "2Tbs Milk", "1Cup Water"],
-          "instructions": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ac nibh at velit tristique venenatis."
-      },
-      {
-          "id": 13,
-          "title": "Pasta13",
-          "picture": "Lorem",
-          "description": "Pasta2",
-          "cookTime": 10,
-          "author": "Ivana2",
-          "difficulty": 1,
-          "ingredients": ["1 Egg", "2Tbs Milk", "1Cup Water"],
-          "instructions": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ac nibh at velit tristique venenatis."
-      },
-      {
-          "id": 14,
-          "title": "Pasta14",
-          "picture": "Lorem",
-          "description": "Pasta2",
-          "cookTime": 10,
-          "author": "Ivana2",
-          "difficulty": 1,
-          "ingredients": ["1 Egg", "2Tbs Milk", "1Cup Water"],
-          "instructions": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ac nibh at velit tristique venenatis."
-      }
+    {
+      "id": 1,
+      "title": "Pasta",
+      "picture": "Lorem",
+      "description": "Pasta",
+      "cookTime": 15,
+      "author": "Ivana",
+      "difficulty": 5,
+      "instructions": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ac nibh at velit tristique venenatis. Nullam vitae neque odio. Proin volutpat, eros eu interdum tincidunt, tortor felis fringilla dui, non gravida libero urna quis risus. Nam mattis semper justo, in convallis nulla viverra sit amet. Integer rhoncus, nisl in tincidunt sagittis, libero odio tincidunt justo, a iaculis arcu odio eget libero. In scelerisque orci id est rhoncus fringilla. Ut vel elit ac felis gravida vehicula. Vivamus ut fermentum quam. Duis ac sapien sed purus lacinia egestas. Nullam malesuada, ante at finibus gravida, arcu urna vehicula augue, a dignissim nisi libero et turpis. Duis bibendum tincidunt justo, sit amet egestas neque hendrerit at. Vivamus sit amet metus et dui vulputate varius. Pellentesque et cursus libero. Nam et efficitur lorem, eget varius mi. Sed dictum arcu a venenatis iaculis.",
+      "ingredients": [
+        "1 Egg",
+        "2Tbs Milk",
+        "1Cup Water"
+      ]
+    },
+    {
+      "id": 2,
+      "title": "Pasta2",
+      "picture": "Lorem",
+      "description": "Pasta2",
+      "cookTime": 10,
+      "author": "Ivana2",
+      "difficulty": 1,
+      "ingredients": [
+        "1 Egg",
+        "2Tbs Milk",
+        "1Cup Water"
+      ],
+      "instructions": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ac nibh at velit tristique venenatis."
+    },
+    {
+      "id": 3,
+      "title": "Pasta3",
+      "picture": "Lorem",
+      "description": "Pasta2",
+      "cookTime": 10,
+      "author": "Ivana2",
+      "difficulty": 1,
+      "ingredients": [
+        "1 Egg",
+        "2Tbs Milk",
+        "1Cup Water"
+      ],
+      "instructions": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ac nibh at velit tristique venenatis."
+    },
+    {
+      "id": 4,
+      "title": "Pasta4",
+      "picture": "Lorem",
+      "description": "Pasta2",
+      "cookTime": 10,
+      "author": "Ivana2",
+      "difficulty": 1,
+      "ingredients": [
+        "1 Egg",
+        "2Tbs Milk",
+        "1Cup Water"
+      ],
+      "instructions": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ac nibh at velit tristique venenatis."
+    },
+    {
+      "id": 5,
+      "title": "Pasta5",
+      "picture": "Lorem",
+      "description": "Pasta2",
+      "cookTime": 10,
+      "author": "Ivana2",
+      "difficulty": 1,
+      "ingredients": [
+        "1 Egg",
+        "2Tbs Milk",
+        "1Cup Water"
+      ],
+      "instructions": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ac nibh at velit tristique venenatis."
+    },
+    {
+      "id": 6,
+      "title": "Pasta6",
+      "picture": "Lorem",
+      "description": "Pasta2",
+      "cookTime": 10,
+      "author": "Ivana2",
+      "difficulty": 1,
+      "ingredients": [
+        "1 Egg",
+        "2Tbs Milk",
+        "1Cup Water"
+      ],
+      "instructions": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ac nibh at velit tristique venenatis."
+    },
+    {
+      "id": 7,
+      "title": "Pasta7",
+      "picture": "Lorem",
+      "description": "Pasta2",
+      "cookTime": 10,
+      "author": "Ivana2",
+      "difficulty": 1,
+      "ingredients": [
+        "1 Egg",
+        "2Tbs Milk",
+        "1Cup Water"
+      ],
+      "instructions": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ac nibh at velit tristique venenatis."
+    },
+    {
+      "id": 8,
+      "title": "Pasta8",
+      "picture": "Lorem",
+      "description": "Pasta2",
+      "cookTime": 10,
+      "author": "Ivana2",
+      "difficulty": 1,
+      "ingredients": [
+        "1 Egg",
+        "2Tbs Milk",
+        "1Cup Water"
+      ],
+      "instructions": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ac nibh at velit tristique venenatis."
+    },
+    {
+      "id": 9,
+      "title": "Pasta9",
+      "picture": "Lorem",
+      "description": "Pasta2",
+      "cookTime": 10,
+      "author": "Ivana2",
+      "difficulty": 1,
+      "ingredients": [
+        "1 Egg",
+        "2Tbs Milk",
+        "1Cup Water"
+      ],
+      "instructions": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ac nibh at velit tristique venenatis."
+    },
+    {
+      "id": 10,
+      "title": "Pasta10",
+      "picture": "Lorem",
+      "description": "Pasta2",
+      "cookTime": 10,
+      "author": "Ivana2",
+      "difficulty": 1,
+      "ingredients": [
+        "1 Egg",
+        "2Tbs Milk",
+        "1Cup Water"
+      ],
+      "instructions": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ac nibh at velit tristique venenatis."
+    },
+    {
+      "id": 11,
+      "title": "Pasta11",
+      "picture": "Lorem",
+      "description": "Pasta2",
+      "cookTime": 10,
+      "author": "Ivana2",
+      "difficulty": 1,
+      "ingredients": [
+        "1 Egg",
+        "2Tbs Milk",
+        "1Cup Water"
+      ],
+      "instructions": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ac nibh at velit tristique venenatis."
+    },
+    {
+      "id": 12,
+      "title": "Pasta12",
+      "picture": "Lorem",
+      "description": "Pasta2",
+      "cookTime": 10,
+      "author": "Ivana2",
+      "difficulty": 1,
+      "ingredients": [
+        "1 Egg",
+        "2Tbs Milk",
+        "1Cup Water"
+      ],
+      "instructions": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ac nibh at velit tristique venenatis."
+    },
+    {
+      "id": 13,
+      "title": "Pasta13",
+      "picture": "Lorem",
+      "description": "Pasta2",
+      "cookTime": 10,
+      "author": "Ivana2",
+      "difficulty": 1,
+      "ingredients": [
+        "1 Egg",
+        "2Tbs Milk",
+        "1Cup Water"
+      ],
+      "instructions": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ac nibh at velit tristique venenatis."
+    },
+    {
+      "id": 14,
+      "title": "Pasta14",
+      "picture": "Lorem",
+      "description": "Pasta2",
+      "cookTime": 10,
+      "author": "Ivana2",
+      "difficulty": 1,
+      "ingredients": [
+        "1 Egg",
+        "2Tbs Milk",
+        "1Cup Water"
+      ],
+      "instructions": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ac nibh at velit tristique venenatis."
+    },
+    {
+      "title": "Hfj",
+      "picture": [
+        "file:///Users/ivanajovic/Library/Developer/CoreSimulator/Devices/3915BFB6-EC80-4C32-8BBF-9E6199A4970B/data/Containers/Data/Application/C96C97A2-BBD5-4DFD-84B8-233262E43082/Library/Caches/ExponentExperienceData/%2540anonymous%252Fmy-recipes-566ef3f6-04e8-4cbf-bc57-c2eb86bd502d/ImagePicker/5271D13F-07CC-4B3F-9096-36151391D71F.jpg"
+      ],
+      "description": "Gt",
+      "cookTime": "5",
+      "author": "",
+      "difficulty": 1,
+      "ingredients": "Vfv",
+      "instructions": "Gbv",
+      "id": 15
+    }
   ]
 }

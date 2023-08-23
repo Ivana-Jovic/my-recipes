@@ -13,18 +13,52 @@ import Button from "../components/Button";
 import { RecipeType } from "../utils/types";
 import Input from "../components/Input";
 import ImagePicker from "../components/ImagePicker";
-// interface FormData {
-//   name: string;
-// }
+import { QueryFunctionContext, UseQueryResult, useQuery } from "react-query";
+
+const addRecipes: (
+  context: QueryFunctionContext<[string, RecipeType | undefined]>,
+) => Promise<RecipeType[]> = async (context) => {
+  console.log("in addRecipes");
+  const recipe = context.queryKey[1];
+  if (!recipe) console.log("Recipe is undef");
+  const response = await fetch(`http://localhost:3000/recipes/`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(recipe),
+  });
+  const jsonData = (await response.json()) as RecipeType[];
+  return jsonData;
+};
+
 function AddRecipe() {
   const [images, setImages] = useState<string[]>([]);
+  const [newRecipe, setNewRecipe] = useState<RecipeType | undefined>(undefined);
 
   const handleImagesChange = (newValue: string[]) => {
     setImages(newValue);
   };
-  //   const handleImagesChangeRemove = (newValue: string[]) => {
-  //     setImages(newValue);
-  //   };
+  //
+  const {
+    // data: recipes,
+    isLoading,
+    isError,
+  }: UseQueryResult<RecipeType[], [string, RecipeType | undefined]> = useQuery(
+    ["recipes", newRecipe],
+    addRecipes,
+    {
+      onSuccess() {
+        console.log("my success");
+        //   if (recipesContext.length === 0 || pageChanged) {
+        // addRecipes(data);
+        //   }
+      },
+      enabled: !!newRecipe,
+    },
+  );
+
+  //
   const {
     control,
     handleSubmit,
@@ -32,7 +66,7 @@ function AddRecipe() {
   } = useForm<RecipeType>({
     defaultValues: {
       title: "",
-      picture: [], // todo insert pictures
+      picture: [],
       description: "",
       cookTime: undefined,
       author: "",
@@ -47,10 +81,20 @@ function AddRecipe() {
     if (images.length === 0) return;
     data.picture = images;
     console.log("Resolved:", data);
+    setNewRecipe(data);
+    console.log("Resolved2:", data);
     // todo slike su  u images prom
     // todo id se sam dodaje isto i author
     //TODO upisati uu storage i uzeti id
   };
+
+  if (isLoading) {
+    return <Text>Loading...</Text>;
+  }
+
+  if (isError) {
+    return <Text>Error fetching data</Text>;
+  }
   return (
     <View style={{ flex: 1 }}>
       <KeyboardAvoidingView

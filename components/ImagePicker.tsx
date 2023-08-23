@@ -68,7 +68,6 @@ function ImagePicker(props: ImagePickerProps) {
     setAllImages((prev) => [...prev, image.uri]);
     // // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
     // onImagesChange(image.uri);
-    console.log(image);
   }
 
   async function galeryImageHandler() {
@@ -84,18 +83,17 @@ function ImagePicker(props: ImagePickerProps) {
     setAllImages((prev) => [...prev, image.uri]);
     // // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
     // onImagesChange(image.uri);
-    console.log(image);
   }
-
-  useEffect(() => {
-    if (allImages) onImagesChange(allImages);
-  }, [allImages]);
 
   const removeImage = (img: string) => {
     setAllImages((prev) => prev.filter((item) => item !== img));
   };
   //       source={{
   //         uri: imagePreview, //"data:image/jpeg;base64," + image,
+
+  useEffect(() => {
+    if (allImages) onImagesChange(allImages);
+  }, [allImages]);
 
   return (
     <View style={styles.container}>
