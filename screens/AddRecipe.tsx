@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import {
   KeyboardAvoidingView,
@@ -10,10 +10,11 @@ import {
 } from "react-native";
 import { Colors } from "../utils/colors";
 import Button from "../components/Button";
-import { RecipeType } from "../utils/types";
+import { RecipeType, User } from "../utils/types";
 import Input from "../components/Input";
 import ImagePicker from "../components/ImagePicker";
 import { QueryFunctionContext, UseQueryResult, useQuery } from "react-query";
+import { fetchUser } from "../utils/database";
 
 const addRecipes: (
   context: QueryFunctionContext<[string, RecipeType | undefined]>,
@@ -23,9 +24,7 @@ const addRecipes: (
   if (!recipe) console.log("Recipe is undef");
   const response = await fetch(`http://localhost:3000/recipes/`, {
     method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
+    headers: { "Content-Type": "application/json" },
     body: JSON.stringify(recipe),
   });
   const jsonData = (await response.json()) as RecipeType[];
@@ -35,13 +34,13 @@ const addRecipes: (
 function AddRecipe() {
   const [images, setImages] = useState<string[]>([]);
   const [newRecipe, setNewRecipe] = useState<RecipeType | undefined>(undefined);
+  const [user, setUser] = useState<string>("");
 
   const handleImagesChange = (newValue: string[]) => {
     setImages(newValue);
   };
-  //
+
   const {
-    // data: recipes,
     isLoading,
     isError,
   }: UseQueryResult<RecipeType[], [string, RecipeType | undefined]> = useQuery(
@@ -50,15 +49,19 @@ function AddRecipe() {
     {
       onSuccess() {
         console.log("my success");
-        //   if (recipesContext.length === 0 || pageChanged) {
-        // addRecipes(data);
-        //   }
       },
       enabled: !!newRecipe,
     },
   );
+  useEffect(() => {
+    fetchUser()
+      .then((res) => {
+        console.log((res.rows._array[0] as User).name);
+        setUser((res.rows._array[0] as User).name);
+      })
+      .catch(() => {});
+  }, []);
 
-  //
   const {
     control,
     handleSubmit,
@@ -80,12 +83,10 @@ function AddRecipe() {
   const onSubmit = (data: RecipeType) => {
     if (images.length === 0) return;
     data.picture = images;
+    data.author = user;
     console.log("Resolved:", data);
     setNewRecipe(data);
     console.log("Resolved2:", data);
-    // todo slike su  u images prom
-    // todo id se sam dodaje isto i author
-    //TODO upisati uu storage i uzeti id
   };
 
   if (isLoading) {
@@ -187,57 +188,6 @@ function AddRecipe() {
                   />
                 )}
                 name="instructions"
-              />
-            </Input>
-            <Input label="ingredients">
-              <Controller
-                control={control}
-                rules={{ required: true }}
-                render={({ field: { onChange, onBlur, value } }) => (
-                  <TextInput
-                    style={styles.input}
-                    onBlur={onBlur}
-                    onChangeText={onChange}
-                    value={value?.toString()}
-                    //   multiline={true}
-                    //   numberOfLines={4}
-                  />
-                )}
-                name="ingredients"
-              />
-            </Input>
-            <Input label="ingredients">
-              <Controller
-                control={control}
-                rules={{ required: true }}
-                render={({ field: { onChange, onBlur, value } }) => (
-                  <TextInput
-                    style={styles.input}
-                    onBlur={onBlur}
-                    onChangeText={onChange}
-                    value={value?.toString()}
-                    //   multiline={true}
-                    //   numberOfLines={4}
-                  />
-                )}
-                name="ingredients"
-              />
-            </Input>
-            <Input label="ingredients">
-              <Controller
-                control={control}
-                rules={{ required: true }}
-                render={({ field: { onChange, onBlur, value } }) => (
-                  <TextInput
-                    style={styles.input}
-                    onBlur={onBlur}
-                    onChangeText={onChange}
-                    value={value?.toString()}
-                    //   multiline={true}
-                    //   numberOfLines={4}
-                  />
-                )}
-                name="ingredients"
               />
             </Input>
             <Input label="ingredients">
