@@ -23,7 +23,7 @@ function AddRecipe() {
   } = useForm<RecipeType>({
     defaultValues: {
       title: "",
-      picture: "", // todo add picture
+      picture: "", // todo insert pictures
       description: "",
       cookTime: undefined,
       author: "",

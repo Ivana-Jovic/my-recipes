@@ -13,3 +13,8 @@ export interface RecipeType extends RecipeDetailsType {
   ingredients: string[];
   instructions: string;
 }
+
+export interface User {
+  id: number;
+  name: string;
+}

@@ -3,11 +3,20 @@ import { Controller, useForm } from "react-hook-form";
 import { TextInput, View, Text, StyleSheet } from "react-native";
 import { Colors } from "../utils/colors";
 import Button from "../components/Button";
+import { useNavigation } from "@react-navigation/native";
+import { RootStackParamList } from "../App";
+import { NativeStackScreenProps } from "@react-navigation/native-stack";
+import { insertUser } from "../utils/database";
+
+type Props = NativeStackScreenProps<RootStackParamList, "Recipes">;
+type SignInScreenNavigationProp = Props["navigation"];
 
 interface FormData {
   name: string;
 }
+
 function SignInScreen() {
+  const navigation = useNavigation<SignInScreenNavigationProp>();
   const {
     control,
     handleSubmit,
@@ -18,10 +27,18 @@ function SignInScreen() {
     },
   });
 
-  const onSubmit = (data: FormData) => {
-    console.log("Resolved:", data);
-    //TODO upisati uu storage i uzeti id
+  const onSubmit = async (data: FormData) => {
+    try {
+      console.log("Resolved:", data);
+      const userId = await insertUser(data.name);
+      console.log("res", userId.insertId);
+      //TODO upisati uu storage i uzeti id
+      navigation.navigate("Recipes");
+    } catch (error) {
+      console.log(error);
+    }
   };
+
   return (
     <View style={styles.container}>
       <Text>Please enter you name:</Text>

@@ -1,19 +1,21 @@
-import React from "react";
-// import { StatusBar } from "expo-status-bar";
-import { SafeAreaView, StyleSheet, StatusBar, Text } from "react-native";
+import React, { useEffect, useState } from "react";
+import { StatusBar } from "react-native";
 import Recipes from "./screens/Recipes";
-import { Colors } from "./utils/colors";
 import SignInScreen from "./screens/SignInScreen";
 import RecipeDetails from "./screens/RecipeDetails";
 import AddRecipe from "./screens/AddRecipe";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { createDrawerNavigator } from "@react-navigation/drawer";
+// import { createDrawerNavigator } from "@react-navigation/drawer";
 import Button from "./components/Button";
 import Ionicons from "@expo/vector-icons/Ionicons";
+import { init } from "./utils/database";
+import AppLoading from "expo-app-loading";
 
-const Drawer = createDrawerNavigator();
+// const Drawer = createDrawerNavigator();
+
+// {/* // todo da li je ugnezdeno kako treba */}
 
 export type RootStackParamList = {
   SignInScreen: undefined;
@@ -28,11 +30,27 @@ const Stack = createNativeStackNavigator<RootStackParamList>(); // todo Zasto ov
 const queryClient = new QueryClient();
 
 export default function App() {
+  const [dbInitialized, setdbInitialized] = useState(false);
+
+  useEffect(() => {
+    init()
+      .then(() => {
+        setdbInitialized(true);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, []);
+
+  if (!dbInitialized) {
+    <AppLoading />;
+  }
+
   return (
     <QueryClientProvider client={queryClient}>
       <NavigationContainer>
         <Stack.Navigator>
-          {/* <Stack.Screen name="SignInScreen" component={SignInScreen} /> */}
+          <Stack.Screen name="SignInScreen" component={SignInScreen} />
           <Stack.Screen
             name="Recipes"
             component={Recipes}
@@ -59,20 +77,3 @@ export default function App() {
     </QueryClientProvider>
   );
 }
-//
-{
-  /* <SafeAreaView style={styles.container}> </SafeAreaView>*/
-}
-//  {/* <Recipes />
-//     <Text>hi</Text>
-//     {/* <SignInScreen /> */}
-// {/* // todo da li je ugnezdeno kako treba */}
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: Colors.background,
-    alignItems: "center",
-    justifyContent: "center",
-    paddingTop: 10, //Platform.OS === "android" ? StatusBar.currentHeight : 0,
-  },
-});
