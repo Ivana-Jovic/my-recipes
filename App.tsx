@@ -1,17 +1,20 @@
 import React, { useEffect, useState } from "react";
 import { StatusBar } from "react-native";
-import Recipes from "./screens/Recipes";
-import SignInScreen from "./screens/SignInScreen";
-import RecipeDetails from "./screens/RecipeDetails";
-import AddRecipe from "./screens/AddRecipe";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 // import { createDrawerNavigator } from "@react-navigation/drawer";
-import Button from "./components/Button";
 import Ionicons from "@expo/vector-icons/Ionicons";
-import { init } from "./utils/database";
 import AppLoading from "expo-app-loading";
+//Screens
+import Recipes from "./screens/Recipes";
+import SignInScreen from "./screens/SignInScreen";
+import RecipeDetails from "./screens/RecipeDetails";
+import AddRecipe from "./screens/AddRecipe";
+//Components
+import Button from "./components/Button";
+//Utils
+import { init } from "./utils/database";
 
 // const Drawer = createDrawerNavigator();
 

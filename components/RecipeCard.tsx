@@ -1,11 +1,12 @@
 import React from "react";
 import { Text, View, StyleSheet, Image, Pressable } from "react-native";
 import Ionicons from "@expo/vector-icons/Ionicons";
-import { Colors } from "../utils/colors";
-import { RecipeDetailsType } from "../utils/types";
 import { useNavigation } from "@react-navigation/native";
 import { RootStackParamList } from "../App";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
+//Utils
+import { Colors } from "../utils/colors";
+import { RecipeDetailsType } from "../utils/types";
 
 type Props = NativeStackScreenProps<RootStackParamList, "RecipeDetails">;
 type RecipeDetailsScreenNavigationProp = Props["navigation"];

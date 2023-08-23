@@ -1,12 +1,14 @@
 import React from "react";
 import { Controller, useForm } from "react-hook-form";
 import { TextInput, View, Text, StyleSheet } from "react-native";
-import { Colors } from "../utils/colors";
-import Button from "../components/Button";
 import { useNavigation } from "@react-navigation/native";
 import { RootStackParamList } from "../App";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
+//Components
+import Button from "../components/Button";
+//Utils
 import { insertUser } from "../utils/database";
+import { Colors } from "../utils/colors";
 
 type Props = NativeStackScreenProps<RootStackParamList, "Recipes">;
 type SignInScreenNavigationProp = Props["navigation"];

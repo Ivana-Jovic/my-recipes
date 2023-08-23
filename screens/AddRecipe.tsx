@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
+import { QueryFunctionContext, UseQueryResult, useQuery } from "react-query";
 import {
   KeyboardAvoidingView,
   TextInput,
@@ -8,13 +9,16 @@ import {
   StyleSheet,
   ScrollView,
 } from "react-native";
-import { Colors } from "../utils/colors";
-import Button from "../components/Button";
-import { RecipeType, User } from "../utils/types";
+//Components
 import Input from "../components/Input";
 import ImagePicker from "../components/ImagePicker";
-import { QueryFunctionContext, UseQueryResult, useQuery } from "react-query";
+import Button from "../components/Button";
+//Utils
+import { Colors } from "../utils/colors";
 import { fetchUser } from "../utils/database";
+import { RecipeType, User } from "../utils/types";
+
+// todo Key "uri" in the image picker result is deprecated and will be removed in SDK 48, you can access selected assets through the "assets" array instead
 
 const addRecipes: (
   context: QueryFunctionContext<[string, RecipeType | undefined]>,

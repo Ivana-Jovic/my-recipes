@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Alert, Image, View, Text, StyleSheet } from "react-native";
-import Button from "./Button";
+import Ionicons from "@expo/vector-icons/Ionicons";
 import {
   launchCameraAsync,
   useCameraPermissions,
@@ -8,9 +8,10 @@ import {
   useMediaLibraryPermissions,
   launchImageLibraryAsync,
 } from "expo-image-picker";
+//Components
+import Button from "./Button";
+//Utils
 import { Colors } from "../utils/colors";
-
-import Ionicons from "@expo/vector-icons/Ionicons";
 
 interface ImagePickerProps {
   onImagesChange: (newValue: string[]) => void;

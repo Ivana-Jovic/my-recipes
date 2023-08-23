@@ -1,12 +1,13 @@
 import React, { useState } from "react";
 import { FlatList, Text, View, StyleSheet } from "react-native";
-import RecipeCard from "../components/RecipeCard";
 import { QueryFunctionContext, UseQueryResult, useQuery } from "react-query";
-// import Ionicons from "@expo/vector-icons/Ionicons";
+import { useStore } from "../store/store";
+//Components
+import RecipeCard from "../components/RecipeCard";
+import Title from "../components/Title";
+//Utils
 import { Colors } from "../utils/colors";
 import { RecipeType } from "../utils/types";
-import { useStore } from "../store/store";
-import Title from "../components/Title";
 
 const fetchRecipes: (
   context: QueryFunctionContext<[string, number]>,

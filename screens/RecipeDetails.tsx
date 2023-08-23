@@ -1,13 +1,15 @@
 import React from "react";
 import { Text, StyleSheet, View, Image, ScrollView } from "react-native";
-import { RecipeType } from "../utils/types";
 import { useRoute } from "@react-navigation/native";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../App";
 import { useStore } from "../store/store";
 import Ionicons from "@expo/vector-icons/Ionicons";
-import Title from "../components/Title";
 import { QueryFunctionContext, UseQueryResult, useQuery } from "react-query";
+//Components
+import Title from "../components/Title";
+//Utils
+import { RecipeType } from "../utils/types";
 
 type Props = NativeStackScreenProps<RootStackParamList, "RecipeDetails">;
 
