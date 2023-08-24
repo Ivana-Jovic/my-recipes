@@ -59,9 +59,17 @@ export default function App() {
               backgroundColor: Colors.primary,
               paddingBottom: 20,
             },
+            headerTitleStyle: {
+              fontSize: 25,
+              fontWeight: "500",
+            },
           }}
         >
-          <Stack.Screen name="SignInScreen" component={SignInScreen} />
+          <Stack.Screen
+            name="SignInScreen"
+            component={SignInScreen}
+            options={{ headerTitle: "Sign in" }}
+          />
           <Stack.Screen
             name="Recipes"
             component={Recipes}
@@ -74,15 +82,20 @@ export default function App() {
                       // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
                       navigation.navigate("AddRecipe");
                     }}
+                    additionalStyle={{ padding: 3 }}
                   >
-                    <Ionicons name="add" />
+                    <Ionicons name="add" size={20} />
                   </Button>
                 );
               },
             })}
           />
           <Stack.Screen name="RecipeDetails" component={RecipeDetails} />
-          <Stack.Screen name="AddRecipe" component={AddRecipe} />
+          <Stack.Screen
+            name="AddRecipe"
+            component={AddRecipe}
+            options={{ headerTitle: "Add a recipe" }}
+          />
         </Stack.Navigator>
       </NavigationContainer>
       <StatusBar />

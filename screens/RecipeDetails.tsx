@@ -1,13 +1,12 @@
-import React from "react";
+import React, { useLayoutEffect } from "react";
 import { Text, StyleSheet, View, Image, ScrollView } from "react-native";
-import { useRoute } from "@react-navigation/native";
+import { useNavigation, useRoute } from "@react-navigation/native";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../App";
 import { useStore } from "../store/store";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { QueryFunctionContext, UseQueryResult, useQuery } from "react-query";
 //Components
-import Title from "../components/Title";
 import Carousel from "../components/Carousel";
 //Utils
 import { RecipeType } from "../utils/types";
@@ -16,6 +15,7 @@ import ScreenMessage from "../components/ScreenMessage";
 type Props = NativeStackScreenProps<RootStackParamList, "RecipeDetails">;
 
 type RecipeDetailsScreenRouteProp = Props["route"];
+type RecipeDetailsScreenNavigationProp = Props["navigation"];
 
 const fetchRecipes: (
   context: QueryFunctionContext<[string, number]>,
@@ -27,6 +27,7 @@ const fetchRecipes: (
 };
 
 function RecipeDetails() {
+  const navigation = useNavigation<RecipeDetailsScreenNavigationProp>();
   const router = useRoute<RecipeDetailsScreenRouteProp>();
   const recipeId = parseInt(router.params.recipeId);
 
@@ -44,6 +45,12 @@ function RecipeDetails() {
       enabled: !recentRecipe || recentRecipe?.id !== recipeId,
     });
 
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerTitle: recentRecipe?.title,
+    });
+  }, [navigation, recentRecipe]);
+
   if (!recentRecipe) {
     return <ScreenMessage msg={"Loading..."} />;
   }
@@ -59,7 +66,6 @@ function RecipeDetails() {
   return (
     <ScrollView>
       <View style={styles.container}>
-        <Title>{recentRecipe.title}</Title>
         <Image
           source={{ uri: "data:image/jpeg;base64," + recentRecipe.pictures[0] }}
           style={styles.image}

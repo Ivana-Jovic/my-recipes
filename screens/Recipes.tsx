@@ -1,16 +1,16 @@
-import React, { useState } from "react";
+import React from "react";
 import { FlatList, View, StyleSheet } from "react-native";
 import {
-  QueryFunctionContext,
-  UseQueryResult,
-  useQuery,
+  // QueryFunctionContext,
+  // UseQueryResult,
+  // useQuery,
   useInfiniteQuery,
   UseInfiniteQueryResult,
 } from "react-query";
 import { useStore } from "../store/store";
 //Components
 import RecipeCard from "../components/RecipeCard";
-import Title from "../components/Title";
+// import Title from "../components/Title";
 import ScreenMessage from "../components/ScreenMessage";
 //Utils
 import { Colors } from "../utils/colors";
@@ -32,7 +32,7 @@ const fetchRecipes: (
 
 function Recipes() {
   // const [page, setPage] = useState<number>(1);
-  const [pageChanged, setPageChanged] = useState<boolean>(false);
+  // const [pageChanged, setPageChanged] = useState<boolean>(false);
 
   const recipesContext = useStore((state) => state.recipes);
   const addRecipes = useStore((state) => state.addRecipes);
@@ -58,15 +58,14 @@ function Recipes() {
   //   },
   // );
   const {
-    data: recipes,
+    // data,
     isLoading,
     isError,
-    refetch,
+    // refetch,
     hasNextPage,
-    fetchNextPage,
-    isFetchingNextPage,
+    fetchNextPage, // isFetchingNextPage,
   }: UseInfiniteQueryResult<RecipeType[], [string, number]> = useInfiniteQuery(
-    "todos",
+    "recipes",
     // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
     ({ pageParam = 1 }) => fetchRecipes(pageParam),
     {
@@ -99,7 +98,6 @@ function Recipes() {
 
   return (
     <View style={styles.container}>
-      <Title>Recipes</Title>
       <View style={styles.list}>
         <FlatList
           data={recipesContext}
