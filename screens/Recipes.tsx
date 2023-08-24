@@ -18,16 +18,7 @@ import ScreenMessage from "../components/ScreenMessage";
 import { Colors } from "../utils/colors";
 import { RecipeType } from "../utils/types";
 
-const fetchRecipes: (
-  page: number,
-  // calledRefetch: number,
-  // context: QueryFunctionContext<[string, number,]>,
-) => Promise<RecipeType[]> = async (
-  page,
-  // calledRefetch,
-  // context,
-) => {
-  // const page = context.queryKey[1];
+const fetchRecipes: (page: number) => Promise<RecipeType[]> = async (page) => {
   const response = await fetch(`http://localhost:3000/recipes/?_page=${page}`); // TODO: ne radi na androidu
   const jsonData = (await response.json()) as RecipeType[];
   console.log(page);
@@ -36,8 +27,6 @@ const fetchRecipes: (
 
 function Recipes() {
   const [refreshing, setRefreshing] = useState(false);
-  const [calledRefetch, setCalledRefetch] = useState(0);
-  // const [page, setPage] = useState<number>(1);
   const queryClient = useQueryClient();
 
   const recipesContext = useStore((state) => state.recipes);
@@ -45,7 +34,6 @@ function Recipes() {
   const clearRecipes = useStore((state) => state.clearRecipes);
 
   const {
-    data,
     isLoading,
     isError,
     refetch,
@@ -53,18 +41,11 @@ function Recipes() {
     fetchNextPage,
   }: UseInfiniteQueryResult<RecipeType[], [string, number]> = useInfiniteQuery(
     "recipes",
-    // ["recipes", calledRefetch, pageParam],
     // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
     ({ pageParam = 1 }) => fetchRecipes(pageParam),
-    // fetchRecipes,
     {
       getNextPageParam: (lastPage, allPages): number | undefined => {
         console.log("in getNextPageParam");
-        if (calledRefetch === 2) {
-          console.log("in getNextPageParam- calledRefetch === 2");
-          return 1;
-        }
-
         const nextPage =
           lastPage.length === 10 ? allPages.length + 1 : undefined;
         return nextPage;
@@ -72,11 +53,7 @@ function Recipes() {
       onSuccess(data) {
         console.log("okk", data.pages[0][0].id);
         const tmpRcipes = data.pages[data.pages.length - 1];
-        if (calledRefetch === 2) {
-          addRecipes(data.pages[0]);
-        } else {
-          addRecipes(tmpRcipes);
-        }
+        addRecipes(tmpRcipes);
         console.log(
           " addRecipes(data.pages[data.pages.length - 1])",
           data.pages[0].length,
@@ -89,15 +66,13 @@ function Recipes() {
   );
 
   const onRefresh = () => {
-    setCalledRefetch(2);
-    console.log("setCalledRefetch(2);");
     setRefreshing(true);
+    console.log("setCalledRefetch(2);");
     queryClient.removeQueries(["recipes"]);
     clearRecipes();
     refetch()
       .then(() => {
         setRefreshing(false);
-        setCalledRefetch(1);
         console.log("setCalledRefetch(1);");
       })
       .catch(() => {});
@@ -123,7 +98,7 @@ function Recipes() {
             if (hasNextPage) {
               fetchNextPage()
                 .then(() => {
-                  console.log("hasNextPage-fetchNextPage");
+                  console.log("hasNextPage-fetchNextPagee");
                 })
                 .catch(() => {});
             }
