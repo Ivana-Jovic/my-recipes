@@ -66,7 +66,7 @@ function ImagePicker(props: ImagePickerProps) {
       base64: true,
     });
     // eslint-disable-next-line @typescript-eslint/no-unsafe-return
-    setAllImages((prev) => [...prev, image.uri]);
+    setAllImages((prev) => [...prev, image.base64]);
     // // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
     // onImagesChange(image.uri);
   }
@@ -81,7 +81,8 @@ function ImagePicker(props: ImagePickerProps) {
     });
     // (image.uri); //image.base64
     // eslint-disable-next-line @typescript-eslint/no-unsafe-return
-    setAllImages((prev) => [...prev, image.uri]);
+    setAllImages((prev) => [...prev, image.base64]);
+    console.log(image);
     // // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
     // onImagesChange(image.uri);
   }
@@ -117,7 +118,8 @@ function ImagePicker(props: ImagePickerProps) {
 
             <Image
               source={{
-                uri: img,
+                // uri: img,
+                uri: "data:image/jpeg;base64," + img,
               }}
               style={styles.image}
             />

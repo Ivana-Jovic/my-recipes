@@ -61,7 +61,10 @@ function RecipeDetails() {
       <View style={styles.container}>
         <Title>{recentRecipe.title}</Title>
         <Image
-          source={{ uri: recentRecipe.pictures[0] }}
+          source={{
+            // uri: recentRecipe.pictures[0]
+            uri: "data:image/jpeg;base64," + recentRecipe.pictures[0],
+          }}
           style={styles.image}
         />
         <View style={styles.innerContainer}>

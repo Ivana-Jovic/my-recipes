@@ -18,7 +18,14 @@ function Carousel(props: CarouselProps) {
           showsHorizontalScrollIndicator={true}
         >
           {images.map((image, index) => (
-            <Image key={index} style={styles.image} source={{ uri: image }} />
+            <Image
+              key={index}
+              style={styles.image}
+              source={{
+                // uri: image
+                uri: "data:image/jpeg;base64," + image,
+              }}
+            />
           ))}
         </ScrollView>
       </View>

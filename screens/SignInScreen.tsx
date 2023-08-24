@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { TextInput, View, Text, StyleSheet } from "react-native";
 import { useNavigation } from "@react-navigation/native";
@@ -9,6 +9,8 @@ import Button from "../components/Button";
 //Utils
 import { insertUser } from "../utils/database";
 import { Colors } from "../utils/colors";
+import { fetchUser } from "../utils/database";
+import { User } from "../utils/types";
 
 type Props = NativeStackScreenProps<RootStackParamList, "Recipes">;
 type SignInScreenNavigationProp = Props["navigation"];
@@ -18,7 +20,9 @@ interface FormData {
 }
 
 function SignInScreen() {
+  const [user, setUser] = useState<string | undefined>(undefined);
   const navigation = useNavigation<SignInScreenNavigationProp>();
+
   const {
     control,
     handleSubmit,
@@ -40,6 +44,21 @@ function SignInScreen() {
       console.log(error);
     }
   };
+
+  useEffect(() => {
+    fetchUser()
+      .then((res) => {
+        // console.log((res.rows._array[0] as User).name);
+        //ako nista nije dohvaceno
+        if (res.rows.length !== 0) {
+          navigation.navigate("Recipes");
+          setUser((res.rows._array[0] as User).name);
+        } else setUser("");
+      })
+      .catch(() => {});
+  }, []);
+
+  if (user === undefined) return <Text>Loading...</Text>; //todo da li ima neki lepsi nacin za ovaj signin
 
   return (
     <View style={styles.container}>

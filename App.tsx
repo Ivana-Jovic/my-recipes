@@ -61,11 +61,12 @@ export default function App() {
             },
           }}
         >
-          {/* <Stack.Screen name="SignInScreen" component={SignInScreen} /> */}
+          <Stack.Screen name="SignInScreen" component={SignInScreen} />
           <Stack.Screen
             name="Recipes"
             component={Recipes}
             options={({ navigation }) => ({
+              headerBackVisible: false,
               headerRight() {
                 return (
                   <Button
