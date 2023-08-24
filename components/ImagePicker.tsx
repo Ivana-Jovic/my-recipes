@@ -140,7 +140,10 @@ function ImagePicker(props: ImagePickerProps) {
 export default ImagePicker;
 
 const styles = StyleSheet.create({
-  container: { flex: 1 },
+  container: {
+    flex: 1,
+    gap: 5,
+  },
   imagePreviewContainer: {},
   imagePreview: {
     width: "100%",
@@ -166,5 +169,6 @@ const styles = StyleSheet.create({
   button: {
     width: 50,
     height: 50,
+    justifyContent: "center",
   },
 });

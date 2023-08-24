@@ -1,7 +1,7 @@
 //todo da li je ovo ok mesto za ovaj fajl
 export interface RecipeDetailsType {
   title: string;
-  picture: string[];
+  pictures: string[];
   description: string;
   cookTime: number;
   author: string;

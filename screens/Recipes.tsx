@@ -1,10 +1,11 @@
 import React, { useState } from "react";
-import { FlatList, Text, View, StyleSheet } from "react-native";
+import { FlatList, View, StyleSheet } from "react-native";
 import { QueryFunctionContext, UseQueryResult, useQuery } from "react-query";
 import { useStore } from "../store/store";
 //Components
 import RecipeCard from "../components/RecipeCard";
 import Title from "../components/Title";
+import ScreenMessage from "../components/ScreenMessage";
 //Utils
 import { Colors } from "../utils/colors";
 import { RecipeType } from "../utils/types";
@@ -42,11 +43,11 @@ function Recipes() {
   );
 
   if (isLoading) {
-    return <Text>Loading...</Text>;
+    return <ScreenMessage msg="Loading..." />;
   }
 
   if (isError) {
-    return <Text>Error fetching data</Text>;
+    return <ScreenMessage msg="Error fetching data" />;
   }
 
   return (
@@ -70,34 +71,6 @@ function Recipes() {
           onEndReachedThreshold={0.1} // todo koja vrednost je ok ovde
         />
       </View>
-
-      {/* <View style={styles.pagination}>
-        <Pressable
-          disabled={page === 1}
-          onPress={() =>
-            setPage((prev) => {
-              if (prev !== 1) {
-                return prev - 1;
-              } else return prev;
-            })
-          }
-          style={styles.paginationButton}
-        >
-          <Ionicons name="remove" />
-        </Pressable>
-        <Text style={styles.paginationPage}>{page}</Text>
-        <Pressable
-          disabled={recipes?.length !== 10}
-          onPress={() =>
-            setPage((prev) => {
-              return prev + 1;
-            })
-          }
-          style={styles.paginationButton}
-        >
-          <Ionicons name="add" />
-        </Pressable>
-      </View> */}
     </View>
   );
 }

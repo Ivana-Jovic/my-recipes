@@ -15,6 +15,7 @@ import AddRecipe from "./screens/AddRecipe";
 import Button from "./components/Button";
 //Utils
 import { init } from "./utils/database";
+import { Colors } from "./utils/colors";
 
 // const Drawer = createDrawerNavigator();
 
@@ -52,7 +53,14 @@ export default function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <NavigationContainer>
-        <Stack.Navigator>
+        <Stack.Navigator
+          screenOptions={{
+            contentStyle: {
+              backgroundColor: Colors.primary,
+              paddingBottom: 20,
+            },
+          }}
+        >
           {/* <Stack.Screen name="SignInScreen" component={SignInScreen} /> */}
           <Stack.Screen
             name="Recipes"

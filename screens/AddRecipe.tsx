@@ -35,6 +35,14 @@ const addRecipes: (
   return jsonData;
 };
 
+function parseIngredients(inputText: string): string[] {
+  const lines = inputText.split("\n"); // Split by newline characters
+  const ingredientsArray = lines
+    .map((line) => line.trim()) // Remove leading and trailing whitespace
+    .filter((line) => line !== ""); // Filter out empty lines
+  return ingredientsArray;
+}
+
 function AddRecipe() {
   const [images, setImages] = useState<string[]>([]);
   const [newRecipe, setNewRecipe] = useState<RecipeType | undefined>(undefined);
@@ -73,7 +81,7 @@ function AddRecipe() {
   } = useForm<RecipeType>({
     defaultValues: {
       title: "",
-      picture: [],
+      pictures: [],
       description: "",
       cookTime: undefined,
       author: "",
@@ -86,8 +94,9 @@ function AddRecipe() {
 
   const onSubmit = (data: RecipeType) => {
     if (images.length === 0) return;
-    data.picture = images;
+    data.pictures = images;
     data.author = user;
+    data.ingredients = parseIngredients(data.ingredients.toString());
     console.log("Resolved:", data);
     setNewRecipe(data);
     console.log("Resolved2:", data);
@@ -108,7 +117,7 @@ function AddRecipe() {
       >
         <ScrollView style={[{ flex: 1 }, styles.container]}>
           <View style={styles.container}>
-            <Input label="title">
+            <Input label="Title">
               <Controller
                 control={control}
                 rules={{
@@ -126,7 +135,7 @@ function AddRecipe() {
               />
             </Input>
             <View style={styles.shorterInputsContainer}>
-              <Input label="cookTime">
+              <Input label="Cooking time">
                 <Controller
                   control={control}
                   rules={{
@@ -145,7 +154,7 @@ function AddRecipe() {
                   name="cookTime"
                 />
               </Input>
-              <Input label="difficulty">
+              <Input label="Difficulty">
                 <Controller
                   control={control}
                   rules={{ required: true, min: 1, max: 5 }}
@@ -163,7 +172,7 @@ function AddRecipe() {
                 />
               </Input>
             </View>
-            <Input label="description">
+            <Input label="Description">
               <Controller
                 control={control}
                 rules={{ required: true }}
@@ -178,34 +187,33 @@ function AddRecipe() {
                 name="description"
               />
             </Input>
-            <Input label="instructions">
+            <Input label="Instructions">
               <Controller
                 control={control}
                 rules={{ required: true }}
                 render={({ field: { onChange, onBlur, value } }) => (
                   <TextInput
-                    style={styles.input}
+                    style={[styles.input, styles.multiline]}
                     onBlur={onBlur}
                     onChangeText={onChange}
                     value={value}
-                    // multiline={true}
+                    multiline={true}
                   />
                 )}
                 name="instructions"
               />
             </Input>
-            <Input label="ingredients">
+            <Input label="Ingredients (each in a new line)">
               <Controller
                 control={control}
                 rules={{ required: true }}
                 render={({ field: { onChange, onBlur, value } }) => (
                   <TextInput
-                    style={styles.input}
+                    style={[styles.input, styles.multiline]}
                     onBlur={onBlur}
                     onChangeText={onChange}
                     value={value?.toString()}
-                    //   multiline={true}
-                    //   numberOfLines={4}
+                    multiline={true}
                   />
                 )}
                 name="ingredients"
@@ -216,7 +224,7 @@ function AddRecipe() {
               errors.description ||
               errors.ingredients ||
               errors.instructions ||
-              errors.picture ||
+              errors.pictures ||
               errors.title) && <Text>This field is required</Text>}
             {errors.difficulty && (
               <Text>Difficulty mus be between 1 and 5</Text>
@@ -258,6 +266,10 @@ const styles = StyleSheet.create({
     padding: 15,
     backgroundColor: "white",
     flex: 1,
+  },
+  multiline: {
+    height: 80,
+    paddingTop: 15,
   },
   shorterInputsContainer: {
     flexDirection: "row",

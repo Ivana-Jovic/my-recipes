@@ -8,8 +8,10 @@ import Ionicons from "@expo/vector-icons/Ionicons";
 import { QueryFunctionContext, UseQueryResult, useQuery } from "react-query";
 //Components
 import Title from "../components/Title";
+import Carousel from "../components/Carousel";
 //Utils
 import { RecipeType } from "../utils/types";
+import ScreenMessage from "../components/ScreenMessage";
 
 type Props = NativeStackScreenProps<RootStackParamList, "RecipeDetails">;
 
@@ -43,15 +45,15 @@ function RecipeDetails() {
     });
 
   if (!recentRecipe) {
-    return <Text>-{recipeId}Loading...</Text>;
+    return <ScreenMessage msg={"Loading..."} />;
   }
 
   if (isLoading) {
-    return <Text>Loading...</Text>;
+    return <ScreenMessage msg={"Loading..."} />;
   }
 
   if (isError) {
-    return <Text>Error fetching data</Text>;
+    return <ScreenMessage msg={"Error fetching data"} />;
   }
 
   return (
@@ -59,8 +61,7 @@ function RecipeDetails() {
       <View style={styles.container}>
         <Title>{recentRecipe.title}</Title>
         <Image
-          //eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-assignment
-          source={require("../assets/pasta.jpeg")}
+          source={{ uri: recentRecipe.pictures[0] }}
           style={styles.image}
         />
         <View style={styles.innerContainer}>
@@ -78,13 +79,26 @@ function RecipeDetails() {
               <Text>{recentRecipe.author}</Text>
             </View>
           </View>
-          <Text>{recentRecipe.description}</Text>
-          <View style={styles.ingredients}>
-            {recentRecipe.ingredients?.map((ingredient) => (
-              <Text key={ingredient}>- {ingredient}</Text>
-            ))}
+          <View style={styles.section}>
+            <Text style={styles.subtitle}>Description</Text>
+            <Text>{recentRecipe.description}</Text>
           </View>
-          <Text>{recentRecipe.instructions}</Text>
+          <View style={styles.section}>
+            <Text style={styles.subtitle}>Ingredients</Text>
+            <View style={styles.ingredients}>
+              {recentRecipe.ingredients?.map((ingredient) => (
+                <Text key={ingredient}>- {ingredient}</Text>
+              ))}
+            </View>
+          </View>
+          <View style={styles.section}>
+            <Text style={styles.subtitle}>Instructions</Text>
+            <Text>{recentRecipe.instructions}</Text>
+          </View>
+        </View>
+        <View style={styles.section}>
+          <Text style={styles.subtitle}>All images</Text>
+          <Carousel images={recentRecipe.pictures} />
         </View>
       </View>
     </ScrollView>
@@ -121,5 +135,13 @@ const styles = StyleSheet.create({
   },
   ingredients: {
     gap: 7,
+  },
+  section: {
+    gap: 7,
+    marginTop: 10,
+  },
+  subtitle: {
+    fontSize: 17,
+    fontWeight: "500",
   },
 });

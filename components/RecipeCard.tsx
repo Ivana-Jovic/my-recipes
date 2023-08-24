@@ -28,22 +28,25 @@ function RecipeCard(props: RecipeCardProps) {
       }
     >
       {/* eslint-disable-next-line @typescript-eslint/no-unsafe-assignment*/}
-      <Image source={require("../assets/pasta.jpeg")} style={styles.image} />
+      {/* <Image source={require("../assets/pasta.jpeg")} style={styles.image} /> */}
+      <Image source={{ uri: recipe.pictures[0] }} style={styles.image} />
       <View style={styles.containerRight}>
-        <Text>{recipe.title}</Text>
-        <Text>{recipe.description}</Text>
+        <Text style={styles.title}>{recipe.title}</Text>
+        <Text style={styles.description}>
+          {recipe.description.slice(0, 55)}...
+        </Text>
         <View style={styles.details}>
           <View style={styles.detailsItem}>
             <Ionicons name="timer-outline" />
-            <Text>{recipe.cookTime}</Text>
+            <Text style={styles.detailsItemText}>{recipe.cookTime}</Text>
           </View>
           <View style={styles.detailsItem}>
             <Ionicons name="ios-analytics" />
-            <Text>{recipe.difficulty}</Text>
+            <Text style={styles.detailsItemText}>{recipe.difficulty}</Text>
           </View>
           <View style={styles.detailsItem}>
             <Ionicons name="person-outline" />
-            <Text>{recipe.author}</Text>
+            <Text style={styles.detailsItemText}>{recipe.author}</Text>
           </View>
         </View>
       </View>
@@ -54,7 +57,7 @@ function RecipeCard(props: RecipeCardProps) {
 const styles = StyleSheet.create({
   container: {
     backgroundColor: Colors.cardColor,
-    padding: 15,
+    padding: 10,
     paddingRight: 20,
     minHeight: 100,
     flexDirection: "row",
@@ -62,6 +65,7 @@ const styles = StyleSheet.create({
     flex: 1,
     width: "100%",
     gap: 20,
+    borderRadius: 7,
   },
   containerRight: {
     flex: 2,
@@ -73,6 +77,13 @@ const styles = StyleSheet.create({
     height: "100%",
     flex: 1,
   },
+  title: {
+    fontSize: 17,
+    fontWeight: "500",
+  },
+  description: {
+    color: Colors.textGrey,
+  },
   details: {
     flexDirection: "row",
     gap: 15,
@@ -83,6 +94,9 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     gap: 5,
     alignItems: "center",
+  },
+  detailsItemText: {
+    fontSize: 12,
   },
 });
 
