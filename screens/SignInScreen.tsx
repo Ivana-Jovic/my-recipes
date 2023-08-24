@@ -48,8 +48,6 @@ function SignInScreen() {
   useEffect(() => {
     fetchUser()
       .then((res) => {
-        // console.log((res.rows._array[0] as User).name);
-        //ako nista nije dohvaceno
         if (res.rows.length !== 0) {
           navigation.navigate("Recipes");
           setUser((res.rows._array[0] as User).name);

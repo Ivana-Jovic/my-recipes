@@ -36,10 +36,10 @@ const addRecipes: (
 };
 
 function parseIngredients(inputText: string): string[] {
-  const lines = inputText.split("\n"); // Split by newline characters
+  const lines = inputText.split("\n");
   const ingredientsArray = lines
-    .map((line) => line.trim()) // Remove leading and trailing whitespace
-    .filter((line) => line !== ""); // Filter out empty lines
+    .map((line) => line.trim())
+    .filter((line) => line !== "");
   return ingredientsArray;
 }
 
@@ -87,7 +87,7 @@ function AddRecipe() {
       author: "",
       difficulty: 1,
       id: undefined,
-      ingredients: [], // todo srediti input ovoga
+      ingredients: [],
       instructions: "",
     },
   });
@@ -225,7 +225,7 @@ function AddRecipe() {
               errors.ingredients ||
               errors.instructions ||
               errors.pictures ||
-              errors.title) && <Text>This field is required</Text>}
+              errors.title) && <Text>All fields are required</Text>}
             {errors.difficulty && (
               <Text>Difficulty mus be between 1 and 5</Text>
             )}

@@ -14,7 +14,6 @@ export default Title;
 const styles = StyleSheet.create({
   title: {
     fontSize: 30,
-    // marginBottom: 20,
     fontWeight: "500",
   },
 });

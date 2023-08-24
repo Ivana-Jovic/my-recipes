@@ -27,13 +27,8 @@ function RecipeCard(props: RecipeCardProps) {
         navigation.navigate("RecipeDetails", { recipeId: recipe.id + "" })
       }
     >
-      {/* eslint-disable-next-line @typescript-eslint/no-unsafe-assignment*/}
-      {/* <Image source={require("../assets/pasta.jpeg")} style={styles.image} /> */}
       <Image
-        source={{
-          // uri: recipe.pictures[0]
-          uri: "data:image/jpeg;base64," + recipe.pictures[0],
-        }}
+        source={{ uri: "data:image/jpeg;base64," + recipe.pictures[0] }}
         style={styles.image}
       />
       <View style={styles.containerRight}>

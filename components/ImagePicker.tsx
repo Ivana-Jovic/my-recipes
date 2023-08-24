@@ -67,8 +67,6 @@ function ImagePicker(props: ImagePickerProps) {
     });
     // eslint-disable-next-line @typescript-eslint/no-unsafe-return
     setAllImages((prev) => [...prev, image.base64]);
-    // // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-    // onImagesChange(image.uri);
   }
 
   async function galeryImageHandler() {
@@ -79,19 +77,13 @@ function ImagePicker(props: ImagePickerProps) {
       quality: 0.3,
       base64: true,
     });
-    // (image.uri); //image.base64
     // eslint-disable-next-line @typescript-eslint/no-unsafe-return
     setAllImages((prev) => [...prev, image.base64]);
-    console.log(image);
-    // // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-    // onImagesChange(image.uri);
   }
 
   const removeImage = (img: string) => {
     setAllImages((prev) => prev.filter((item) => item !== img));
   };
-  //       source={{
-  //         uri: imagePreview, //"data:image/jpeg;base64," + image,
 
   useEffect(() => {
     if (allImages) onImagesChange(allImages);
@@ -117,10 +109,7 @@ function ImagePicker(props: ImagePickerProps) {
             </Button>
 
             <Image
-              source={{
-                // uri: img,
-                uri: "data:image/jpeg;base64," + img,
-              }}
+              source={{ uri: "data:image/jpeg;base64," + img }}
               style={styles.image}
             />
           </View>

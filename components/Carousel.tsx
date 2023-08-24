@@ -21,10 +21,7 @@ function Carousel(props: CarouselProps) {
             <Image
               key={index}
               style={styles.image}
-              source={{
-                // uri: image
-                uri: "data:image/jpeg;base64," + image,
-              }}
+              source={{ uri: "data:image/jpeg;base64," + image }}
             />
           ))}
         </ScrollView>
