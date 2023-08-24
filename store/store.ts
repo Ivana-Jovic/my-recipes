@@ -7,6 +7,7 @@ interface StoreState {
   addRecipes: (recipesList: RecipeType[]) => void; //todo vrati na details
   addRecentRecipes: (recipe: RecipeType) => void;
   // getRecipeId: (id: number) => RecipeType;
+  clearRecipes: () => void;
 }
 
 export const useStore = create<StoreState>((set) => ({
@@ -21,4 +22,8 @@ export const useStore = create<StoreState>((set) => ({
   //     .getState()
   //     .find((recipe: RecipeType) => recipe.id === recipeId);
   // },
+  clearRecipes: () => {
+    console.log("in clearRecipes");
+    set({ recipes: [] });
+  },
 }));

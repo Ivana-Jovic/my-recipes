@@ -1,11 +1,13 @@
-import React from "react";
-import { FlatList, View, StyleSheet } from "react-native";
+import React, { useState } from "react";
+import { FlatList, View, StyleSheet, RefreshControl } from "react-native";
 import {
-  // QueryFunctionContext,
-  // UseQueryResult,
-  // useQuery,
+  QueryFunctionContext,
+  UseQueryResult,
+  useQuery,
   useInfiniteQuery,
   UseInfiniteQueryResult,
+  QueryClient,
+  useQueryClient,
 } from "react-query";
 import { useStore } from "../store/store";
 //Components
@@ -18,10 +20,12 @@ import { RecipeType } from "../utils/types";
 
 const fetchRecipes: (
   page: number,
-  // context: QueryFunctionContext<[string, number]>,
+  // calledRefetch: number,
+  // context: QueryFunctionContext<[string, number,]>,
 ) => Promise<RecipeType[]> = async (
   page,
-  // context
+  // calledRefetch,
+  // context,
 ) => {
   // const page = context.queryKey[1];
   const response = await fetch(`http://localhost:3000/recipes/?_page=${page}`); // TODO: ne radi na androidu
@@ -31,62 +35,73 @@ const fetchRecipes: (
 };
 
 function Recipes() {
+  const [refreshing, setRefreshing] = useState(false);
+  const [calledRefetch, setCalledRefetch] = useState(0);
   // const [page, setPage] = useState<number>(1);
-  // const [pageChanged, setPageChanged] = useState<boolean>(false);
+  const queryClient = useQueryClient();
 
   const recipesContext = useStore((state) => state.recipes);
   const addRecipes = useStore((state) => state.addRecipes);
+  const clearRecipes = useStore((state) => state.clearRecipes);
 
-  // const {
-  //   data: recipes,
-  //   isLoading,
-  //   isError,
-  //   refetch,
-  //   hasNextPage,
-  //   fetchNextPage,
-  //   isFetchingNextPage,
-  // }: UseQueryResult<RecipeType[], [string, number]> =
-  // useQuery(
-  //   ["recipes", page],
-  //   fetchRecipes,
-  //   {
-  //     onSuccess(data) {
-  //   if (recipesContext.length === 0 || pageChanged) {
-  //     addRecipes(data);
-  //   }
-  // },
-  //   },
-  // );
   const {
-    // data,
+    data,
     isLoading,
     isError,
-    // refetch,
+    refetch,
     hasNextPage,
-    fetchNextPage, // isFetchingNextPage,
+    fetchNextPage,
   }: UseInfiniteQueryResult<RecipeType[], [string, number]> = useInfiniteQuery(
     "recipes",
+    // ["recipes", calledRefetch, pageParam],
     // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
     ({ pageParam = 1 }) => fetchRecipes(pageParam),
+    // fetchRecipes,
     {
-      getNextPageParam: (lastPage, allPages) => {
+      getNextPageParam: (lastPage, allPages): number | undefined => {
+        console.log("in getNextPageParam");
+        if (calledRefetch === 2) {
+          console.log("in getNextPageParam- calledRefetch === 2");
+          return 1;
+        }
+
         const nextPage =
           lastPage.length === 10 ? allPages.length + 1 : undefined;
         return nextPage;
       },
       onSuccess(data) {
-        console.log("okk");
-        addRecipes(data.pages[data.pages.length - 1]);
+        console.log("okk", data.pages[0][0].id);
+        const tmpRcipes = data.pages[data.pages.length - 1];
+        if (calledRefetch === 2) {
+          addRecipes(data.pages[0]);
+        } else {
+          addRecipes(tmpRcipes);
+        }
         console.log(
           " addRecipes(data.pages[data.pages.length - 1])",
           data.pages[0].length,
         );
-        data.pages[data.pages.length - 1].forEach((element) => {
+        tmpRcipes.forEach((element) => {
           console.log(-element.id);
         });
       },
     },
   );
+
+  const onRefresh = () => {
+    setCalledRefetch(2);
+    console.log("setCalledRefetch(2);");
+    setRefreshing(true);
+    queryClient.removeQueries(["recipes"]);
+    clearRecipes();
+    refetch()
+      .then(() => {
+        setRefreshing(false);
+        setCalledRefetch(1);
+        console.log("setCalledRefetch(1);");
+      })
+      .catch(() => {});
+  };
 
   if (isLoading) {
     return <ScreenMessage msg="Loading..." />;
@@ -105,14 +120,6 @@ function Recipes() {
           keyExtractor={(item) => item.id.toString()}
           onEndReached={() => {
             console.log("before setPageChanged(true);");
-            // if (recipes?.length !== 0) {
-            //   // setPage((prev) => {
-            //   //   return prev + 1;
-            //   // });
-
-            //   setPageChanged(true);
-            //   console.log("setPageChanged(true);");r
-            // }
             if (hasNextPage) {
               fetchNextPage()
                 .then(() => {
@@ -122,6 +129,9 @@ function Recipes() {
             }
           }}
           onEndReachedThreshold={0.5} // todo koja vrednost je ok ovde
+          refreshControl={
+            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+          }
         />
       </View>
     </View>
