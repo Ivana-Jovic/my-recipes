@@ -21,8 +21,6 @@ import { Colors } from "../utils/colors";
 import { fetchUser } from "../utils/database";
 import { RecipeType, User } from "../utils/types";
 
-// todo Key "uri" in the image picker result is deprecated and will be removed in SDK 48, you can access selected assets through the "assets" array instead
-
 const addRecipes: (
   context: QueryFunctionContext<[string, RecipeType | undefined]>,
 ) => Promise<RecipeType[]> = async (context) => {
@@ -127,11 +125,11 @@ function AddRecipe() {
       >
         <ScrollView style={[{ flex: 1 }, styles.container]}>
           <View style={styles.container}>
-            <Input label="Title">
+            <Input label="Title" error={errors.title?.message}>
               <Controller
                 control={control}
                 rules={{
-                  required: true, // TODO videti da li je moguce kao inace ovde specificirati poruku
+                  required: "Title is required",
                 }}
                 render={({ field: { onChange, onBlur, value } }) => (
                   <TextInput
@@ -145,11 +143,11 @@ function AddRecipe() {
               />
             </Input>
             <View style={styles.shorterInputsContainer}>
-              <Input label="Cooking time">
+              <Input label="Cooking time" error={errors.cookTime?.message}>
                 <Controller
                   control={control}
                   rules={{
-                    required: true,
+                    required: "Cooking time is required",
                     pattern: /^[0-9]{0,3}$/,
                   }}
                   render={({ field: { onChange, onBlur, value } }) => (
@@ -164,10 +162,20 @@ function AddRecipe() {
                   name="cookTime"
                 />
               </Input>
-              <Input label="Difficulty">
+              <Input label="Difficulty" error={errors.difficulty?.message}>
                 <Controller
                   control={control}
-                  rules={{ required: true, min: 1, max: 5 }}
+                  rules={{
+                    required: "Difficulty is required",
+                    min: {
+                      value: 1,
+                      message: "Value must be at least 1.",
+                    },
+                    max: {
+                      value: 5,
+                      message: "Value must be at most 5.",
+                    },
+                  }}
                   render={({ field: { onChange, onBlur, value } }) => (
                     <TextInput
                       style={styles.input}
@@ -182,10 +190,10 @@ function AddRecipe() {
                 />
               </Input>
             </View>
-            <Input label="Description">
+            <Input label="Description" error={errors.description?.message}>
               <Controller
                 control={control}
-                rules={{ required: true }}
+                rules={{ required: "Description is required" }}
                 render={({ field: { onChange, onBlur, value } }) => (
                   <TextInput
                     style={styles.input}
@@ -197,10 +205,10 @@ function AddRecipe() {
                 name="description"
               />
             </Input>
-            <Input label="Instructions">
+            <Input label="Instructions" error={errors.instructions?.message}>
               <Controller
                 control={control}
-                rules={{ required: true }}
+                rules={{ required: "Instructions are required" }}
                 render={({ field: { onChange, onBlur, value } }) => (
                   <TextInput
                     style={[styles.input, styles.multiline]}
@@ -213,10 +221,13 @@ function AddRecipe() {
                 name="instructions"
               />
             </Input>
-            <Input label="Ingredients (each in a new line)">
+            <Input
+              label="Ingredients (each in a new line)"
+              error={errors.ingredients?.message}
+            >
               <Controller
                 control={control}
-                rules={{ required: true }}
+                rules={{ required: "Ingredients are required" }}
                 render={({ field: { onChange, onBlur, value } }) => (
                   <TextInput
                     style={[styles.input, styles.multiline]}
@@ -229,21 +240,14 @@ function AddRecipe() {
                 name="ingredients"
               />
             </Input>
-            <ImagePicker onImagesChange={handleImagesChange} />
-            {(errors.cookTime ||
-              errors.description ||
-              errors.ingredients ||
-              errors.instructions ||
-              errors.pictures ||
-              errors.title) && <Text>All fields are required</Text>}
-            {errors.difficulty && (
-              <Text>Difficulty mus be between 1 and 5</Text>
-            )}
-            {images.length === 0 && (
-              <Text>You have to select at least one picture</Text>
-            )}
-            {/* //TODO: kako ovo resiti na bolji nacin */}
-            {/* eslint-disable-next-line @typescript-eslint/no-misused-promises */}
+            <View style={styles.errors}>
+              <ImagePicker onImagesChange={handleImagesChange} />
+              {images.length === 0 && (
+                <Text style={{ color: "red" }}>
+                  You have to select at least one picture
+                </Text>
+              )}
+            </View>
             <Button
               onPress={handleSubmit(onSubmit)}
               additionalStyle={styles.done}
@@ -287,5 +291,8 @@ const styles = StyleSheet.create({
   },
   done: {
     marginBottom: 50,
+  },
+  errors: {
+    gap: 5,
   },
 });

@@ -3,7 +3,6 @@ import { StatusBar } from "react-native";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-// import { createDrawerNavigator } from "@react-navigation/drawer";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import AppLoading from "expo-app-loading";
 //Screens
@@ -17,8 +16,6 @@ import Button from "./components/Button";
 import { init } from "./utils/database";
 import { Colors } from "./utils/colors";
 
-// const Drawer = createDrawerNavigator();
-
 // {/* // todo da li je ugnezdeno kako treba */}
 
 export type RootStackParamList = {
@@ -28,8 +25,7 @@ export type RootStackParamList = {
   AddRecipe: undefined;
 };
 
-// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call
-const Stack = createNativeStackNavigator<RootStackParamList>(); // todo Zasto ovo ne radi (bez linije iznad)
+const Stack = createNativeStackNavigator<RootStackParamList>();
 
 const queryClient = new QueryClient();
 

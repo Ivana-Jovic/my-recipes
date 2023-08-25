@@ -3,14 +3,16 @@ import { StyleSheet, Text, View } from "react-native";
 
 interface InputProps {
   label: string;
+  error?: string;
   children: ReactNode;
 }
 function Input(props: InputProps) {
-  const { label, children } = props;
+  const { label, children, error } = props;
   return (
     <View style={styles.container}>
       <Text style={styles.label}>{label}</Text>
       <View style={styles.innerContainer}>{children}</View>
+      <Text style={styles.error}>{error}</Text>
     </View>
   );
 }
@@ -26,5 +28,8 @@ const styles = StyleSheet.create({
   innerContainer: {
     flex: 1,
     width: "100%",
+  },
+  error: {
+    color: "red",
   },
 });

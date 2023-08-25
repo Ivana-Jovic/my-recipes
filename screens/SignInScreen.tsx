@@ -11,6 +11,7 @@ import { insertUser } from "../utils/database";
 import { Colors } from "../utils/colors";
 import { fetchUser } from "../utils/database";
 import { User } from "../utils/types";
+import ScreenMessage from "../components/ScreenMessage";
 
 type Props = NativeStackScreenProps<RootStackParamList, "Recipes">;
 type SignInScreenNavigationProp = Props["navigation"];
@@ -38,7 +39,6 @@ function SignInScreen() {
       console.log("Resolved:", data);
       const userId = await insertUser(data.name);
       console.log("res", userId.insertId);
-      //TODO upisati uu storage i uzeti id
       navigation.navigate("Recipes");
     } catch (error) {
       console.log(error);
@@ -56,32 +56,33 @@ function SignInScreen() {
       .catch(() => {});
   }, []);
 
-  if (user === undefined) return <Text>Loading...</Text>; //todo da li ima neki lepsi nacin za ovaj signin
+  if (user === undefined) return <ScreenMessage msg="Loading..." />; //todo da li ima neki lepsi nacin za ovaj signin
 
   return (
     <View style={styles.container}>
       <Text>Please enter you name:</Text>
-      <View style={styles.inputContainer}>
-        <Controller
-          control={control}
-          rules={{
-            required: true, // TODO videti da li je moguce kao inace ovde specificirati poruku
-          }}
-          render={({ field: { onChange, onBlur, value } }) => (
-            <TextInput
-              style={styles.input}
-              placeholder="Name"
-              onBlur={onBlur}
-              onChangeText={onChange}
-              value={value}
-            />
-          )}
-          name="name"
-        />
-        {errors.name && <Text>This field is required</Text>}
-        {/* //TODO: kako ovo resiti na bolji nacin */}
-        {/* eslint-disable-next-line @typescript-eslint/no-misused-promises */}
-        <Button onPress={handleSubmit(onSubmit)}>Done</Button>
+      <View style={styles.containerError}>
+        <View style={styles.inputContainer}>
+          <Controller
+            control={control}
+            rules={{
+              required: "Name is required",
+            }}
+            render={({ field: { onChange, onBlur, value } }) => (
+              <TextInput
+                style={styles.input}
+                onBlur={onBlur}
+                onChangeText={onChange}
+                value={value}
+              />
+            )}
+            name="name"
+          />
+          <Button onPress={handleSubmit(onSubmit)}>Done</Button>
+        </View>
+        {errors.name && (
+          <Text style={{ color: "red" }}>{errors.name.message}</Text>
+        )}
       </View>
     </View>
   );
@@ -91,15 +92,17 @@ export default SignInScreen;
 
 const styles = StyleSheet.create({
   container: {
-    gap: 30,
-    padding: 20,
-    alignItems: "center",
+    gap: 15,
+    paddingHorizontal: 20,
+    paddingTop: 150,
+    flex: 1,
   },
   inputContainer: {
     flexDirection: "row",
     width: "100%",
     gap: 20,
   },
+  containerError: { gap: 10 },
   input: {
     height: 40,
     borderWidth: 1,

@@ -13,7 +13,6 @@ import Button from "./Button";
 //Utils
 import { Colors } from "../utils/colors";
 //todo navigation onn screens types
-//todo Key "base64" in the image picker result is deprecated and will be removed in SDK 48, you can access selected assets through the "assets" array instead
 interface ImagePickerProps {
   onImagesChange: (newValue: string[]) => void;
 }
@@ -58,28 +57,50 @@ function ImagePicker(props: ImagePickerProps) {
   }
 
   async function takeImageHandler() {
-    const hasPermission = await verifyPermissionsTakeImage();
-    if (!hasPermission) return;
+    try {
+      const hasPermission = await verifyPermissionsTakeImage();
+      if (!hasPermission) return;
 
-    const image = await launchCameraAsync({
-      aspect: [16, 9],
-      quality: 0.3,
-      base64: true,
-    });
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
-    setAllImages((prev) => [...prev, image.base64]);
+      const image = await launchCameraAsync({
+        aspect: [16, 9],
+        quality: 0.3,
+        base64: true,
+      });
+      if (image.canceled || !image.assets) {
+        console.log("Taking image has been canceled");
+        return;
+      }
+      if (!image.assets[0].base64) {
+        console.log("Image needs to be base64");
+        return;
+      }
+      setAllImages((prev) => [...prev, image.assets[0].base64!]);
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   async function galeryImageHandler() {
-    const hasPermission = await verifyPermissionsMediaLibrary();
-    if (!hasPermission) return;
-    const image = await launchImageLibraryAsync({
-      aspect: [16, 9],
-      quality: 0.3,
-      base64: true,
-    });
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
-    setAllImages((prev) => [...prev, image.base64]);
+    try {
+      const hasPermission = await verifyPermissionsMediaLibrary();
+      if (!hasPermission) return;
+      const image = await launchImageLibraryAsync({
+        aspect: [16, 9],
+        quality: 0.3,
+        base64: true,
+      });
+      if (image.canceled || !image.assets) {
+        console.log("Using galery has been canceled");
+        return;
+      }
+      if (!image.assets[0].base64) {
+        console.log("Image needs to be base64");
+        return;
+      }
+      setAllImages((prev) => [...prev, image.assets[0].base64!]);
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   const removeImage = (img: string) => {
