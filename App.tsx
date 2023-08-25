@@ -16,7 +16,7 @@ import Button from "./components/Button";
 import { init } from "./utils/database";
 import { Colors } from "./utils/colors";
 
-// {/* // todo da li je ugnezdeno kako treba */}
+// {/* // todo vidi svuda eslint da li treba da ostane*/}
 
 export type RootStackParamList = {
   SignInScreen: undefined;

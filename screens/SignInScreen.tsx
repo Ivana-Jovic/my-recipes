@@ -2,8 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { TextInput, View, Text, StyleSheet } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import { RootStackParamList } from "../App";
-import { NativeStackScreenProps } from "@react-navigation/native-stack";
+import { ToRecipesNavigationProp } from "../utils/types";
 //Components
 import Button from "../components/Button";
 //Utils
@@ -13,16 +12,13 @@ import { fetchUser } from "../utils/database";
 import { User } from "../utils/types";
 import ScreenMessage from "../components/ScreenMessage";
 
-type Props = NativeStackScreenProps<RootStackParamList, "Recipes">;
-type SignInScreenNavigationProp = Props["navigation"];
-
 interface FormData {
   name: string;
 }
 
 function SignInScreen() {
   const [user, setUser] = useState<string | undefined>(undefined);
-  const navigation = useNavigation<SignInScreenNavigationProp>();
+  const navigation = useNavigation<ToRecipesNavigationProp>(); // todo ovo bi trebalo da dolazi automatski kao prop, ali zbog ts
 
   const {
     control,

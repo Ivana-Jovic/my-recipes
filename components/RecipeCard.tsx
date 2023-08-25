@@ -2,14 +2,10 @@ import React from "react";
 import { Text, View, StyleSheet, Image, Pressable } from "react-native";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { useNavigation } from "@react-navigation/native";
-import { RootStackParamList } from "../App";
-import { NativeStackScreenProps } from "@react-navigation/native-stack";
+import { ToRecipeDetailsNavigationProp } from "../utils/types";
 //Utils
 import { Colors } from "../utils/colors";
 import { RecipeDetailsType } from "../utils/types";
-
-type Props = NativeStackScreenProps<RootStackParamList, "RecipeDetails">;
-type RecipeDetailsScreenNavigationProp = Props["navigation"];
 
 interface RecipeCardProps {
   recipe: RecipeDetailsType;
@@ -17,7 +13,7 @@ interface RecipeCardProps {
 
 function RecipeCard(props: RecipeCardProps) {
   const { recipe } = props;
-  const navigation = useNavigation<RecipeDetailsScreenNavigationProp>();
+  const navigation = useNavigation<ToRecipeDetailsNavigationProp>();
 
   return (
     <Pressable

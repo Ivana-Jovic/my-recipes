@@ -12,7 +12,7 @@ import {
 import Button from "./Button";
 //Utils
 import { Colors } from "../utils/colors";
-//todo navigation onn screens types
+
 interface ImagePickerProps {
   onImagesChange: (newValue: string[]) => void;
 }

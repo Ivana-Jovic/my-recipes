@@ -1,8 +1,10 @@
 import React, { useLayoutEffect } from "react";
 import { Text, StyleSheet, View, Image, ScrollView } from "react-native";
 import { useNavigation, useRoute } from "@react-navigation/native";
-import { NativeStackScreenProps } from "@react-navigation/native-stack";
-import { RootStackParamList } from "../App";
+import {
+  ToRecipeDetailsRouteProp,
+  ToRecipeDetailsNavigationProp,
+} from "../utils/types";
 import { useStore } from "../store/store";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { QueryFunctionContext, UseQueryResult, useQuery } from "react-query";
@@ -11,11 +13,6 @@ import Carousel from "../components/Carousel";
 //Utils
 import { RecipeType } from "../utils/types";
 import ScreenMessage from "../components/ScreenMessage";
-
-type Props = NativeStackScreenProps<RootStackParamList, "RecipeDetails">;
-
-type RecipeDetailsScreenRouteProp = Props["route"];
-type RecipeDetailsScreenNavigationProp = Props["navigation"];
 
 const fetchRecipes: (
   context: QueryFunctionContext<[string, number]>,
@@ -27,8 +24,8 @@ const fetchRecipes: (
 };
 
 function RecipeDetails() {
-  const navigation = useNavigation<RecipeDetailsScreenNavigationProp>();
-  const router = useRoute<RecipeDetailsScreenRouteProp>();
+  const navigation = useNavigation<ToRecipeDetailsNavigationProp>();
+  const router = useRoute<ToRecipeDetailsRouteProp>();
   const recipeId = parseInt(router.params.recipeId);
 
   const addRecentRecipes = useStore((state) => state.addRecentRecipes);

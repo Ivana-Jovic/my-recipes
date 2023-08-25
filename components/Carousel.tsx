@@ -4,6 +4,7 @@ import { View, ScrollView, StyleSheet, Image, Dimensions } from "react-native";
 interface CarouselProps {
   images: string[];
 }
+
 const { width } = Dimensions.get("window");
 const height = width * 0.8;
 

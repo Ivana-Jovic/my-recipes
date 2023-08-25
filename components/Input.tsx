@@ -6,6 +6,7 @@ interface InputProps {
   error?: string;
   children: ReactNode;
 }
+
 function Input(props: InputProps) {
   const { label, children, error } = props;
   return (
