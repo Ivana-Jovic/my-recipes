@@ -2,10 +2,9 @@ import React from "react";
 import { Text, View, StyleSheet, Image, Pressable } from "react-native";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { useNavigation } from "@react-navigation/native";
-import { NavigationProp } from "../utils/types";
 //Utils
 import { Colors } from "../utils/colors";
-import { RecipeDetailsType } from "../utils/types";
+import { RecipeDetailsType, NavigationProp } from "../utils/types";
 
 interface RecipeCardProps {
   recipe: RecipeDetailsType;
@@ -19,7 +18,6 @@ const RecipeCard: React.FC<RecipeCardProps> = (props) => {
     <Pressable
       style={styles.container}
       onPress={() =>
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-call
         navigation.navigate("RecipeDetails", { recipeId: recipe.id + "" })
       }
     >

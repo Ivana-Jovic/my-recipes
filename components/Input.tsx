@@ -9,6 +9,7 @@ interface InputProps {
 
 const Input: React.FC<InputProps> = (props) => {
   const { label, children, error } = props;
+
   return (
     <View style={styles.container}>
       <Text style={styles.label}>{label}</Text>

@@ -1,5 +1,12 @@
 import React from "react";
-import { View, ScrollView, StyleSheet, Image, Dimensions } from "react-native";
+import {
+  View,
+  Text,
+  ScrollView,
+  StyleSheet,
+  Image,
+  Dimensions,
+} from "react-native";
 
 interface CarouselProps {
   images: string[];
@@ -10,27 +17,28 @@ const height = width * 0.8;
 
 const Carousel: React.FC<CarouselProps> = (props) => {
   const { images } = props;
-  if (images && images.length) {
-    return (
-      <View style={styles.scrollContainer}>
-        <ScrollView
-          horizontal
-          pagingEnabled
-          showsHorizontalScrollIndicator={true}
-        >
-          {images.map((image, index) => (
-            <Image
-              key={index}
-              style={styles.image}
-              source={{ uri: "data:image/jpeg;base64," + image }}
-            />
-          ))}
-        </ScrollView>
-      </View>
-    );
+
+  if (!images || images.length === 0) {
+    return <Text>Please provide images</Text>;
   }
-  console.log("Please provide images");
-  return null;
+
+  return (
+    <View style={styles.scrollContainer}>
+      <ScrollView
+        horizontal
+        pagingEnabled
+        showsHorizontalScrollIndicator={true}
+      >
+        {images.map((image, index) => (
+          <Image
+            key={index}
+            style={styles.image}
+            source={{ uri: "data:image/jpeg;base64," + image }}
+          />
+        ))}
+      </ScrollView>
+    </View>
+  );
 };
 
 export default Carousel;

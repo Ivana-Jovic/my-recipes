@@ -14,7 +14,9 @@ import { Colors } from "../utils/colors";
 import { RecipeType } from "../utils/types";
 
 const fetchRecipes: (page: number) => Promise<RecipeType[]> = async (page) => {
-  const response = await fetch(`http://localhost:3000/recipes/?_page=${page}`); // TODO: ne radi na androidu
+  const response = await fetch(
+    `http://localhost:3000/recipes-details/?_page=${page}`,
+  ); // TODO: ne radi na androidu
   const jsonData = (await response.json()) as RecipeType[];
   console.log(page);
   return jsonData;
@@ -36,8 +38,7 @@ const Recipes: React.FC = () => {
     fetchNextPage,
   }: UseInfiniteQueryResult<RecipeType[], [string, number]> = useInfiniteQuery(
     "recipes",
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-    ({ pageParam = 1 }) => fetchRecipes(pageParam),
+    ({ pageParam = 1 }) => fetchRecipes(pageParam as number),
     {
       getNextPageParam: (lastPage, allPages): number | undefined => {
         console.log("in getNextPageParam");
@@ -98,7 +99,8 @@ const Recipes: React.FC = () => {
                 .catch(() => {});
             }
           }}
-          onEndReachedThreshold={0.8} // formula: wholeList.len - ( threshold * visibleElem.len )-> 10-(x*6)
+          // formula: wholeList.len - ( threshold * visibleElem.len )-> 10-(x*6)
+          onEndReachedThreshold={0.8}
           refreshControl={
             <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
           }

@@ -15,8 +15,7 @@ import Button from "./components/Button";
 //Utils
 import { init } from "./utils/database";
 import { Colors } from "./utils/colors";
-
-// {/* // todo vidi svuda eslint da li treba da ostane*/}
+import { NavigationProp } from "./utils/types";
 
 export type RootStackParamList = {
   SignInScreen: undefined;
@@ -69,13 +68,12 @@ export default function App() {
           <Stack.Screen
             name="Recipes"
             component={Recipes}
-            options={({ navigation }) => ({
+            options={({ navigation }: { navigation: NavigationProp }) => ({
               headerBackVisible: false,
               headerRight() {
                 return (
                   <Button
                     onPress={() => {
-                      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
                       navigation.navigate("AddRecipe");
                     }}
                     additionalStyle={{ padding: 3 }}

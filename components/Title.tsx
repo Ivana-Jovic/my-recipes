@@ -7,6 +7,7 @@ interface TitleProps {
 
 const Title: React.FC<TitleProps> = (props) => {
   const { children } = props;
+
   return <Text style={styles.title}>{children}</Text>;
 };
 

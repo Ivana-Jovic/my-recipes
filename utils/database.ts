@@ -50,7 +50,8 @@ export function fetchUser() {
   const promise = new Promise<SQLite.SQLResultSet>((resolve, reject) => {
     database.transaction((tx) => {
       tx.executeSql(
-        `select * from users order by id desc`, // the order doesnt matter, bc there will be only one row anyways
+        // the order doesnt matter, bc there will be only one row anyways, but i will leave this for testing
+        `select * from users order by id desc`,
         [],
         (_, result) => {
           resolve(result);

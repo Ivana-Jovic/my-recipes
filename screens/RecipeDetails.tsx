@@ -1,21 +1,24 @@
 import React, { useLayoutEffect } from "react";
 import { Text, StyleSheet, View, Image, ScrollView } from "react-native";
 import { useNavigation, useRoute } from "@react-navigation/native";
-import { ToRecipeDetailsRouteProp, NavigationProp } from "../utils/types";
 import { useStore } from "../store/store";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { QueryFunctionContext, UseQueryResult, useQuery } from "react-query";
 //Components
 import Carousel from "../components/Carousel";
 //Utils
-import { RecipeType } from "../utils/types";
+import {
+  RecipeType,
+  NavigationProp,
+  ToRecipeDetailsRouteProp,
+} from "../utils/types";
 import ScreenMessage from "../components/ScreenMessage";
 
 const fetchRecipes: (
   context: QueryFunctionContext<[string, number]>,
 ) => Promise<RecipeType> = async (context) => {
   const id = context.queryKey[1];
-  const response = await fetch(`http://localhost:3000/recipes/${id}`);
+  const response = await fetch(`http://localhost:3000/recipes-details/${id}`);
   const jsonData = (await response.json()) as RecipeType;
   return jsonData;
 };

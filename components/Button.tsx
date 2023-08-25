@@ -21,6 +21,7 @@ interface ButtonProps {
 
 const Button: React.FC<ButtonProps> = (props) => {
   const { children, onPress, additionalStyle } = props;
+
   return (
     <Pressable
       style={({ pressed }) => [

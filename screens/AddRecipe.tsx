@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { QueryFunctionContext, UseQueryResult, useQuery } from "react-query";
 import { useNavigation } from "@react-navigation/native";
-import { NavigationProp } from "../utils/types";
 import {
   KeyboardAvoidingView,
   TextInput,
@@ -18,7 +17,7 @@ import Button from "../components/Button";
 //Utils
 import { Colors } from "../utils/colors";
 import { fetchUser } from "../utils/database";
-import { RecipeType, User } from "../utils/types";
+import { RecipeType, User, NavigationProp } from "../utils/types";
 
 const addRecipes: (
   context: QueryFunctionContext<[string, RecipeType | undefined]>,
@@ -26,7 +25,7 @@ const addRecipes: (
   console.log("in addRecipes");
   const recipe = context.queryKey[1];
   if (!recipe) console.log("Recipe is undef");
-  const response = await fetch(`http://localhost:3000/recipes/`, {
+  const response = await fetch(`http://localhost:3000/recipes-details/`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(recipe),
