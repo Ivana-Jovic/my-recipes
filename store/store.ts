@@ -6,7 +6,6 @@ interface StoreState {
   recentRecipe: RecipeType | undefined;
   addRecipes: (recipesList: RecipeType[]) => void; //todo vrati na details
   addRecentRecipes: (recipe: RecipeType) => void;
-  // getRecipeId: (id: number) => RecipeType;
   clearRecipes: () => void;
 }
 
@@ -16,12 +15,6 @@ export const useStore = create<StoreState>((set) => ({
   addRecipes: (recipesList) =>
     set((state) => ({ recipes: state.recipes.concat(recipesList) })),
   addRecentRecipes: (recipe) => set({ recentRecipe: recipe }),
-  // getRecipeId: (recipeId) => {
-  //   // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
-  //   return useStore
-  //     .getState()
-  //     .find((recipe: RecipeType) => recipe.id === recipeId);
-  // },
   clearRecipes: () => {
     console.log("in clearRecipes");
     set({ recipes: [] });

@@ -17,7 +17,7 @@ interface ImagePickerProps {
   onImagesChange: (newValue: string[]) => void;
 }
 
-function ImagePicker(props: ImagePickerProps) {
+const ImagePicker: React.FC<ImagePickerProps> = (props) => {
   const { onImagesChange } = props;
   const [allImages, setAllImages] = useState<string[]>([]);
   const [cameraPermissionInformation, requesPermissionCamera] =
@@ -148,7 +148,7 @@ function ImagePicker(props: ImagePickerProps) {
       </View>
     </View>
   );
-}
+};
 
 export default ImagePicker;
 

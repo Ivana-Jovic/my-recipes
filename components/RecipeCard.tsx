@@ -2,7 +2,7 @@ import React from "react";
 import { Text, View, StyleSheet, Image, Pressable } from "react-native";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { useNavigation } from "@react-navigation/native";
-import { ToRecipeDetailsNavigationProp } from "../utils/types";
+import { NavigationProp } from "../utils/types";
 //Utils
 import { Colors } from "../utils/colors";
 import { RecipeDetailsType } from "../utils/types";
@@ -11,9 +11,9 @@ interface RecipeCardProps {
   recipe: RecipeDetailsType;
 }
 
-function RecipeCard(props: RecipeCardProps) {
+const RecipeCard: React.FC<RecipeCardProps> = (props) => {
   const { recipe } = props;
-  const navigation = useNavigation<ToRecipeDetailsNavigationProp>();
+  const navigation = useNavigation<NavigationProp>();
 
   return (
     <Pressable
@@ -49,7 +49,7 @@ function RecipeCard(props: RecipeCardProps) {
       </View>
     </Pressable>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {

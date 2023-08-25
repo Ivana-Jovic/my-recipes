@@ -19,7 +19,7 @@ interface ButtonProps {
     | undefined;
 }
 
-function Button(props: ButtonProps) {
+const Button: React.FC<ButtonProps> = (props) => {
   const { children, onPress, additionalStyle } = props;
   return (
     <Pressable
@@ -33,7 +33,7 @@ function Button(props: ButtonProps) {
       <Text style={styles.text}>{children}</Text>
     </Pressable>
   );
-}
+};
 
 export default Button;
 

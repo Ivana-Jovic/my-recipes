@@ -8,7 +8,7 @@ interface CarouselProps {
 const { width } = Dimensions.get("window");
 const height = width * 0.8;
 
-function Carousel(props: CarouselProps) {
+const Carousel: React.FC<CarouselProps> = (props) => {
   const { images } = props;
   if (images && images.length) {
     return (
@@ -31,7 +31,7 @@ function Carousel(props: CarouselProps) {
   }
   console.log("Please provide images");
   return null;
-}
+};
 
 export default Carousel;
 

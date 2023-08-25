@@ -21,12 +21,11 @@ export interface User {
   name: string;
 }
 
-type RecipesProps = NativeStackScreenProps<RootStackParamList, "Recipes">; //  todo proveriti jel ovo ok forma
-export type ToRecipesNavigationProp = RecipesProps["navigation"];
+type Props = NativeStackScreenProps<RootStackParamList>;
+export type NavigationProp = Props["navigation"];
 
 type RecipeDetailsProps = NativeStackScreenProps<
   RootStackParamList,
   "RecipeDetails"
 >;
 export type ToRecipeDetailsRouteProp = RecipeDetailsProps["route"];
-export type ToRecipeDetailsNavigationProp = RecipeDetailsProps["navigation"];

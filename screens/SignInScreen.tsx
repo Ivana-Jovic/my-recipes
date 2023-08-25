@@ -1,24 +1,20 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { TextInput, View, Text, StyleSheet } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import { ToRecipesNavigationProp } from "../utils/types";
+import { NavigationProp } from "../utils/types";
 //Components
 import Button from "../components/Button";
 //Utils
 import { insertUser } from "../utils/database";
 import { Colors } from "../utils/colors";
 import { fetchUser } from "../utils/database";
-import { User } from "../utils/types";
-import ScreenMessage from "../components/ScreenMessage";
 
 interface FormData {
   name: string;
 }
-
-function SignInScreen() {
-  const [user, setUser] = useState<string | undefined>(undefined);
-  const navigation = useNavigation<ToRecipesNavigationProp>(); // todo ovo bi trebalo da dolazi automatski kao prop, ali zbog ts
+const SignInScreen: React.FC = () => {
+  const navigation = useNavigation<NavigationProp>();
 
   const {
     control,
@@ -42,17 +38,16 @@ function SignInScreen() {
   };
 
   useEffect(() => {
+    console.log("in useEff");
     fetchUser()
       .then((res) => {
+        console.log("in useEff fetchUser");
         if (res.rows.length !== 0) {
           navigation.navigate("Recipes");
-          setUser((res.rows._array[0] as User).name);
-        } else setUser("");
+        }
       })
       .catch(() => {});
   }, []);
-
-  if (user === undefined) return <ScreenMessage msg="Loading..." />; //todo da li ima neki lepsi nacin za ovaj signin
 
   return (
     <View style={styles.container}>
@@ -82,7 +77,7 @@ function SignInScreen() {
       </View>
     </View>
   );
-}
+};
 
 export default SignInScreen;
 

@@ -5,7 +5,7 @@ interface ScreenMessageProps {
   msg: string;
 }
 
-function ScreenMessage(props: ScreenMessageProps) {
+const ScreenMessage: React.FC<ScreenMessageProps> = (props) => {
   const { msg } = props;
 
   return (
@@ -13,7 +13,7 @@ function ScreenMessage(props: ScreenMessageProps) {
       <Text>{msg}</Text>
     </View>
   );
-}
+};
 
 export default ScreenMessage;
 

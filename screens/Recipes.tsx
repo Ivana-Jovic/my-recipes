@@ -20,7 +20,7 @@ const fetchRecipes: (page: number) => Promise<RecipeType[]> = async (page) => {
   return jsonData;
 };
 
-function Recipes() {
+const Recipes: React.FC = () => {
   const [refreshing, setRefreshing] = useState(false);
   const queryClient = useQueryClient();
 
@@ -98,7 +98,7 @@ function Recipes() {
                 .catch(() => {});
             }
           }}
-          onEndReachedThreshold={0.5} // todo koja vrednost je ok ovde
+          onEndReachedThreshold={0.8} // formula: wholeList.len - ( threshold * visibleElem.len )-> 10-(x*6)
           refreshControl={
             <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
           }
@@ -106,7 +106,7 @@ function Recipes() {
       </View>
     </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {

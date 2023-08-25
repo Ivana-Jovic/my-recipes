@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { QueryFunctionContext, UseQueryResult, useQuery } from "react-query";
 import { useNavigation } from "@react-navigation/native";
-import { ToRecipesNavigationProp } from "../utils/types";
+import { NavigationProp } from "../utils/types";
 import {
   KeyboardAvoidingView,
   TextInput,
@@ -43,12 +43,12 @@ function parseIngredients(inputText: string): string[] {
   return ingredientsArray;
 }
 
-function AddRecipe() {
+const AddRecipe: React.FC = () => {
   const [images, setImages] = useState<string[]>([]);
   const [newRecipe, setNewRecipe] = useState<RecipeType | undefined>(undefined);
   const [user, setUser] = useState<string>("");
 
-  const navigation = useNavigation<ToRecipesNavigationProp>();
+  const navigation = useNavigation<NavigationProp>(); // todo ovo bi trebalo da dolazi automatski kao prop, ali zbog ts ne moze nesto ({ navigation }: NavigationProp)
 
   const handleImagesChange = (newValue: string[]) => {
     setImages(newValue);
@@ -255,7 +255,7 @@ function AddRecipe() {
       </KeyboardAvoidingView>
     </View>
   );
-}
+};
 
 export default AddRecipe;
 

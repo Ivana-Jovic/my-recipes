@@ -1,10 +1,7 @@
 import React, { useLayoutEffect } from "react";
 import { Text, StyleSheet, View, Image, ScrollView } from "react-native";
 import { useNavigation, useRoute } from "@react-navigation/native";
-import {
-  ToRecipeDetailsRouteProp,
-  ToRecipeDetailsNavigationProp,
-} from "../utils/types";
+import { ToRecipeDetailsRouteProp, NavigationProp } from "../utils/types";
 import { useStore } from "../store/store";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { QueryFunctionContext, UseQueryResult, useQuery } from "react-query";
@@ -23,8 +20,8 @@ const fetchRecipes: (
   return jsonData;
 };
 
-function RecipeDetails() {
-  const navigation = useNavigation<ToRecipeDetailsNavigationProp>();
+const RecipeDetails: React.FC = () => {
+  const navigation = useNavigation<NavigationProp>();
   const router = useRoute<ToRecipeDetailsRouteProp>();
   const recipeId = parseInt(router.params.recipeId);
 
@@ -106,7 +103,7 @@ function RecipeDetails() {
       </View>
     </ScrollView>
   );
-}
+};
 
 export default RecipeDetails;
 

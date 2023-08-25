@@ -7,7 +7,7 @@ interface InputProps {
   children: ReactNode;
 }
 
-function Input(props: InputProps) {
+const Input: React.FC<InputProps> = (props) => {
   const { label, children, error } = props;
   return (
     <View style={styles.container}>
@@ -16,7 +16,7 @@ function Input(props: InputProps) {
       <Text style={styles.error}>{error}</Text>
     </View>
   );
-}
+};
 
 export default Input;
 
