@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { RecipeDetailsType, RecipeType } from "../utils/types"; // todo change name
+import { RecipeDetailsType, RecipeType } from "../utils/types";
 
 interface StoreState {
   recipes: RecipeType[];

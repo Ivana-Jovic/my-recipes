@@ -12,7 +12,8 @@ import {
 import Button from "./Button";
 //Utils
 import { Colors } from "../utils/colors";
-
+//todo navigation onn screens types
+//todo Key "base64" in the image picker result is deprecated and will be removed in SDK 48, you can access selected assets through the "assets" array instead
 interface ImagePickerProps {
   onImagesChange: (newValue: string[]) => void;
 }

@@ -1,18 +1,13 @@
 import React, { useState } from "react";
 import { FlatList, View, StyleSheet, RefreshControl } from "react-native";
 import {
-  QueryFunctionContext,
-  UseQueryResult,
-  useQuery,
   useInfiniteQuery,
   UseInfiniteQueryResult,
-  QueryClient,
   useQueryClient,
 } from "react-query";
 import { useStore } from "../store/store";
 //Components
 import RecipeCard from "../components/RecipeCard";
-// import Title from "../components/Title";
 import ScreenMessage from "../components/ScreenMessage";
 //Utils
 import { Colors } from "../utils/colors";

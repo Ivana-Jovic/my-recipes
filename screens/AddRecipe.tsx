@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { QueryFunctionContext, UseQueryResult, useQuery } from "react-query";
+import { useNavigation } from "@react-navigation/native";
+import { RootStackParamList } from "../App";
+import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import {
   KeyboardAvoidingView,
   TextInput,
@@ -43,10 +46,15 @@ function parseIngredients(inputText: string): string[] {
   return ingredientsArray;
 }
 
+type Props = NativeStackScreenProps<RootStackParamList, "Recipes">;
+type AddRecipeScreenNavigationProp = Props["navigation"];
+
 function AddRecipe() {
   const [images, setImages] = useState<string[]>([]);
   const [newRecipe, setNewRecipe] = useState<RecipeType | undefined>(undefined);
   const [user, setUser] = useState<string>("");
+
+  const navigation = useNavigation<AddRecipeScreenNavigationProp>();
 
   const handleImagesChange = (newValue: string[]) => {
     setImages(newValue);
@@ -65,6 +73,7 @@ function AddRecipe() {
       enabled: !!newRecipe,
     },
   );
+
   useEffect(() => {
     fetchUser()
       .then((res) => {
@@ -100,6 +109,7 @@ function AddRecipe() {
     console.log("Resolved:", data);
     setNewRecipe(data);
     console.log("Resolved2:", data);
+    navigation.navigate("Recipes");
   };
 
   if (isLoading) {

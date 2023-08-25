@@ -1,4 +1,3 @@
-//todo da li je ovo ok mesto za ovaj fajl
 export interface RecipeDetailsType {
   title: string;
   pictures: string[];
