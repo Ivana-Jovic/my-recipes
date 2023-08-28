@@ -12,7 +12,7 @@ import { Colors } from "../utils/colors";
 
 interface ButtonProps {
   children: ReactNode;
-  additionalStyle?: StyleProp<ViewStyle>;
+  additionalStyles?: StyleProp<ViewStyle>;
   onPress:
     | ((event: GestureResponderEvent) => void | Promise<void>)
     | null
@@ -20,14 +20,14 @@ interface ButtonProps {
 }
 
 const Button: React.FC<ButtonProps> = (props) => {
-  const { children, onPress, additionalStyle } = props;
+  const { children, onPress, additionalStyles } = props;
 
   return (
     <Pressable
       style={({ pressed }) => [
         styles.container,
         pressed && styles.pressed,
-        additionalStyle,
+        additionalStyles,
       ]}
       onPress={onPress}
     >
@@ -44,11 +44,14 @@ const styles = StyleSheet.create({
     padding: 10,
     borderRadius: 5,
   },
-  pressed: { opacity: 0.7 },
+  pressed: {
+    opacity: 0.7,
+  },
   text: {
     color: "white",
     alignSelf: "center",
     justifyContent: "center",
     alignItems: "center",
+    fontWeight: "600",
   },
 });

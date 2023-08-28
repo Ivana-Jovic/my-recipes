@@ -9,6 +9,7 @@ import {
   Text,
   StyleSheet,
   ScrollView,
+  Alert,
 } from "react-native";
 //Components
 import Input from "../components/Input";
@@ -24,14 +25,14 @@ import {
   NavigationProp,
   RecipeDetailsType,
 } from "../utils/types";
+import ScreenMessage from "../components/ScreenMessage";
 
 const addRecipes: (
   context: QueryFunctionContext<[string, RecipeType | undefined]>,
 ) => Promise<void> = async (context) => {
-  console.log("in addRecipes");
   const recipe = context.queryKey[1];
   if (!recipe) {
-    console.log("Recipe is undef");
+    console.log("Recipe is undefined");
     return;
   }
 
@@ -62,14 +63,12 @@ const addRecipes: (
     ingredients: recipe?.ingredients,
     instructions: recipe?.instructions,
   };
-  // const response =
+
   await fetch(`http://localhost:3000/recipes-all/`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(tmpAll),
   });
-
-  // const jsonData = (await response.json()) as RecipeType[];
 };
 
 function parseIngredients(inputText: string): string[] {
@@ -85,7 +84,7 @@ const AddRecipe: React.FC = () => {
   const [newRecipe, setNewRecipe] = useState<RecipeType | undefined>(undefined);
   const [user, setUser] = useState<string>("");
 
-  const navigation = useNavigation<NavigationProp>(); // todo ovo bi trebalo da dolazi automatski kao prop, ali zbog ts ne moze nesto ({ navigation }: NavigationProp)
+  const navigation = useNavigation<NavigationProp>(); // todo ovo bi trebalo da dolazi automatski kao prop (na svim stranama), ali zbog ts ne moze nesto ({ navigation }: NavigationProp)
 
   const handleImagesChange = (newValue: string[]) => {
     setImages(newValue);
@@ -99,7 +98,8 @@ const AddRecipe: React.FC = () => {
     addRecipes,
     {
       onSuccess() {
-        console.log("my success");
+        Alert.alert("Added recipe");
+        navigation.navigate("Recipes");
       },
       enabled: !!newRecipe,
     },
@@ -108,7 +108,6 @@ const AddRecipe: React.FC = () => {
   useEffect(() => {
     fetchUser()
       .then((res) => {
-        console.log((res.rows._array[0] as User).name);
         setUser((res.rows._array[0] as User).name);
       })
       .catch(() => {});
@@ -137,26 +136,24 @@ const AddRecipe: React.FC = () => {
     data.pictures = images;
     data.author = user;
     data.ingredients = parseIngredients(data.ingredients.toString());
-    // console.log("Resolved:", data);
     setNewRecipe(data);
-    // console.log("Resolved2:", data);
-    navigation.navigate("Recipes");
   };
 
   if (isLoading) {
-    return <Text>Loading...</Text>;
+    return <ScreenMessage msg={"Loading..."} />;
   }
 
   if (isError) {
-    return <Text>Error fetching data</Text>;
+    return <ScreenMessage msg="Error fetching data" />;
   }
+
   return (
-    <View style={{ flex: 1 }}>
+    <View style={styles.screen}>
       <KeyboardAvoidingView
         // behavior={"position"}//TODO not working
         style={{ flex: 1 }}
       >
-        <ScrollView style={[{ flex: 1 }, styles.container]}>
+        <ScrollView style={styles.container}>
           <View style={styles.container}>
             <Input label="Title" error={errors.title?.message}>
               <Controller
@@ -283,7 +280,7 @@ const AddRecipe: React.FC = () => {
             </View>
             <Button
               onPress={handleSubmit(onSubmit)}
-              additionalStyle={styles.done}
+              additionalStyles={styles.done}
             >
               Done
             </Button>
@@ -297,6 +294,9 @@ const AddRecipe: React.FC = () => {
 export default AddRecipe;
 
 const styles = StyleSheet.create({
+  screen: {
+    flex: 1,
+  },
   container: {
     width: "100%",
     gap: 20,
@@ -305,8 +305,6 @@ const styles = StyleSheet.create({
     height: "100%",
   },
   input: {
-    // height: 200,
-    // minHeight: 100,
     borderWidth: 1,
     borderColor: Colors.grey,
     borderRadius: 5,

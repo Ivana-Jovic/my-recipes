@@ -2,7 +2,6 @@ import React, { useLayoutEffect } from "react";
 import { Text, StyleSheet, View, Image, ScrollView } from "react-native";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { useStore } from "../store/store";
-import Ionicons from "@expo/vector-icons/Ionicons";
 import { QueryFunctionContext, UseQueryResult, useQuery } from "react-query";
 //Components
 import Carousel from "../components/Carousel";
@@ -15,6 +14,7 @@ import {
   RecipeDBAllType,
 } from "../utils/types";
 import ScreenMessage from "../components/ScreenMessage";
+import DetailItem from "../components/DetailItem";
 
 const fetchRecipes: (
   context: QueryFunctionContext<[string, number]>,
@@ -49,7 +49,6 @@ const RecipeDetails: React.FC = () => {
 
   const { isLoading, isError }: UseQueryResult<RecipeType, [string, number]> =
     useQuery(["recipes", recipeId], fetchRecipes, {
-      // todo nema poente jer imamo u kontekstu
       onSuccess(data) {
         if (!recentRecipe || recentRecipe?.id !== recipeId) {
           addRecentRecipes(data);
@@ -64,11 +63,7 @@ const RecipeDetails: React.FC = () => {
     });
   }, [navigation, recentRecipe]);
 
-  if (!recentRecipe) {
-    return <ScreenMessage msg={"Loading..."} />;
-  }
-
-  if (isLoading) {
+  if (!recentRecipe || isLoading) {
     return <ScreenMessage msg={"Loading..."} />;
   }
 
@@ -85,18 +80,18 @@ const RecipeDetails: React.FC = () => {
         />
         <View style={styles.innerContainer}>
           <View style={styles.details}>
-            <View style={styles.detailsItem}>
-              <Ionicons name="timer-outline" />
-              <Text>{recentRecipe.cookTime}</Text>
-            </View>
-            <View style={styles.detailsItem}>
-              <Ionicons name="ios-analytics" />
-              <Text>{recentRecipe.difficulty}</Text>
-            </View>
-            <View style={styles.detailsItem}>
-              <Ionicons name="person-outline" />
-              <Text>{recentRecipe.author}</Text>
-            </View>
+            <DetailItem
+              icon={"timer-outline"}
+              text={recentRecipe.cookTime.toString()}
+            />
+            <DetailItem
+              icon={"ios-analytics"}
+              text={recentRecipe.difficulty.toString()}
+            />
+            <DetailItem
+              icon={"person-outline"}
+              text={recentRecipe.author.toString()}
+            />
           </View>
           <View style={styles.section}>
             <Text style={styles.subtitle}>Description</Text>
@@ -146,11 +141,6 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     gap: 35,
     width: "100%",
-  },
-  detailsItem: {
-    flexDirection: "row",
-    gap: 5,
-    alignItems: "center",
   },
   ingredients: {
     gap: 7,

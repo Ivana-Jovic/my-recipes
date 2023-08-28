@@ -13,7 +13,6 @@ export function init() {
         [],
         () => {
           resolve();
-          console.log("db init");
         },
         (_, error) => {
           reject(error);
@@ -50,12 +49,11 @@ export function fetchUser() {
   const promise = new Promise<SQLite.SQLResultSet>((resolve, reject) => {
     database.transaction((tx) => {
       tx.executeSql(
-        // the order doesnt matter, bc there will be only one row anyways, but i will leave this for testing
+        // the order doesnt matter, bc there will be only one row anyway, but i will leave this for testing
         `select * from users order by id desc`,
         [],
         (_, result) => {
           resolve(result);
-          console.log("in fetchUser", result);
         },
         (_, error) => {
           reject(error);

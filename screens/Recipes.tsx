@@ -18,9 +18,8 @@ const fetchRecipes: (page: number) => Promise<RecipeDetailsType[]> = async (
 ) => {
   const response = await fetch(
     `http://localhost:3000/recipes-details/?_page=${page}`,
-  ); // TODO: ne radi na androidu
+  ); // TODO: ne radi na androidu network
   const jsonData = (await response.json()) as RecipeDetailsType[];
-  console.log(page);
   return jsonData;
 };
 
@@ -44,35 +43,24 @@ const Recipes: React.FC = () => {
       ({ pageParam = 1 }) => fetchRecipes(pageParam as number),
       {
         getNextPageParam: (lastPage, allPages): number | undefined => {
-          console.log("in getNextPageParam");
           const nextPage =
             lastPage.length === 10 ? allPages.length + 1 : undefined;
           return nextPage;
         },
         onSuccess(data) {
-          console.log("okk", data.pages[0][0].id);
           const tmpRcipes = data.pages[data.pages.length - 1];
           addRecipes(tmpRcipes);
-          console.log(
-            " addRecipes(data.pages[data.pages.length - 1])",
-            data.pages[0].length,
-          );
-          tmpRcipes.forEach((element) => {
-            console.log(-element.id);
-          });
         },
       },
     );
 
   const onRefresh = () => {
     setRefreshing(true);
-    console.log("setCalledRefetch(2);");
     queryClient.removeQueries(["recipes"]);
     clearRecipes();
     refetch()
       .then(() => {
         setRefreshing(false);
-        console.log("setCalledRefetch(1);");
       })
       .catch(() => {});
   };
@@ -93,12 +81,9 @@ const Recipes: React.FC = () => {
           renderItem={({ item }) => <RecipeCard recipe={item} />}
           keyExtractor={(item) => item.id.toString()}
           onEndReached={() => {
-            console.log("before setPageChanged(true);");
             if (hasNextPage) {
               fetchNextPage()
-                .then(() => {
-                  console.log("hasNextPage-fetchNextPagee");
-                })
+                .then(() => {})
                 .catch(() => {});
             }
           }}

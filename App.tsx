@@ -76,7 +76,7 @@ export default function App() {
                     onPress={() => {
                       navigation.navigate("AddRecipe");
                     }}
-                    additionalStyle={{ padding: 3 }}
+                    additionalStyles={{ padding: 3 }}
                   >
                     <Ionicons name="add" size={20} />
                   </Button>

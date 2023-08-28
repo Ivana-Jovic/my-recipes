@@ -20,6 +20,7 @@ interface ImagePickerProps {
 const ImagePicker: React.FC<ImagePickerProps> = (props) => {
   const { onImagesChange } = props;
   const [allImages, setAllImages] = useState<string[]>([]);
+
   const [cameraPermissionInformation, requesPermissionCamera] =
     useCameraPermissions();
 
@@ -66,6 +67,7 @@ const ImagePicker: React.FC<ImagePickerProps> = (props) => {
         quality: 0.3,
         base64: true,
       });
+
       if (image.canceled || !image.assets) {
         console.log("Taking image has been canceled");
         return;
@@ -121,10 +123,11 @@ const ImagePicker: React.FC<ImagePickerProps> = (props) => {
               onPress={() => {
                 removeImage(img);
               }}
-              additionalStyle={{
+              additionalStyles={{
                 alignSelf: "flex-end",
-                padding: 5,
+                padding: 1,
                 backgroundColor: Colors.lightGrey,
+                marginBottom: 5,
               }}
             >
               <Ionicons name="close" size={20} />
@@ -138,11 +141,11 @@ const ImagePicker: React.FC<ImagePickerProps> = (props) => {
         ))}
       </View>
       <View style={styles.addImage}>
-        <Button onPress={takeImageHandler} additionalStyle={styles.button}>
+        <Button onPress={takeImageHandler} additionalStyles={styles.button}>
           <Ionicons name="add" size={30} />
         </Button>
         <Text>OR</Text>
-        <Button onPress={galeryImageHandler} additionalStyle={styles.button}>
+        <Button onPress={galeryImageHandler} additionalStyles={styles.button}>
           <Ionicons name="images" size={30} />
         </Button>
       </View>
@@ -169,15 +172,19 @@ const styles = StyleSheet.create({
     width: "100%",
     height: "100%",
     flex: 1,
+    borderRadius: 5,
   },
   addImage: {
     width: "100%",
     height: 200,
-    backgroundColor: Colors.cardColor,
+    backgroundColor: "white",
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
     gap: 20,
+    borderWidth: 1,
+    borderColor: Colors.grey,
+    borderRadius: 5,
   },
   button: {
     width: 50,

@@ -27,9 +27,7 @@ const SignInScreen: React.FC = () => {
 
   const onSubmit = async (data: FormData) => {
     try {
-      console.log("Resolved:", data);
-      const userId = await insertUser(data.name);
-      console.log("res", userId.insertId);
+      await insertUser(data.name);
       navigation.navigate("Recipes");
     } catch (error) {
       console.log(error);
@@ -37,10 +35,8 @@ const SignInScreen: React.FC = () => {
   };
 
   useEffect(() => {
-    console.log("in useEff");
     fetchUser()
       .then((res) => {
-        console.log("in useEff fetchUser");
         if (res.rows.length !== 0) {
           navigation.navigate("Recipes");
         }

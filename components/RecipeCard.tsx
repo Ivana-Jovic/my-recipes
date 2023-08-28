@@ -1,10 +1,10 @@
 import React from "react";
 import { Text, View, StyleSheet, Image, Pressable } from "react-native";
-import Ionicons from "@expo/vector-icons/Ionicons";
 import { useNavigation } from "@react-navigation/native";
 //Utils
 import { Colors } from "../utils/colors";
 import { RecipeDetailsType, NavigationProp } from "../utils/types";
+import DetailItem from "./DetailItem";
 
 interface RecipeCardProps {
   recipe: RecipeDetailsType;
@@ -18,7 +18,7 @@ const RecipeCard: React.FC<RecipeCardProps> = (props) => {
     <Pressable
       style={styles.container}
       onPress={() =>
-        navigation.navigate("RecipeDetails", { recipeId: recipe.id + "" })
+        navigation.navigate("RecipeDetails", { recipeId: recipe.id.toString() })
       }
     >
       <Image
@@ -31,19 +31,20 @@ const RecipeCard: React.FC<RecipeCardProps> = (props) => {
           {recipe.description.slice(0, 55)}...
         </Text>
         <View style={styles.details}>
-          <View style={[styles.detailsItem, { flex: 1 }]}>
-            <Ionicons name="person-outline" />
-            <Text style={styles.detailsItemText}>{recipe.author}</Text>
-          </View>
+          <DetailItem
+            icon={"person-outline"}
+            text={recipe.author}
+            additionalStyles={{ flex: 1 }}
+          />
           <View style={styles.details}>
-            <View style={styles.detailsItem}>
-              <Ionicons name="timer-outline" />
-              <Text style={styles.detailsItemText}>{recipe.cookTime}</Text>
-            </View>
-            <View style={styles.detailsItem}>
-              <Ionicons name="ios-analytics" />
-              <Text style={styles.detailsItemText}>{recipe.difficulty}</Text>
-            </View>
+            <DetailItem
+              icon={"timer-outline"}
+              text={recipe.cookTime.toString()}
+            />
+            <DetailItem
+              icon={"ios-analytics"}
+              text={recipe.difficulty.toString()}
+            />
           </View>
         </View>
       </View>
@@ -88,14 +89,6 @@ const styles = StyleSheet.create({
     width: "100%",
     justifyContent: "space-between",
     flex: 1,
-  },
-  detailsItem: {
-    flexDirection: "row",
-    gap: 5,
-    alignItems: "center",
-  },
-  detailsItemText: {
-    fontSize: 12,
   },
 });
 
