@@ -16,6 +16,14 @@ export interface RecipeType extends RecipeDetailsType {
   instructions: string;
 }
 
+export interface RecipeDBAllType {
+  pictures: string[];
+  id: number;
+  idDetails: number;
+  ingredients: string[];
+  instructions: string;
+}
+
 export interface User {
   id: number;
   name: string;

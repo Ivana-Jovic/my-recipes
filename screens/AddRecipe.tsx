@@ -17,21 +17,59 @@ import Button from "../components/Button";
 //Utils
 import { Colors } from "../utils/colors";
 import { fetchUser } from "../utils/database";
-import { RecipeType, User, NavigationProp } from "../utils/types";
+import {
+  RecipeType,
+  RecipeDBAllType,
+  User,
+  NavigationProp,
+  RecipeDetailsType,
+} from "../utils/types";
 
 const addRecipes: (
   context: QueryFunctionContext<[string, RecipeType | undefined]>,
-) => Promise<RecipeType[]> = async (context) => {
+) => Promise<void> = async (context) => {
   console.log("in addRecipes");
   const recipe = context.queryKey[1];
-  if (!recipe) console.log("Recipe is undef");
-  const response = await fetch(`http://localhost:3000/recipes-details/`, {
+  if (!recipe) {
+    console.log("Recipe is undef");
+    return;
+  }
+
+  const tmpDetails: Omit<RecipeDetailsType, "id"> = {
+    title: recipe?.title,
+    pictures: [recipe?.pictures[0]],
+    description: recipe?.description,
+    cookTime: recipe?.cookTime,
+    author: recipe?.author,
+    difficulty: recipe?.difficulty,
+  };
+
+  const responseDetails = await fetch(
+    `http://localhost:3000/recipes-details/`,
+    {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(tmpDetails),
+    },
+  );
+  const jsonDataDetails = (await responseDetails.json()) as RecipeDetailsType;
+
+  const newId = jsonDataDetails.id;
+
+  const tmpAll: Omit<RecipeDBAllType, "id"> = {
+    pictures: recipe?.pictures,
+    idDetails: newId, //todo ovo id details nema poentu nigde, jer ne mogu da namestim da mi fetch radi sa parametrom
+    ingredients: recipe?.ingredients,
+    instructions: recipe?.instructions,
+  };
+  // const response =
+  await fetch(`http://localhost:3000/recipes-all/`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(recipe),
+    body: JSON.stringify(tmpAll),
   });
-  const jsonData = (await response.json()) as RecipeType[];
-  return jsonData;
+
+  // const jsonData = (await response.json()) as RecipeType[];
 };
 
 function parseIngredients(inputText: string): string[] {
@@ -99,9 +137,9 @@ const AddRecipe: React.FC = () => {
     data.pictures = images;
     data.author = user;
     data.ingredients = parseIngredients(data.ingredients.toString());
-    console.log("Resolved:", data);
+    // console.log("Resolved:", data);
     setNewRecipe(data);
-    console.log("Resolved2:", data);
+    // console.log("Resolved2:", data);
     navigation.navigate("Recipes");
   };
 

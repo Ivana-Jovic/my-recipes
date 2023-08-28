@@ -2,9 +2,9 @@ import { create } from "zustand";
 import { RecipeDetailsType, RecipeType } from "../utils/types";
 
 interface StoreState {
-  recipes: RecipeType[];
+  recipes: RecipeDetailsType[];
   recentRecipe: RecipeType | undefined;
-  addRecipes: (recipesList: RecipeType[]) => void; //todo vrati na details
+  addRecipes: (recipesList: RecipeDetailsType[]) => void; //todo vrati na details
   addRecentRecipes: (recipe: RecipeType) => void;
   clearRecipes: () => void;
 }

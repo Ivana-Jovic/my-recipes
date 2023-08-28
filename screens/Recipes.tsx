@@ -11,13 +11,15 @@ import RecipeCard from "../components/RecipeCard";
 import ScreenMessage from "../components/ScreenMessage";
 //Utils
 import { Colors } from "../utils/colors";
-import { RecipeType } from "../utils/types";
+import { RecipeDetailsType } from "../utils/types";
 
-const fetchRecipes: (page: number) => Promise<RecipeType[]> = async (page) => {
+const fetchRecipes: (page: number) => Promise<RecipeDetailsType[]> = async (
+  page,
+) => {
   const response = await fetch(
     `http://localhost:3000/recipes-details/?_page=${page}`,
   ); // TODO: ne radi na androidu
-  const jsonData = (await response.json()) as RecipeType[];
+  const jsonData = (await response.json()) as RecipeDetailsType[];
   console.log(page);
   return jsonData;
 };
@@ -36,30 +38,31 @@ const Recipes: React.FC = () => {
     refetch,
     hasNextPage,
     fetchNextPage,
-  }: UseInfiniteQueryResult<RecipeType[], [string, number]> = useInfiniteQuery(
-    "recipes",
-    ({ pageParam = 1 }) => fetchRecipes(pageParam as number),
-    {
-      getNextPageParam: (lastPage, allPages): number | undefined => {
-        console.log("in getNextPageParam");
-        const nextPage =
-          lastPage.length === 10 ? allPages.length + 1 : undefined;
-        return nextPage;
+  }: UseInfiniteQueryResult<RecipeDetailsType[], [string, number]> =
+    useInfiniteQuery(
+      "recipes",
+      ({ pageParam = 1 }) => fetchRecipes(pageParam as number),
+      {
+        getNextPageParam: (lastPage, allPages): number | undefined => {
+          console.log("in getNextPageParam");
+          const nextPage =
+            lastPage.length === 10 ? allPages.length + 1 : undefined;
+          return nextPage;
+        },
+        onSuccess(data) {
+          console.log("okk", data.pages[0][0].id);
+          const tmpRcipes = data.pages[data.pages.length - 1];
+          addRecipes(tmpRcipes);
+          console.log(
+            " addRecipes(data.pages[data.pages.length - 1])",
+            data.pages[0].length,
+          );
+          tmpRcipes.forEach((element) => {
+            console.log(-element.id);
+          });
+        },
       },
-      onSuccess(data) {
-        console.log("okk", data.pages[0][0].id);
-        const tmpRcipes = data.pages[data.pages.length - 1];
-        addRecipes(tmpRcipes);
-        console.log(
-          " addRecipes(data.pages[data.pages.length - 1])",
-          data.pages[0].length,
-        );
-        tmpRcipes.forEach((element) => {
-          console.log(-element.id);
-        });
-      },
-    },
-  );
+    );
 
   const onRefresh = () => {
     setRefreshing(true);

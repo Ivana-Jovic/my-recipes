@@ -11,16 +11,26 @@ import {
   RecipeType,
   NavigationProp,
   ToRecipeDetailsRouteProp,
+  RecipeDetailsType,
+  RecipeDBAllType,
 } from "../utils/types";
 import ScreenMessage from "../components/ScreenMessage";
 
 const fetchRecipes: (
-  context: QueryFunctionContext<[string, number]>,
+  context: QueryFunctionContext<[string, number]>, //todo promise.all x2
 ) => Promise<RecipeType> = async (context) => {
-  const id = context.queryKey[1];
-  const response = await fetch(`http://localhost:3000/recipes-details/${id}`);
-  const jsonData = (await response.json()) as RecipeType;
-  return jsonData;
+  const id = context.queryKey[1]; // details id from the card
+
+  const response = await fetch(`http://localhost:3000/recipes-all/${id}`);
+  const jsonData = (await response.json()) as RecipeDBAllType;
+
+  const responseDetails = await fetch(
+    `http://localhost:3000/recipes-details/${id}`,
+  );
+  const jsonDataDetails = (await responseDetails.json()) as RecipeDetailsType;
+  const tmp = { ...jsonData, ...jsonDataDetails };
+  tmp.pictures = jsonData.pictures;
+  return tmp;
 };
 
 const RecipeDetails: React.FC = () => {
