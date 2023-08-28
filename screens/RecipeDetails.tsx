@@ -17,20 +17,26 @@ import {
 import ScreenMessage from "../components/ScreenMessage";
 
 const fetchRecipes: (
-  context: QueryFunctionContext<[string, number]>, //todo promise.all x2
+  context: QueryFunctionContext<[string, number]>,
 ) => Promise<RecipeType> = async (context) => {
   const id = context.queryKey[1]; // details id from the card
 
-  const response = await fetch(`http://localhost:3000/recipes-all/${id}`);
-  const jsonData = (await response.json()) as RecipeDBAllType;
+  const [recipesResponse, detailsResponse] = await Promise.all([
+    fetch(`http://localhost:3000/recipes-all/${id}`),
+    fetch(`http://localhost:3000/recipes-details/${id}`),
+  ]);
 
-  const responseDetails = await fetch(
-    `http://localhost:3000/recipes-details/${id}`,
-  );
-  const jsonDataDetails = (await responseDetails.json()) as RecipeDetailsType;
-  const tmp = { ...jsonData, ...jsonDataDetails };
-  tmp.pictures = jsonData.pictures;
-  return tmp;
+  const [recipesData, detailsData] = await Promise.all([
+    recipesResponse.json() as Promise<RecipeDBAllType>,
+    detailsResponse.json() as Promise<RecipeDetailsType>,
+  ]);
+
+  const combinedData = {
+    ...recipesData,
+    ...detailsData,
+    pictures: recipesData.pictures,
+  };
+  return combinedData;
 };
 
 const RecipeDetails: React.FC = () => {
