@@ -84,7 +84,7 @@ const AddRecipe: React.FC = () => {
   const [newRecipe, setNewRecipe] = useState<RecipeType | undefined>(undefined);
   const [user, setUser] = useState<string>("");
 
-  const navigation = useNavigation<NavigationProp>(); // todo ovo bi trebalo da dolazi automatski kao prop (na svim stranama), ali zbog ts ne moze nesto ({ navigation }: NavigationProp)
+  const navigation = useNavigation<NavigationProp>(); // todo ovo bi trebalo da dolazi automatski kao prop (na svim stranama), ali zbog ts ne moze nesto... ({ navigation }: NavigationProp)
 
   const handleImagesChange = (newValue: string[]) => {
     setImages(newValue);
@@ -150,7 +150,7 @@ const AddRecipe: React.FC = () => {
   return (
     <View style={styles.screen}>
       <KeyboardAvoidingView
-        // behavior={"position"}//TODO not working
+        // behavior={"position"} //TODO not working
         style={{ flex: 1 }}
       >
         <ScrollView style={styles.container}>
