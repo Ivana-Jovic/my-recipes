@@ -16,7 +16,8 @@ import Button from "./components/Button";
 //Utils
 import { init } from "./utils/database";
 import { Colors } from "./utils/colors";
-import { NavigationProp } from "./utils/types";
+import { NavigationProp, RecipeType } from "./utils/types";
+import Modal from "./screens/Modal";
 
 export type RootStackParamList = {
   SignInScreen: undefined;
@@ -24,6 +25,7 @@ export type RootStackParamList = {
   RecipeDetails: { recipeId: string };
   AddRecipe: undefined;
   SearchRecipes: undefined;
+  Modal: { recipeId: string };
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -114,9 +116,46 @@ export default function App() {
           <Stack.Screen
             name="SearchRecipes"
             component={SearchRecipes}
-            options={{
+            options={({ navigation }: { navigation: NavigationProp }) => ({
               headerTitle: "Search for a recipe", //() => <Search></Search>,
-            }}
+              // headerRight() {
+              //   return (
+              //     <Button
+              // onPress={() => {
+              //   navigation.navigate("Modal");
+              // }}
+              //       additionalStyles={{
+              //         padding: 3,
+              //         backgroundColor: "transparent",
+              //       }}
+              //     >
+              //       <Ionicons
+              //         name="search"
+              //         size={20}
+              //         style={{ color: Colors.textGrey }}
+              //       />
+              //     </Button>
+              //   );
+              // },
+            })}
+          />
+          <Stack.Screen
+            name="Modal"
+            component={Modal}
+            options={({ navigation }: { navigation: NavigationProp }) => ({
+              presentation: "modal",
+              // headerShown: false,
+              headerTitle: "",
+              headerRight: () => (
+                <Ionicons
+                  name="close"
+                  size={30}
+                  color="black"
+                  onPress={() => navigation.goBack()}
+                  style={{ marginLeft: 10 }}
+                />
+              ),
+            })}
           />
         </Stack.Navigator>
       </NavigationContainer>

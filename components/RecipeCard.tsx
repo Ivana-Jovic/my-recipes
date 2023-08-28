@@ -1,17 +1,20 @@
 import React from "react";
 import { Text, View, StyleSheet, Image, Pressable } from "react-native";
 import { useNavigation } from "@react-navigation/native";
+import Ionicons from "@expo/vector-icons/Ionicons";
 //Utils
 import { Colors } from "../utils/colors";
 import { RecipeDetailsType, NavigationProp } from "../utils/types";
 import DetailItem from "./DetailItem";
+import Button from "./Button";
 
 interface RecipeCardProps {
   recipe: RecipeDetailsType;
+  isUsersRecpe: boolean;
 }
 
 const RecipeCard: React.FC<RecipeCardProps> = (props) => {
-  const { recipe } = props;
+  const { recipe, isUsersRecpe } = props;
   const navigation = useNavigation<NavigationProp>();
 
   return (
@@ -26,7 +29,25 @@ const RecipeCard: React.FC<RecipeCardProps> = (props) => {
         style={styles.image}
       />
       <View style={styles.containerRight}>
-        <Text style={styles.title}>{recipe.title}</Text>
+        <View style={styles.titleContainer}>
+          <Text style={styles.title}>{recipe.title}</Text>
+          {isUsersRecpe && (
+            <Button
+              onPress={() => {
+                navigation.navigate("Modal", {
+                  recipeId: recipe.id.toString(),
+                });
+              }}
+              additionalStyles={{ backgroundColor: "transparent", padding: 0 }}
+            >
+              <Ionicons
+                name="create-outline"
+                size={15}
+                style={{ color: Colors.textGrey }}
+              />
+            </Button>
+          )}
+        </View>
         <Text style={styles.description}>
           {recipe.description.slice(0, 55)}...
         </Text>
@@ -75,6 +96,10 @@ const styles = StyleSheet.create({
     height: "100%",
     flex: 1,
     borderRadius: 7,
+  },
+  titleContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
   },
   title: {
     fontSize: 17,

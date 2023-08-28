@@ -1,22 +1,22 @@
 import React, { useState } from "react";
 import { SearchBar } from "@rneui/themed";
-import { View, Text, StyleSheet } from "react-native";
-import {
-  useInfiniteQuery,
-  UseInfiniteQueryResult,
-  useQueryClient,
-  UseQueryResult,
-  QueryFunctionContext,
-  useQuery,
-} from "react-query";
-//Utils
-import {
-  RecipeType,
-  NavigationProp,
-  ToRecipeDetailsRouteProp,
-  RecipeDetailsType,
-  RecipeDBAllType,
-} from "../utils/types";
+import { View, StyleSheet } from "react-native";
+// import {
+//   useInfiniteQuery,
+//   UseInfiniteQueryResult,
+//   useQueryClient,
+//   UseQueryResult,
+//   QueryFunctionContext,
+//   useQuery,
+// } from "react-query";
+// //Utils
+// import {
+//   RecipeType,
+//   NavigationProp,
+//   ToRecipeDetailsRouteProp,
+//   RecipeDetailsType,
+//   RecipeDBAllType,
+// } from "../utils/types";
 
 // const fetchRecipes: (
 //   context: QueryFunctionContext<[string, string]>,

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { FlatList, View, StyleSheet, RefreshControl } from "react-native";
 import {
   useInfiniteQuery,
@@ -11,7 +11,8 @@ import RecipeCard from "../components/RecipeCard";
 import ScreenMessage from "../components/ScreenMessage";
 //Utils
 import { Colors } from "../utils/colors";
-import { RecipeDetailsType } from "../utils/types";
+import { RecipeDetailsType, User } from "../utils/types";
+import { fetchUser } from "../utils/database";
 
 const fetchRecipes: (page: number) => Promise<RecipeDetailsType[]> = async (
   page,
@@ -24,6 +25,7 @@ const fetchRecipes: (page: number) => Promise<RecipeDetailsType[]> = async (
 };
 
 const Recipes: React.FC = () => {
+  const [user, setUser] = useState<string>("");
   const [refreshing, setRefreshing] = useState(false);
   const queryClient = useQueryClient();
 
@@ -65,6 +67,14 @@ const Recipes: React.FC = () => {
       .catch(() => {});
   };
 
+  useEffect(() => {
+    fetchUser()
+      .then((res) => {
+        setUser((res.rows._array[0] as User).name);
+      })
+      .catch(() => {});
+  }, []);
+
   if (isLoading) {
     return <ScreenMessage msg="Loading..." />;
   }
@@ -78,7 +88,9 @@ const Recipes: React.FC = () => {
       <View style={styles.list}>
         <FlatList
           data={recipesContext}
-          renderItem={({ item }) => <RecipeCard recipe={item} />}
+          renderItem={({ item }) => (
+            <RecipeCard recipe={item} isUsersRecpe={item.author === user} />
+          )}
           keyExtractor={(item) => item.id.toString()}
           onEndReached={() => {
             if (hasNextPage) {
