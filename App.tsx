@@ -10,6 +10,7 @@ import Recipes from "./screens/Recipes";
 import SignInScreen from "./screens/SignInScreen";
 import RecipeDetails from "./screens/RecipeDetails";
 import AddRecipe from "./screens/AddRecipe";
+import SearchRecipes from "./screens/SearchRecipes";
 //Components
 import Button from "./components/Button";
 //Utils
@@ -22,6 +23,7 @@ export type RootStackParamList = {
   Recipes: undefined;
   RecipeDetails: { recipeId: string };
   AddRecipe: undefined;
+  SearchRecipes: undefined;
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -70,7 +72,7 @@ export default function App() {
             component={Recipes}
             options={({ navigation }: { navigation: NavigationProp }) => ({
               headerBackVisible: false,
-              headerRight() {
+              headerLeft() {
                 return (
                   <Button
                     onPress={() => {
@@ -82,6 +84,25 @@ export default function App() {
                   </Button>
                 );
               },
+              headerRight() {
+                return (
+                  <Button
+                    onPress={() => {
+                      navigation.navigate("SearchRecipes");
+                    }}
+                    additionalStyles={{
+                      padding: 3,
+                      backgroundColor: "transparent",
+                    }}
+                  >
+                    <Ionicons
+                      name="search"
+                      size={20}
+                      style={{ color: Colors.textGrey }}
+                    />
+                  </Button>
+                );
+              },
             })}
           />
           <Stack.Screen name="RecipeDetails" component={RecipeDetails} />
@@ -89,6 +110,13 @@ export default function App() {
             name="AddRecipe"
             component={AddRecipe}
             options={{ headerTitle: "Add a recipe" }}
+          />
+          <Stack.Screen
+            name="SearchRecipes"
+            component={SearchRecipes}
+            options={{
+              headerTitle: "Search for a recipe", //() => <Search></Search>,
+            }}
           />
         </Stack.Navigator>
       </NavigationContainer>
