@@ -13,7 +13,7 @@ import {
   //   ToRecipeDetailsRouteProp,
   RecipeDetailsType,
   RecipeDBAllType,
-} from "./types";
+} from "../types";
 // // Components
 // import ScreenMessage from "../components/ScreenMessage";
 // import DetailItem from "../components/DetailItem";

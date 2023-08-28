@@ -15,10 +15,11 @@ import { Colors } from "../utils/colors";
 
 interface ImagePickerProps {
   onImagesChange: (newValue: string[]) => void;
+  recipeToEditPictures?: string[];
 }
 
 const ImagePicker: React.FC<ImagePickerProps> = (props) => {
-  const { onImagesChange } = props;
+  const { onImagesChange, recipeToEditPictures } = props;
   const [allImages, setAllImages] = useState<string[]>([]);
 
   const [cameraPermissionInformation, requesPermissionCamera] =
@@ -112,6 +113,10 @@ const ImagePicker: React.FC<ImagePickerProps> = (props) => {
   useEffect(() => {
     if (allImages) onImagesChange(allImages);
   }, [allImages]);
+
+  useEffect(() => {
+    if (recipeToEditPictures) setAllImages(recipeToEditPictures);
+  }, [recipeToEditPictures]);
 
   return (
     <View style={styles.container}>

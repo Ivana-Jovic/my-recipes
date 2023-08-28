@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { QueryFunctionContext, UseQueryResult, useQuery } from "react-query";
 import { useNavigation } from "@react-navigation/native";
+import { useStore } from "../store/store";
 import {
   KeyboardAvoidingView,
   TextInput,
@@ -18,71 +19,36 @@ import Button from "../components/Button";
 //Utils
 import { Colors } from "../utils/colors";
 import { fetchUser } from "../utils/database";
-import {
-  RecipeType,
-  RecipeDBAllType,
-  User,
-  NavigationProp,
-  RecipeDetailsType,
-} from "../utils/types";
+import { RecipeType, User, NavigationProp } from "../utils/types";
 import ScreenMessage from "../components/ScreenMessage";
+import { addRecipes } from "../utils/functions/addRecipes";
+import { editRecipes } from "../utils/functions/editRecipes";
 
-const addRecipes: (
-  context: QueryFunctionContext<[string, RecipeType | undefined]>,
+const addOrEditRecipes: (
+  context: QueryFunctionContext<
+    [string, RecipeType | undefined, number | undefined]
+  >,
 ) => Promise<void> = async (context) => {
-  const recipe = context.queryKey[1];
-  if (!recipe) {
-    console.log("Recipe is undefined");
-    return;
+  const isToEdit = context.queryKey[2];
+
+  if (isToEdit) {
+    await editRecipes(context);
+  } else {
+    await addRecipes(context);
   }
-
-  const tmpDetails: Omit<RecipeDetailsType, "id"> = {
-    title: recipe?.title,
-    pictures: [recipe?.pictures[0]],
-    description: recipe?.description,
-    cookTime: recipe?.cookTime,
-    author: recipe?.author,
-    difficulty: recipe?.difficulty,
-  };
-
-  const responseDetails = await fetch(
-    `http://localhost:3000/recipes-details/`,
-    {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(tmpDetails),
-    },
-  );
-  const jsonDataDetails = (await responseDetails.json()) as RecipeDetailsType;
-
-  const newId = jsonDataDetails.id;
-
-  const tmpAll: Omit<RecipeDBAllType, "id"> = {
-    pictures: recipe?.pictures,
-    idDetails: newId, //todo ovo id details nema poentu nigde, jer ne mogu da namestim da mi fetch radi sa parametrom
-    ingredients: recipe?.ingredients,
-    instructions: recipe?.instructions,
-  };
-
-  await fetch(`http://localhost:3000/recipes-all/`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(tmpAll),
-  });
 };
 
-function parseIngredients(inputText: string): string[] {
-  const lines = inputText.split("\n");
-  const ingredientsArray = lines
-    .map((line) => line.trim())
-    .filter((line) => line !== "");
-  return ingredientsArray;
+interface AddRecipe {
+  recipeToEdit?: RecipeType;
 }
 
-const AddRecipe: React.FC = () => {
+const AddRecipe: React.FC<AddRecipe> = (props) => {
+  const { recipeToEdit } = props;
   const [images, setImages] = useState<string[]>([]);
   const [newRecipe, setNewRecipe] = useState<RecipeType | undefined>(undefined);
   const [user, setUser] = useState<string>("");
+
+  const clearRecentRecipes = useStore((state) => state.clearRecentRecipes);
 
   const navigation = useNavigation<NavigationProp>(); // todo ovo bi trebalo da dolazi automatski kao prop (na svim stranama), ali zbog ts ne moze nesto... ({ navigation }: NavigationProp)
 
@@ -93,17 +59,16 @@ const AddRecipe: React.FC = () => {
   const {
     isLoading,
     isError,
-  }: UseQueryResult<RecipeType[], [string, RecipeType | undefined]> = useQuery(
-    ["recipes", newRecipe],
-    addRecipes,
-    {
-      onSuccess() {
-        Alert.alert("Added recipe");
-        navigation.navigate("Recipes");
-      },
-      enabled: !!newRecipe,
+  }: UseQueryResult<
+    RecipeType[],
+    [string, RecipeType | undefined, number | undefined]
+  > = useQuery(["recipes", newRecipe, recipeToEdit?.id], addOrEditRecipes, {
+    onSuccess() {
+      Alert.alert("Added recipe");
+      navigation.navigate("Recipes");
     },
-  );
+    enabled: !!newRecipe,
+  });
 
   useEffect(() => {
     fetchUser()
@@ -116,9 +81,10 @@ const AddRecipe: React.FC = () => {
   const {
     control,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm<RecipeType>({
-    defaultValues: {
+    defaultValues: recipeToEdit ?? {
       title: "",
       pictures: [],
       description: "",
@@ -135,9 +101,16 @@ const AddRecipe: React.FC = () => {
     if (images.length === 0) return;
     data.pictures = images;
     data.author = user;
-    data.ingredients = parseIngredients(data.ingredients.toString());
     setNewRecipe(data);
   };
+
+  useEffect(() => {
+    if (recipeToEdit) {
+      reset(recipeToEdit);
+      setImages(recipeToEdit?.pictures ?? []);
+      clearRecentRecipes();
+    }
+  }, [recipeToEdit]);
 
   if (isLoading) {
     return <ScreenMessage msg={"Loading..."} />;
@@ -262,8 +235,11 @@ const AddRecipe: React.FC = () => {
                   <TextInput
                     style={[styles.input, styles.multiline]}
                     onBlur={onBlur}
-                    onChangeText={onChange}
-                    value={value?.toString()}
+                    onChangeText={(text) => {
+                      const lines = text.split("\n");
+                      onChange(lines);
+                    }}
+                    value={value?.join("\n")}
                     multiline={true}
                   />
                 )}
@@ -271,7 +247,10 @@ const AddRecipe: React.FC = () => {
               />
             </Input>
             <View style={styles.errors}>
-              <ImagePicker onImagesChange={handleImagesChange} />
+              <ImagePicker
+                onImagesChange={handleImagesChange}
+                recipeToEditPictures={recipeToEdit?.pictures}
+              />
               {images.length === 0 && (
                 <Text style={{ color: "red" }}>
                   You have to select at least one picture

@@ -15,7 +15,7 @@ import {
   // RecipeDetailsType,
   // RecipeDBAllType,
 } from "../utils/types";
-import { fetchRecipesById } from "../utils/fetchRecipesById";
+import { fetchRecipesById } from "../utils/functions/fetchRecipesById";
 
 // const fetchRecipes: (
 //   context: QueryFunctionContext<[string, number]>,

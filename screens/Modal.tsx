@@ -2,12 +2,12 @@ import React, { useState } from "react";
 // import { Text, StyleSheet, View, Image, ScrollView } from "react-native";
 import AddRecipe from "./AddRecipe";
 import { UseQueryResult, useQuery } from "react-query";
-import { RecipeType, ToRecipeDetailsRouteProp } from "../utils/types";
 import { useRoute } from "@react-navigation/native";
-import { fetchRecipesById } from "../utils/fetchRecipesById";
-// import { useRoute } from "@react-navigation/native";
 //Utils
-// import { ToRecipeDetailsRouteProp } from "../utils/types";
+import { fetchRecipesById } from "../utils/functions/fetchRecipesById";
+import { RecipeType, ToRecipeDetailsRouteProp } from "../utils/types";
+//Component
+import ScreenMessage from "../components/ScreenMessage";
 
 const Modal: React.FC = () => {
   const router = useRoute<ToRecipeDetailsRouteProp>();
@@ -17,6 +17,7 @@ const Modal: React.FC = () => {
   const { isLoading, isError }: UseQueryResult<RecipeType, [string, number]> =
     useQuery(["recipes", recipeId], fetchRecipesById, {
       onSuccess(data) {
+        // data.ingredients=data.ingredients
         setRecipe(data);
         // if (!recentRecipe || recentRecipe?.id !== recipeId) {
         //   addRecentRecipes(data);
@@ -24,7 +25,16 @@ const Modal: React.FC = () => {
       },
       //   enabled: !recentRecipe || recentRecipe?.id !== recipeId,
     });
-  return <AddRecipe />;
+
+  if (isLoading) {
+    return <ScreenMessage msg={"Loading..."} />;
+  }
+
+  if (isError) {
+    return <ScreenMessage msg={"Error fetching data"} />;
+  }
+
+  return <AddRecipe recipeToEdit={recipe} />;
 };
 
 export default Modal;
