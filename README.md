@@ -1,4 +1,4 @@
-#My recipes
+# My recipes
 This project uses the `npm` package menager. To install the required packages run:
 
 ```
