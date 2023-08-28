@@ -17,5 +17,5 @@ json-server --watch db.json
 
 **Notes**
 
-This app is, for now, tested and works for ios simulators.
+This app is, for now, tested and works for ios simulators.  
 You can read the task requirements in the task-requirements.md file

@@ -14,19 +14,19 @@ In the topbar there should be an add recipe icon that when clicked on opens a ne
 
 **Bonus Challenges**
 
-`*` Search - add a search bar to allow users to search for recipes by title or ingredients.
-`*` Favorite Recipes - allow users to mark recipes as favorites, and create a separate screen to display their favorite recipes.
-`*` Add/Edit Recipes - implement a way for users to add new recipes or edit existing ones. You can use modal dialogs for this purpose.
-`*` Categories/Tags - allow recipes to be categorized or tagged, and provide a way to filter recipes by category or tag.
+`*` Search - add a search bar to allow users to search for recipes by title or ingredients.  
+`*` Favorite Recipes - allow users to mark recipes as favorites, and create a separate screen to display their favorite recipes.  
+`*` Add/Edit Recipes - implement a way for users to add new recipes or edit existing ones. You can use modal dialogs for this purpose.  
+`*` Categories/Tags - allow recipes to be categorized or tagged, and provide a way to filter recipes by category or tag.  
 
 **Requirements**
 
-`*` Use React Native CLI
-`*` Use TypeScript
-`*` Use eslint and prettier for code styling and formatting
-`*` Use Zustand for state management
-`*` Use React Hook Form for form management
-`*` Use React Query for API calls
-`*` Use React Navigation for routing
-`*` Use json-server for an out of the box for a REST server
-`*` You can use any UI Library or your own solution
+`*` Use React Native CLI  
+`*` Use TypeScript  
+`*` Use eslint and prettier for code styling and formatting  
+`*` Use Zustand for state management  
+`*` Use React Hook Form for form management  
+`*` Use React Query for API calls  
+`*` Use React Navigation for routing  
+`*` Use json-server for an out of the box for a REST server  
+`*` You can use any UI Library or your own solution  
