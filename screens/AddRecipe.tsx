@@ -18,11 +18,12 @@ import ImagePicker from "../components/ImagePicker";
 import Button from "../components/Button";
 //Utils
 import { Colors } from "../utils/colors";
-import { fetchUser } from "../utils/database";
+// import { fetchUser } from "../utils/database";
 import { RecipeType, User, NavigationProp } from "../utils/types";
 import ScreenMessage from "../components/ScreenMessage";
 import { addRecipes } from "../utils/functions/addRecipes";
 import { editRecipes } from "../utils/functions/editRecipes";
+import { useUser } from "../store/user";
 
 const addOrEditRecipes: (
   context: QueryFunctionContext<
@@ -50,6 +51,8 @@ const AddRecipe: React.FC<AddRecipe> = (props) => {
 
   const clearRecentRecipes = useStore((state) => state.clearRecentRecipes);
 
+  const users = useUser((state) => state.users);
+
   const navigation = useNavigation<NavigationProp>(); // todo ovo bi trebalo da dolazi automatski kao prop (na svim stranama), ali zbog ts ne moze nesto... ({ navigation }: NavigationProp)
 
   const handleImagesChange = (newValue: string[]) => {
@@ -71,11 +74,12 @@ const AddRecipe: React.FC<AddRecipe> = (props) => {
   });
 
   useEffect(() => {
-    fetchUser()
-      .then((res) => {
-        setUser((res.rows._array[0] as User).name);
-      })
-      .catch(() => {});
+    if (users.length !== 0) setUser((users[0] as User).name); // todo ovaj use eff nema poente, u storu moze da bude i sa,o jedan user, onda nema potrebe za set user i ovim useeff
+    //   fetchUser()
+    //     .then((res) => {
+    //       setUser((res.rows._array[0] as User).name);
+    //     })
+    //     .catch(() => {});
   }, []);
 
   const {

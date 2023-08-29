@@ -12,7 +12,8 @@ import ScreenMessage from "../components/ScreenMessage";
 //Utils
 import { Colors } from "../utils/colors";
 import { RecipeDetailsType, User } from "../utils/types";
-import { fetchUser } from "../utils/database";
+import { useUser } from "../store/user";
+// import { fetchUser } from "../utils/database";
 
 const fetchRecipes: (page: number) => Promise<RecipeDetailsType[]> = async (
   page,
@@ -32,6 +33,8 @@ const Recipes: React.FC = () => {
   const recipesContext = useStore((state) => state.recipes);
   const addRecipes = useStore((state) => state.addRecipes);
   const clearRecipes = useStore((state) => state.clearRecipes);
+
+  const users = useUser((state) => state.users);
 
   const {
     isLoading,
@@ -68,11 +71,12 @@ const Recipes: React.FC = () => {
   };
 
   useEffect(() => {
-    fetchUser()
-      .then((res) => {
-        setUser((res.rows._array[0] as User).name);
-      })
-      .catch(() => {});
+    if (users.length !== 0) setUser((users[0] as User).name); // todo ovaj use eff nema poente, u storu moze da bude i sa,o jedan user, onda nema potrebe za set user i ovim useeff
+    //   fetchUser()
+    //     .then((res) => {
+    //       setUser((res.rows._array[0] as User).name);
+    //     })
+    //     .catch(() => {});
   }, []);
 
   if (isLoading) {

@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React from "react"; // , { useEffect, useState }
 import { StatusBar } from "react-native";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import Ionicons from "@expo/vector-icons/Ionicons";
-import AppLoading from "expo-app-loading";
+// import AppLoading from "expo-app-loading";
 //Screens
 import Recipes from "./screens/Recipes";
 import SignInScreen from "./screens/SignInScreen";
@@ -14,9 +14,9 @@ import SearchRecipes from "./screens/SearchRecipes";
 //Components
 import Button from "./components/Button";
 //Utils
-import { init } from "./utils/database";
+// import { init } from "./utils/database";
 import { Colors } from "./utils/colors";
-import { NavigationProp, RecipeType } from "./utils/types";
+import { NavigationProp } from "./utils/types";
 import Modal from "./screens/Modal";
 
 export type RootStackParamList = {
@@ -33,21 +33,21 @@ const Stack = createNativeStackNavigator<RootStackParamList>();
 const queryClient = new QueryClient();
 
 export default function App() {
-  const [dbInitialized, setdbInitialized] = useState(false);
+  // const [dbInitialized, setdbInitialized] = useState(false);
 
-  useEffect(() => {
-    init()
-      .then(() => {
-        setdbInitialized(true);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }, []);
+  // useEffect(() => {
+  //   init()
+  //     .then(() => {
+  //       setdbInitialized(true);
+  //     })
+  //     .catch((error) => {
+  //       console.log(error);
+  //     });
+  // }, []);
 
-  if (!dbInitialized) {
-    <AppLoading />;
-  }
+  // if (!dbInitialized) {
+  //   <AppLoading />;
+  // }
 
   return (
     <QueryClientProvider client={queryClient}>
@@ -116,7 +116,9 @@ export default function App() {
           <Stack.Screen
             name="SearchRecipes"
             component={SearchRecipes}
-            options={({ navigation }: { navigation: NavigationProp }) => ({
+            options={{
+              // (
+              // { navigation }: { navigation: NavigationProp }) => ({
               headerTitle: "Search for a recipe", //() => <Search></Search>,
               // headerRight() {
               //   return (
@@ -137,7 +139,8 @@ export default function App() {
               //     </Button>
               //   );
               // },
-            })}
+              // })
+            }}
           />
           <Stack.Screen
             name="Modal"

@@ -5,15 +5,19 @@ import { useNavigation } from "@react-navigation/native";
 //Components
 import Button from "../components/Button";
 //Utils
-import { insertUser, fetchUser } from "../utils/database";
+// import { insertUser, fetchUser } from "../utils/database";
 import { Colors } from "../utils/colors";
 import { NavigationProp } from "../utils/types";
+import { useUser } from "../store/user";
 
 interface FormData {
   name: string;
 }
 const SignInScreen: React.FC = () => {
   const navigation = useNavigation<NavigationProp>();
+
+  const addUser = useUser((state) => state.addUser);
+  const users = useUser((state) => state.users);
 
   const {
     control,
@@ -25,9 +29,10 @@ const SignInScreen: React.FC = () => {
     },
   });
 
-  const onSubmit = async (data: FormData) => {
+  const onSubmit = (data: FormData) => {
     try {
-      await insertUser(data.name);
+      // await insertUser(data.name);
+      addUser({ name: data.name });
       navigation.navigate("Recipes");
     } catch (error) {
       console.log(error);
@@ -35,13 +40,14 @@ const SignInScreen: React.FC = () => {
   };
 
   useEffect(() => {
-    fetchUser()
-      .then((res) => {
-        if (res.rows.length !== 0) {
-          navigation.navigate("Recipes");
-        }
-      })
-      .catch(() => {});
+    if (users.length !== 0) navigation.navigate("Recipes");
+    // fetchUser()
+    //   .then((res) => {
+    //     if (res.rows.length !== 0) {
+    //       navigation.navigate("Recipes");
+    //     }
+    //   })
+    //   .catch(() => {});
   }, []);
 
   return (

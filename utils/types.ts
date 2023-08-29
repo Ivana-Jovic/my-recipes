@@ -1,6 +1,12 @@
 import { RootStackParamList } from "../App";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 
+export interface UserType {
+  // id: number;
+  name: string;
+  favourites?: number[];
+}
+
 export interface RecipeDetailsType {
   title: string;
   pictures: string[];

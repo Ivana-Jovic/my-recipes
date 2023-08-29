@@ -25,6 +25,7 @@ export const fetchRecipesById: (
 
   const [recipesResponse, detailsResponse] = await Promise.all([
     fetch(`http://localhost:3000/recipes-all/${id}`),
+    // fetch(`http://localhost:3000/recipes-all?idDetails=${id}`),
     fetch(`http://localhost:3000/recipes-details/${id}`),
   ]);
 
