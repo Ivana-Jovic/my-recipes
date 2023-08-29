@@ -18,7 +18,6 @@ import ImagePicker from "../components/ImagePicker";
 import Button from "../components/Button";
 //Utils
 import { Colors } from "../utils/colors";
-// import { fetchUser } from "../utils/database";
 import { RecipeType, User, NavigationProp } from "../utils/types";
 import ScreenMessage from "../components/ScreenMessage";
 import { addRecipes } from "../utils/functions/addRecipes";
@@ -75,11 +74,6 @@ const AddRecipe: React.FC<AddRecipe> = (props) => {
 
   useEffect(() => {
     if (users.length !== 0) setUser((users[0] as User).name); // todo ovaj use eff nema poente, u storu moze da bude i sa,o jedan user, onda nema potrebe za set user i ovim useeff
-    //   fetchUser()
-    //     .then((res) => {
-    //       setUser((res.rows._array[0] as User).name);
-    //     })
-    //     .catch(() => {});
   }, []);
 
   const {

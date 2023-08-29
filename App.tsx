@@ -14,7 +14,6 @@ import SearchRecipes from "./screens/SearchRecipes";
 //Components
 import Button from "./components/Button";
 //Utils
-// import { init } from "./utils/database";
 import { Colors } from "./utils/colors";
 import { NavigationProp } from "./utils/types";
 import Modal from "./screens/Modal";
@@ -33,22 +32,6 @@ const Stack = createNativeStackNavigator<RootStackParamList>();
 const queryClient = new QueryClient();
 
 export default function App() {
-  // const [dbInitialized, setdbInitialized] = useState(false);
-
-  // useEffect(() => {
-  //   init()
-  //     .then(() => {
-  //       setdbInitialized(true);
-  //     })
-  //     .catch((error) => {
-  //       console.log(error);
-  //     });
-  // }, []);
-
-  // if (!dbInitialized) {
-  //   <AppLoading />;
-  // }
-
   return (
     <QueryClientProvider client={queryClient}>
       <NavigationContainer>

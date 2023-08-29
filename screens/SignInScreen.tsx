@@ -5,7 +5,6 @@ import { useNavigation } from "@react-navigation/native";
 //Components
 import Button from "../components/Button";
 //Utils
-// import { insertUser, fetchUser } from "../utils/database";
 import { Colors } from "../utils/colors";
 import { NavigationProp } from "../utils/types";
 import { useUser } from "../store/user";
@@ -41,13 +40,6 @@ const SignInScreen: React.FC = () => {
 
   useEffect(() => {
     if (users.length !== 0) navigation.navigate("Recipes");
-    // fetchUser()
-    //   .then((res) => {
-    //     if (res.rows.length !== 0) {
-    //       navigation.navigate("Recipes");
-    //     }
-    //   })
-    //   .catch(() => {});
   }, []);
 
   return (
