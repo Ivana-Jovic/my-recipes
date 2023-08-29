@@ -16,7 +16,7 @@ const SignInScreen: React.FC = () => {
   const navigation = useNavigation<NavigationProp>();
 
   const addUser = useUser((state) => state.addUser);
-  const users = useUser((state) => state.users);
+  const user = useUser((state) => state.user);
 
   const {
     control,
@@ -31,7 +31,7 @@ const SignInScreen: React.FC = () => {
   const onSubmit = (data: FormData) => {
     try {
       // await insertUser(data.name);
-      addUser({ name: data.name });
+      addUser(data.name);
       navigation.navigate("Recipes");
     } catch (error) {
       console.log(error);
@@ -39,7 +39,7 @@ const SignInScreen: React.FC = () => {
   };
 
   useEffect(() => {
-    if (users.length !== 0) navigation.navigate("Recipes");
+    if (user) navigation.navigate("Recipes");
   }, []);
 
   return (

@@ -18,11 +18,11 @@ import ImagePicker from "../components/ImagePicker";
 import Button from "../components/Button";
 //Utils
 import { Colors } from "../utils/colors";
-import { RecipeType, User, NavigationProp } from "../utils/types";
+import { RecipeType, NavigationProp } from "../utils/types";
 import ScreenMessage from "../components/ScreenMessage";
 import { addRecipes } from "../utils/functions/addRecipes";
 import { editRecipes } from "../utils/functions/editRecipes";
-import { useUser } from "../store/user";
+import { useUser } from "../store/user"; //todo pitaj jel okej u storu jedan user
 
 const addOrEditRecipes: (
   context: QueryFunctionContext<
@@ -46,14 +46,12 @@ const AddRecipe: React.FC<AddRecipe> = (props) => {
   const { recipeToEdit } = props;
   const [images, setImages] = useState<string[]>([]);
   const [newRecipe, setNewRecipe] = useState<RecipeType | undefined>(undefined);
-  const [user, setUser] = useState<string>("");
 
   const clearRecentRecipes = useStore((state) => state.clearRecentRecipes);
 
-  const users = useUser((state) => state.users);
+  const user = useUser((state) => state.user);
 
-  const navigation = useNavigation<NavigationProp>(); // todo ovo bi trebalo da dolazi automatski kao prop (na svim stranama), ali zbog ts ne moze nesto... ({ navigation }: NavigationProp)
-
+  const navigation = useNavigation<NavigationProp>();
   const handleImagesChange = (newValue: string[]) => {
     setImages(newValue);
   };
@@ -71,10 +69,6 @@ const AddRecipe: React.FC<AddRecipe> = (props) => {
     },
     enabled: !!newRecipe,
   });
-
-  useEffect(() => {
-    if (users.length !== 0) setUser((users[0] as User).name); // todo ovaj use eff nema poente, u storu moze da bude i sa,o jedan user, onda nema potrebe za set user i ovim useeff
-  }, []);
 
   const {
     control,
@@ -98,7 +92,7 @@ const AddRecipe: React.FC<AddRecipe> = (props) => {
   const onSubmit = (data: RecipeType) => {
     if (images.length === 0) return;
     data.pictures = images;
-    data.author = user;
+    data.author = user?.name ?? "";
     setNewRecipe(data);
   };
 

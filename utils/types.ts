@@ -3,8 +3,8 @@ import { NativeStackScreenProps } from "@react-navigation/native-stack";
 
 export interface UserType {
   // id: number;
-  name: string;
-  favourites?: number[];
+  name: string | undefined;
+  favourites: number[];
 }
 
 export interface RecipeDetailsType {

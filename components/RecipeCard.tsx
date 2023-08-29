@@ -7,6 +7,7 @@ import { Colors } from "../utils/colors";
 import { RecipeDetailsType, NavigationProp } from "../utils/types";
 import DetailItem from "./DetailItem";
 import Button from "./Button";
+import { useUser } from "../store/user";
 
 interface RecipeCardProps {
   recipe: RecipeDetailsType;
@@ -17,7 +18,12 @@ const RecipeCard: React.FC<RecipeCardProps> = (props) => {
   const { recipe, isUsersRecpe } = props;
   const navigation = useNavigation<NavigationProp>();
 
-  const addToFavourites = () => {};
+  const toggleFavouritesHelper = useUser((state) => state.toggleFavourites);
+  const user = useUser((state) => state.user);
+
+  const toggleFavourites = () => {
+    toggleFavouritesHelper(recipe.id);
+  };
 
   return (
     <Pressable
@@ -72,7 +78,7 @@ const RecipeCard: React.FC<RecipeCardProps> = (props) => {
               text={recipe.difficulty.toString()}
             />
             <Button
-              onPress={addToFavourites}
+              onPress={toggleFavourites}
               additionalStyles={{
                 backgroundColor: "transparent",
                 padding: 0,
@@ -80,9 +86,13 @@ const RecipeCard: React.FC<RecipeCardProps> = (props) => {
               }}
             >
               <Ionicons
-                name="star-outline"
+                name="star"
                 size={15}
-                style={{ color: Colors.textGrey }}
+                style={{
+                  color: user?.favourites.find((fav) => fav === recipe.id)
+                    ? "#e6ac00"
+                    : Colors.textGrey,
+                }}
               />
             </Button>
           </View>

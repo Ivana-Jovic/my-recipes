@@ -5,15 +5,25 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { UserType } from "../utils/types";
 
 interface UserState {
-  users: UserType[];
-  addUser: (users: UserType) => void;
+  user: UserType | undefined;
+  addUser: (user: string) => void;
+  toggleFavourites: (recipeId: number) => void;
 }
 
 export const useUser = create<UserState>()(
   persist(
     (set) => ({
-      users: [],
-      addUser: (user) => set((state) => ({ users: state.users.concat(user) })),
+      user: undefined,
+      addUser: (u) => set({ user: { name: u, favourites: [] } }),
+      toggleFavourites: (recipeId) =>
+        set((state) => ({
+          user: {
+            name: state.user?.name,
+            favourites: state.user?.favourites.includes(recipeId)
+              ? state.user?.favourites.filter((id) => id !== recipeId)
+              : state.user?.favourites?.concat(recipeId) ?? [],
+          },
+        })),
     }),
     {
       name: "user-storage",

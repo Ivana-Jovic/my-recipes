@@ -1,5 +1,5 @@
 import React from "react"; // , { useEffect, useState }
-import { StatusBar } from "react-native";
+import { StatusBar, View } from "react-native";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
@@ -17,6 +17,7 @@ import Button from "./components/Button";
 import { Colors } from "./utils/colors";
 import { NavigationProp } from "./utils/types";
 import Modal from "./screens/Modal";
+import Favourites from "./screens/Favourites";
 
 export type RootStackParamList = {
   SignInScreen: undefined;
@@ -25,6 +26,7 @@ export type RootStackParamList = {
   AddRecipe: undefined;
   SearchRecipes: undefined;
   Modal: { recipeId: string };
+  Favourites: undefined;
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -71,21 +73,41 @@ export default function App() {
               },
               headerRight() {
                 return (
-                  <Button
-                    onPress={() => {
-                      navigation.navigate("SearchRecipes");
-                    }}
-                    additionalStyles={{
-                      padding: 3,
-                      backgroundColor: "transparent",
-                    }}
-                  >
-                    <Ionicons
-                      name="search"
-                      size={20}
-                      style={{ color: Colors.textGrey }}
-                    />
-                  </Button>
+                  <View style={{ flexDirection: "row", gap: 20 }}>
+                    <Button
+                      onPress={() => {
+                        navigation.navigate("SearchRecipes");
+                      }}
+                      additionalStyles={{
+                        padding: 3,
+                        backgroundColor: "transparent",
+                      }}
+                    >
+                      <Ionicons
+                        name="search"
+                        size={20}
+                        style={{ color: Colors.textGrey }}
+                      />
+                    </Button>
+                    <Button
+                      onPress={() => {
+                        navigation.navigate("Favourites");
+                      }}
+                      additionalStyles={{
+                        backgroundColor: "transparent",
+                        padding: 0,
+                        justifyContent: "center",
+                      }}
+                    >
+                      <Ionicons
+                        name="star"
+                        size={20}
+                        style={{
+                          color: "black",
+                        }}
+                      />
+                    </Button>
+                  </View>
                 );
               },
             })}
@@ -100,29 +122,7 @@ export default function App() {
             name="SearchRecipes"
             component={SearchRecipes}
             options={{
-              // (
-              // { navigation }: { navigation: NavigationProp }) => ({
-              headerTitle: "Search for a recipe", //() => <Search></Search>,
-              // headerRight() {
-              //   return (
-              //     <Button
-              // onPress={() => {
-              //   navigation.navigate("Modal");
-              // }}
-              //       additionalStyles={{
-              //         padding: 3,
-              //         backgroundColor: "transparent",
-              //       }}
-              //     >
-              //       <Ionicons
-              //         name="search"
-              //         size={20}
-              //         style={{ color: Colors.textGrey }}
-              //       />
-              //     </Button>
-              //   );
-              // },
-              // })
+              headerTitle: "Search for a recipe",
             }}
           />
           <Stack.Screen
@@ -142,6 +142,11 @@ export default function App() {
                 />
               ),
             })}
+          />
+          <Stack.Screen
+            name="Favourites"
+            component={Favourites}
+            options={{ headerTitle: "Favourite recipes" }}
           />
         </Stack.Navigator>
       </NavigationContainer>

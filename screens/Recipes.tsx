@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { FlatList, View, StyleSheet, RefreshControl } from "react-native";
 import {
   useInfiniteQuery,
@@ -11,7 +11,7 @@ import RecipeCard from "../components/RecipeCard";
 import ScreenMessage from "../components/ScreenMessage";
 //Utils
 import { Colors } from "../utils/colors";
-import { RecipeDetailsType, User } from "../utils/types";
+import { RecipeDetailsType } from "../utils/types";
 import { useUser } from "../store/user";
 
 const fetchRecipes: (page: number) => Promise<RecipeDetailsType[]> = async (
@@ -25,7 +25,6 @@ const fetchRecipes: (page: number) => Promise<RecipeDetailsType[]> = async (
 };
 
 const Recipes: React.FC = () => {
-  const [user, setUser] = useState<string>("");
   const [refreshing, setRefreshing] = useState(false);
   const queryClient = useQueryClient();
 
@@ -33,7 +32,7 @@ const Recipes: React.FC = () => {
   const addRecipes = useStore((state) => state.addRecipes);
   const clearRecipes = useStore((state) => state.clearRecipes);
 
-  const users = useUser((state) => state.users);
+  const user = useUser((state) => state.user);
 
   const {
     isLoading,
@@ -69,10 +68,6 @@ const Recipes: React.FC = () => {
       .catch(() => {});
   };
 
-  useEffect(() => {
-    if (users.length !== 0) setUser((users[0] as User).name); // todo ovaj use eff nema poente, u storu moze da bude i sa,o jedan user, onda nema potrebe za set user i ovim useeff
-  }, []);
-
   if (isLoading) {
     return <ScreenMessage msg="Loading..." />;
   }
@@ -87,7 +82,10 @@ const Recipes: React.FC = () => {
         <FlatList
           data={recipesContext}
           renderItem={({ item }) => (
-            <RecipeCard recipe={item} isUsersRecpe={item.author === user} />
+            <RecipeCard
+              recipe={item}
+              isUsersRecpe={item.author === user?.name}
+            />
           )}
           keyExtractor={(item) => item.id.toString()}
           onEndReached={() => {
