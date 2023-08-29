@@ -8,7 +8,8 @@ export function init() {
       tx.executeSql(
         `create table if not exists users (
             id integer primary key not null,
-            name text not null
+            name text not null,
+            favourites integer
         )`,
         [],
         () => {

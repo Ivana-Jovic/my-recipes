@@ -17,6 +17,8 @@ const RecipeCard: React.FC<RecipeCardProps> = (props) => {
   const { recipe, isUsersRecpe } = props;
   const navigation = useNavigation<NavigationProp>();
 
+  const addToFavourites = () => {};
+
   return (
     <Pressable
       style={styles.container}
@@ -38,7 +40,10 @@ const RecipeCard: React.FC<RecipeCardProps> = (props) => {
                   recipeId: recipe.id.toString(),
                 });
               }}
-              additionalStyles={{ backgroundColor: "transparent", padding: 0 }}
+              additionalStyles={{
+                backgroundColor: "transparent",
+                padding: 0,
+              }}
             >
               <Ionicons
                 name="create-outline"
@@ -66,6 +71,20 @@ const RecipeCard: React.FC<RecipeCardProps> = (props) => {
               icon={"ios-analytics"}
               text={recipe.difficulty.toString()}
             />
+            <Button
+              onPress={addToFavourites}
+              additionalStyles={{
+                backgroundColor: "transparent",
+                padding: 0,
+                justifyContent: "center",
+              }}
+            >
+              <Ionicons
+                name="star-outline"
+                size={15}
+                style={{ color: Colors.textGrey }}
+              />
+            </Button>
           </View>
         </View>
       </View>
@@ -113,7 +132,7 @@ const styles = StyleSheet.create({
     gap: 15,
     width: "100%",
     justifyContent: "space-between",
-    flex: 1,
+    flex: 1.2,
   },
 });
 
