@@ -3,6 +3,7 @@ import { Text, StyleSheet, View, Image, ScrollView } from "react-native";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { useStore } from "../store/store";
 import { UseQueryResult, useQuery } from "react-query";
+import Ionicons from "@expo/vector-icons/Ionicons";
 //Components
 import Carousel from "../components/Carousel";
 import ScreenMessage from "../components/ScreenMessage";
@@ -16,29 +17,9 @@ import {
   // RecipeDBAllType,
 } from "../utils/types";
 import { fetchRecipesById } from "../utils/functions/fetchRecipesById";
-
-// const fetchRecipes: (
-//   context: QueryFunctionContext<[string, number]>,
-// ) => Promise<RecipeType> = async (context) => {
-//   const id = context.queryKey[1]; // details id from the card
-
-//   const [recipesResponse, detailsResponse] = await Promise.all([
-//     fetch(`http://localhost:3000/recipes-all/${id}`),
-//     fetch(`http://localhost:3000/recipes-details/${id}`),
-//   ]);
-
-//   const [recipesData, detailsData] = await Promise.all([
-//     recipesResponse.json() as Promise<RecipeDBAllType>,
-//     detailsResponse.json() as Promise<RecipeDetailsType>,
-//   ]);
-
-//   const combinedData = {
-//     ...recipesData,
-//     ...detailsData,
-//     pictures: recipesData.pictures,
-//   };
-//   return combinedData;
-// };
+import { useUser } from "../store/user";
+import Button from "../components/Button";
+import { Colors } from "../utils/colors";
 
 const RecipeDetails: React.FC = () => {
   const navigation = useNavigation<NavigationProp>();
@@ -47,6 +28,13 @@ const RecipeDetails: React.FC = () => {
 
   const addRecentRecipes = useStore((state) => state.addRecentRecipes);
   const recentRecipe = useStore((state) => state.recentRecipe);
+
+  const toggleFavouritesHelper = useUser((state) => state.toggleFavourites);
+  const user = useUser((state) => state.user);
+
+  const toggleFavourites = () => {
+    toggleFavouritesHelper(recipeId);
+  };
 
   const { isLoading, isError }: UseQueryResult<RecipeType, [string, number]> =
     useQuery(["recipes", recipeId], fetchRecipesById, {
@@ -81,6 +69,24 @@ const RecipeDetails: React.FC = () => {
         />
         <View style={styles.innerContainer}>
           <View style={styles.details}>
+            <Button
+              onPress={toggleFavourites}
+              additionalStyles={{
+                backgroundColor: "transparent",
+                padding: 0,
+                justifyContent: "center",
+              }}
+            >
+              <Ionicons
+                name="star"
+                size={15}
+                style={{
+                  color: user?.favourites.find((fav) => fav === recipeId)
+                    ? "#e6ac00"
+                    : Colors.textGrey,
+                }}
+              />
+            </Button>
             <DetailItem
               icon={"timer-outline"}
               text={recentRecipe.cookTime.toString()}

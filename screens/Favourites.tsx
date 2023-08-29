@@ -1,30 +1,51 @@
-import React, { useState } from "react";
-import { Text, StyleSheet, View, Image, ScrollView } from "react-native";
+import React from "react";
+import { View, ScrollView } from "react-native";
 import { useUser } from "../store/user";
 import RecipeCard from "../components/RecipeCard";
-import { UseQueryResult, useQuery } from "react-query";
+import { UseQueryResult, useQueries, QueryFunctionContext } from "react-query";
 import { fetchRecipesById } from "../utils/functions/fetchRecipesById";
-import { RecipeType, UserType } from "../utils/types";
+import { RecipeType } from "../utils/types";
+import ScreenMessage from "../components/ScreenMessage";
 
 const Favourites: React.FC = () => {
   const user = useUser((state) => state.user);
 
-  // const { isLoading, isError }: UseQueryResult<RecipeType, [string, number]> =
-  //   useQuery(["recipes", recipeId], fetchRecipesById, {
-  //     onSuccess(data) {
-  //       if (!recentRecipe || recentRecipe?.id !== recipeId) {
-  //         addRecentRecipes(data);
-  //       }
-  //     },
-  //     enabled: !recentRecipe || recentRecipe?.id !== recipeId,
-  //   });
+  if (!user?.favourites) {
+    return <ScreenMessage msg="Loading..." />;
+  }
+
+  const queryResults: UseQueryResult<RecipeType, unknown>[] = // note: if i put [string, number] instead of unknown there is a ts error
+    useQueries(
+      user.favourites.map((recipeId) => ({
+        queryKey: ["recipe", recipeId] as [string, number],
+        queryFn: (context: QueryFunctionContext<[string, number]>) =>
+          fetchRecipesById(context),
+      })),
+    );
+
+  const data: RecipeType[] = queryResults
+    .flatMap((result) => result.data || [])
+    .filter((resultData) => resultData !== undefined);
+
+  if (!data || data.length === 0)
+    return <ScreenMessage msg="No favourite recipes" />;
 
   return (
-    <View>
-      {user?.favourites.map((favId) => (
-        <Text key={favId}>{favId}</Text>
-        // <RecipeCard key={favId} recipe={undefined} isUsersRecpe={item.author === user?.name} />
-      ))}
+    <View
+      style={{
+        padding: 20,
+        // flex: 1,
+      }}
+    >
+      <ScrollView>
+        {data?.map((fav) => (
+          <RecipeCard
+            key={fav.id}
+            recipe={fav}
+            isUsersRecpe={fav.author === user?.name}
+          />
+        ))}
+      </ScrollView>
     </View>
   );
 };
