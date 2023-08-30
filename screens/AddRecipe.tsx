@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { createRef, useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { QueryFunctionContext, UseQueryResult, useQuery } from "react-query";
 import { useNavigation } from "@react-navigation/native";
@@ -23,6 +23,10 @@ import ScreenMessage from "../components/ScreenMessage";
 import { addRecipes } from "../utils/functions/addRecipes";
 import { editRecipes } from "../utils/functions/editRecipes";
 import { useUser } from "../store/user"; //todo pitaj jel okej u storu jedan user
+
+type TextInputRef = {
+  current: TextInput | null;
+};
 
 const addOrEditRecipes: (
   context: QueryFunctionContext<
@@ -130,6 +134,17 @@ const AddRecipe: React.FC<AddRecipe> = (props) => {
     }
   }, [recipeToEdit]);
 
+  const inputRefs: TextInputRef[] = Array.from({ length: 5 }, () =>
+    createRef<TextInput>(),
+  );
+
+  const focusNextInput = (index: number) => {
+    const nextIndex = index + 1;
+    if (inputRefs[nextIndex] && inputRefs[nextIndex].current) {
+      inputRefs[nextIndex].current?.focus();
+    }
+  };
+
   if (isLoading) {
     return <ScreenMessage msg={"Loading..."} />;
   }
@@ -158,6 +173,10 @@ const AddRecipe: React.FC<AddRecipe> = (props) => {
                     onBlur={onBlur}
                     onChangeText={onChange}
                     value={value}
+                    returnKeyType="next"
+                    // blurOnSubmit={false}
+                    onSubmitEditing={() => focusNextInput(0)}
+                    ref={inputRefs[0]}
                   />
                 )}
                 name="title"
@@ -178,6 +197,9 @@ const AddRecipe: React.FC<AddRecipe> = (props) => {
                       onChangeText={onChange}
                       value={value?.toString()}
                       keyboardType="numeric"
+                      returnKeyType="done"
+                      onSubmitEditing={() => focusNextInput(1)}
+                      ref={inputRefs[1]}
                     />
                   )}
                   name="cookTime"
@@ -205,6 +227,9 @@ const AddRecipe: React.FC<AddRecipe> = (props) => {
                       value={value?.toString()}
                       keyboardType="numeric"
                       maxLength={1}
+                      returnKeyType="done"
+                      onSubmitEditing={() => focusNextInput(2)}
+                      ref={inputRefs[2]}
                     />
                   )}
                   name="difficulty"
@@ -221,6 +246,9 @@ const AddRecipe: React.FC<AddRecipe> = (props) => {
                     onBlur={onBlur}
                     onChangeText={onChange}
                     value={value}
+                    returnKeyType="next"
+                    onSubmitEditing={() => focusNextInput(3)}
+                    ref={inputRefs[3]}
                   />
                 )}
                 name="description"
@@ -237,6 +265,7 @@ const AddRecipe: React.FC<AddRecipe> = (props) => {
                     onChangeText={onChange}
                     value={value}
                     multiline={true}
+                    ref={inputRefs[4]}
                   />
                 )}
                 name="instructions"
