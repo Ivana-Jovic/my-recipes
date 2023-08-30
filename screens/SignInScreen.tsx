@@ -32,14 +32,14 @@ const SignInScreen: React.FC = () => {
     try {
       // await insertUser(data.name);
       addUser(data.name);
-      navigation.navigate("Recipes");
+      navigation.replace("Recipes");
     } catch (error) {
       console.log(error);
     }
   };
 
   useEffect(() => {
-    if (user) navigation.navigate("Recipes");
+    if (user) navigation.replace("Recipes");
   }, []);
 
   return (

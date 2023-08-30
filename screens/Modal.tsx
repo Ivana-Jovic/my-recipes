@@ -17,13 +17,8 @@ const Modal: React.FC = () => {
   const { isLoading, isError }: UseQueryResult<RecipeType, [string, number]> =
     useQuery(["recipes", recipeId], fetchRecipesById, {
       onSuccess(data) {
-        // data.ingredients=data.ingredients
         setRecipe(data);
-        // if (!recentRecipe || recentRecipe?.id !== recipeId) {
-        //   addRecentRecipes(data);
-        // }
       },
-      //   enabled: !recentRecipe || recentRecipe?.id !== recipeId,
     });
 
   if (isLoading) {
@@ -34,7 +29,7 @@ const Modal: React.FC = () => {
     return <ScreenMessage msg={"Error fetching data"} />;
   }
 
-  return <AddRecipe recipeToEdit={recipe} />;
+  return <AddRecipe recipeToEdit={recipe} edit={true} />;
 };
 
 export default Modal;

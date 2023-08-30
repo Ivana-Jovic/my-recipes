@@ -40,14 +40,18 @@ const addOrEditRecipes: (
 
 interface AddRecipe {
   recipeToEdit?: RecipeType;
+  edit?: boolean;
 }
 
 const AddRecipe: React.FC<AddRecipe> = (props) => {
-  const { recipeToEdit } = props;
+  const { recipeToEdit, edit } = props;
   const [images, setImages] = useState<string[]>([]);
   const [newRecipe, setNewRecipe] = useState<RecipeType | undefined>(undefined);
 
   const clearRecentRecipes = useStore((state) => state.clearRecentRecipes);
+  const recipeTemplate = useStore((state) => state.recipeTemplate);
+  const addRecipeTemplate = useStore((state) => state.addRecipeTemplate);
+  const clearRecipeTemplate = useStore((state) => state.clearRecipeTemplate);
 
   const user = useUser((state) => state.user);
 
@@ -74,26 +78,48 @@ const AddRecipe: React.FC<AddRecipe> = (props) => {
     control,
     handleSubmit,
     reset,
+    watch,
     formState: { errors },
   } = useForm<RecipeType>({
-    defaultValues: recipeToEdit ?? {
-      title: "",
-      pictures: [],
-      description: "",
-      cookTime: undefined,
-      author: "",
-      difficulty: 1,
-      id: undefined,
-      ingredients: [],
-      instructions: "",
-    },
+    defaultValues: recipeToEdit ??
+      recipeTemplate ?? {
+        title: "",
+        pictures: [],
+        description: "",
+        cookTime: undefined,
+        author: "",
+        difficulty: 1,
+        id: undefined,
+        ingredients: [],
+        instructions: "",
+      },
   });
+
+  useEffect(() => {
+    if (edit !== true) {
+      const subscription = watch((value, { name, type }) => {
+        console.log(value, name, type);
+        const sanitizedValue = {
+          ingredients: (value.ingredients ?? []) as string[],
+          pictures: (value.pictures ?? []) as string[],
+          instructions: value.instructions ?? "",
+          title: value.title ?? "",
+          description: value.description ?? "",
+          cookTime: value.cookTime ?? 1,
+          difficulty: value.difficulty ?? 1,
+        };
+        addRecipeTemplate(sanitizedValue);
+      });
+      return () => subscription.unsubscribe();
+    }
+  }, [watch]);
 
   const onSubmit = (data: RecipeType) => {
     if (images.length === 0) return;
     data.pictures = images;
     data.author = user?.name ?? "";
     setNewRecipe(data);
+    clearRecipeTemplate();
   };
 
   useEffect(() => {
