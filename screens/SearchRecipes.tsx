@@ -1,84 +1,65 @@
 import React, { useState } from "react";
 import { SearchBar } from "@rneui/themed";
-import { View, StyleSheet } from "react-native";
-// import {
-//   useInfiniteQuery,
-//   UseInfiniteQueryResult,
-//   useQueryClient,
-//   UseQueryResult,
-//   QueryFunctionContext,
-//   useQuery,
-// } from "react-query";
+import { View, StyleSheet, ScrollView } from "react-native";
+import { searchRecipes } from "../utils/functions/searchRecipes";
+import { UseQueryResult, useQuery } from "react-query";
+import { useDebounce } from "@uidotdev/usehooks";
 // //Utils
-// import {
-//   RecipeType,
-//   NavigationProp,
-//   ToRecipeDetailsRouteProp,
-//   RecipeDetailsType,
-//   RecipeDBAllType,
-// } from "../utils/types";
-
-// const fetchRecipes: (
-//   context: QueryFunctionContext<[string, string]>,
-// ) => Promise<RecipeType> = async (context) => {
-//   const search = context.queryKey[1];
-
-//   const [recipesResponse, detailsResponse] = await Promise.all([
-//     fetch(`http://localhost:3000/recipes-all/${search}`),
-//     fetch(`http://localhost:3000/recipes-details?title=${search}`), //todo treba da bude case insensitive
-//   ]);
-
-//   const [recipesData, detailsData] = await Promise.all([
-//     recipesResponse.json() as Promise<RecipeDBAllType>,
-//     detailsResponse.json() as Promise<RecipeDetailsType>,
-//   ]);
-
-//   const combinedData = {
-//     ...recipesData,
-//     ...detailsData,
-//     pictures: recipesData.pictures,
-//   };
-//   return combinedData;
-// };
+import { RecipeDetailsType } from "../utils/types";
+import RecipeCard from "../components/RecipeCard";
+import { useUser } from "../store/user";
+import ScreenMessage from "../components/ScreenMessage";
 
 const SearchRecipes: React.FC = () => {
   const [search, setSearch] = useState<string>("");
+  const debouncedSearchTerm = useDebounce(search, 500);
 
-  //   const { isLoading, isError }: UseQueryResult<RecipeType, [string, string]> =
-  //     useQuery(["recipes", search], fetchRecipes, {
-  //       onSuccess(data) {
-  //         console.log(data.id, data.title);
-  //         // if (!recentRecipe || recentRecipe?.id !== recipeId) {
-  //         // addRecentRecipes(data);
-  //         // }
-  //       },
-  //       // enabled: !recentRecipe || recentRecipe?.id !== recipeId,
-  //     });
+  const user = useUser((state) => state.user);
+
+  const {
+    isLoading,
+    isError,
+    data,
+  }: UseQueryResult<RecipeDetailsType[], [string, string]> = useQuery(
+    ["recipes", debouncedSearchTerm],
+    searchRecipes,
+  );
 
   const updateSearch = (search: string) => {
     setSearch(search);
   };
 
+  if (isLoading) {
+    return <ScreenMessage msg="Loading..." />;
+  }
+
+  if (isError) {
+    return <ScreenMessage msg="Error fetching data" />;
+  }
   return (
     <View style={styles.view}>
+      {/* //todo search bar izgubi fokus */}
       <SearchBar
         platform="ios"
         placeholder="Type Here..."
         onChangeText={updateSearch}
         value={search}
         inputContainerStyle={{ height: 10 }}
-        // inputStyle={{ backgroundColor: "white" }}
-        // inputContainerStyle={{ margin: 0, padding: 0 }}
-        // placeholderTextColor={"#g5g5g5"}
         containerStyle={{
           backgroundColor: "transparent",
-          // borderWidth: 1,
-          // borderRadius: 5,
-          // padding: 0,
-          // paddingVertical: 0,
+          marginBottom: 10,
         }}
         style={{ fontSize: 14 }}
       />
+      <ScrollView>
+        {data?.map((fav) => (
+          <RecipeCard
+            key={fav.id}
+            recipe={fav}
+            isUsersRecpe={fav.author === user?.name}
+          />
+        ))}
+      </ScrollView>
     </View>
   );
 };
@@ -87,10 +68,7 @@ export default SearchRecipes;
 
 const styles = StyleSheet.create({
   view: {
-    // margin: 10,
     flex: 1,
     padding: 20,
-    // height: 10,
-    // width: "80%",
   },
 });
