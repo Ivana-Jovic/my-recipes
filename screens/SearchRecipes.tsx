@@ -40,7 +40,6 @@ const SearchRecipes: React.FC = () => {
 
   return (
     <View style={styles.view}>
-      {/* //todo search bar izgubi fokus */}
       <SearchBar
         platform="ios"
         placeholder="Type Here..."
@@ -52,16 +51,26 @@ const SearchRecipes: React.FC = () => {
           marginBottom: 10,
         }}
         style={{ fontSize: 14 }}
+        autoFocus={true}
       />
-      <ScrollView>
-        {data?.map((fav) => (
-          <RecipeCard
-            key={fav.id}
-            recipe={fav}
-            isUsersRecpe={fav.author === user?.name}
-          />
+      {data?.length === 0 &&
+        (search.length === 0 ? (
+          <ScreenMessage msg="Start typing your search term" />
+        ) : (
+          <ScreenMessage msg="There are no results..." />
         ))}
-      </ScrollView>
+      {!data && <ScreenMessage msg="Loading..." />}
+      {data && data?.length !== 0 && (
+        <ScrollView>
+          {data.map((fav) => (
+            <RecipeCard
+              key={fav.id}
+              recipe={fav}
+              isUsersRecpe={fav.author === user?.name}
+            />
+          ))}
+        </ScrollView>
+      )}
     </View>
   );
 };
