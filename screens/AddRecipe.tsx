@@ -52,7 +52,6 @@ const AddRecipe: React.FC<AddRecipe> = (props) => {
   const [images, setImages] = useState<string[]>([]);
   const [newRecipe, setNewRecipe] = useState<RecipeType | undefined>(undefined);
 
-  const clearRecentRecipes = useRecipes((state) => state.clearRecentRecipes);
   const recipeTemplate = useRecipes((state) => state.recipeTemplate);
   const addRecipeTemplate = useRecipes((state) => state.addRecipeTemplate);
   const clearRecipeTemplate = useRecipes((state) => state.clearRecipeTemplate);
@@ -130,7 +129,6 @@ const AddRecipe: React.FC<AddRecipe> = (props) => {
     if (recipeToEdit) {
       reset(recipeToEdit);
       setImages(recipeToEdit?.pictures ?? []);
-      clearRecentRecipes();
     }
   }, [recipeToEdit]);
 

@@ -1,7 +1,6 @@
 import React, { useLayoutEffect } from "react";
 import { Text, StyleSheet, View, Image, ScrollView } from "react-native";
 import { useNavigation, useRoute } from "@react-navigation/native";
-import { useRecipes } from "../store/recipes";
 import { useUser } from "../store/user";
 import { UseQueryResult, useQuery } from "react-query";
 import Ionicons from "@expo/vector-icons/Ionicons";
@@ -24,9 +23,6 @@ const RecipeDetails: React.FC = () => {
   const router = useRoute<ToRecipeDetailsRouteProp>();
   const recipeId = parseInt(router.params.recipeId);
 
-  const addRecentRecipes = useRecipes((state) => state.addRecentRecipes);
-  const recentRecipe = useRecipes((state) => state.recentRecipe);
-
   const toggleFavouritesHelper = useUser((state) => state.toggleFavourites);
   const user = useUser((state) => state.user);
 
@@ -34,15 +30,17 @@ const RecipeDetails: React.FC = () => {
     toggleFavouritesHelper(recipeId);
   };
 
-  const { isLoading, isError }: UseQueryResult<RecipeType, [string, number]> =
-    useQuery(["recipes", recipeId], fetchRecipesById, {
-      onSuccess(data) {
-        if (!recentRecipe || recentRecipe?.id !== recipeId) {
-          addRecentRecipes(data);
-        }
-      },
-      enabled: !recentRecipe || recentRecipe?.id !== recipeId,
-    });
+  const {
+    isLoading,
+    isError,
+    data: recentRecipe,
+  }: UseQueryResult<RecipeType, [string, number]> = useQuery(
+    ["recipesId", recipeId],
+    fetchRecipesById,
+    {
+      staleTime: 1000 * 60 * 2,
+    },
+  );
 
   useLayoutEffect(() => {
     navigation.setOptions({
