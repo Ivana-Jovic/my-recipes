@@ -2,6 +2,8 @@ import { QueryFunctionContext } from "react-query";
 // Utils
 import { RecipeType, RecipeDetailsType, RecipeDBAllType } from "../types";
 
+const apiUrl = process.env.EXPO_PUBLIC_API_URL;
+
 export const addRecipes: (
   context: QueryFunctionContext<
     [string, RecipeType | undefined, number | undefined]
@@ -24,26 +26,23 @@ export const addRecipes: (
     difficulty: recipe?.difficulty,
   };
 
-  const responseDetails = await fetch(
-    `http://localhost:3000/recipes-details/`,
-    {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(tmpDetails),
-    },
-  );
+  const responseDetails = await fetch(`${apiUrl}/recipes-details/`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(tmpDetails),
+  });
   const jsonDataDetails = (await responseDetails.json()) as RecipeDetailsType;
 
   const newId = jsonDataDetails.id;
 
   const tmpAll: Omit<RecipeDBAllType, "id"> = {
     pictures: recipe?.pictures,
-    idDetails: newId, //todo ovo id details nema poentu nigde, jer ne mogu da namestim da mi fetch radi sa parametrom
+    idDetails: newId,
     ingredients: recipe?.ingredients,
     instructions: recipe?.instructions,
   };
 
-  await fetch(`http://localhost:3000/recipes-all/`, {
+  await fetch(`${apiUrl}/recipes-all/`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(tmpAll),

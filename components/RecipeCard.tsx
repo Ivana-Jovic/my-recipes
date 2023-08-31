@@ -2,12 +2,13 @@ import React from "react";
 import { Text, View, StyleSheet, Image, Pressable } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import Ionicons from "@expo/vector-icons/Ionicons";
+import { useUser } from "../store/user";
 //Utils
 import { Colors } from "../utils/colors";
 import { RecipeDetailsType, NavigationProp } from "../utils/types";
+// Components
 import DetailItem from "./DetailItem";
 import Button from "./Button";
-import { useUser } from "../store/user";
 
 interface RecipeCardProps {
   recipe: RecipeDetailsType;

@@ -2,12 +2,12 @@ import React, { useEffect } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { TextInput, View, Text, StyleSheet } from "react-native";
 import { useNavigation } from "@react-navigation/native";
+import { useUser } from "../store/user";
 //Components
 import Button from "../components/Button";
 //Utils
 import { Colors } from "../utils/colors";
 import { NavigationProp } from "../utils/types";
-import { useUser } from "../store/user";
 
 interface FormData {
   name: string;

@@ -1,10 +1,12 @@
 import React from "react";
 import { View, ScrollView } from "react-native";
 import { useUser } from "../store/user";
-import RecipeCard from "../components/RecipeCard";
 import { UseQueryResult, useQueries, QueryFunctionContext } from "react-query";
+// Utils
 import { fetchRecipesById } from "../utils/functions/fetchRecipesById";
 import { RecipeType } from "../utils/types";
+// Components
+import RecipeCard from "../components/RecipeCard";
 import ScreenMessage from "../components/ScreenMessage";
 
 const Favourites: React.FC = () => {

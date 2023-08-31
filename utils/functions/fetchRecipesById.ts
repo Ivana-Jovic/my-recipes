@@ -1,7 +1,8 @@
 import { QueryFunctionContext } from "react-query";
 // Utils
 import { RecipeType, RecipeDetailsType, RecipeDBAllType } from "../types";
-// // Components
+
+const apiUrl = process.env.EXPO_PUBLIC_API_URL;
 
 export const fetchRecipesById: (
   context: QueryFunctionContext<[string, number]>,
@@ -11,10 +12,10 @@ export const fetchRecipesById: (
   // const urlParam = "id=" + id;
 
   const [recipesResponse, detailsResponse] = await Promise.all([
-    fetch(`http://localhost:3000/recipes-all/${id}`),
-    // fetch(`http://localhost:3000/recipes-all?idDetails=${id}`),
-    // fetch(`http://localhost:3000/recipes-all?${urlParam}`),
-    fetch(`http://localhost:3000/recipes-details/${id}`),
+    fetch(`${apiUrl}/recipes-all/${id}`),
+    // fetch(`${apiUrl}/recipes-all?idDetails=${id}`),//todo ovo id details nema poentu nigde, jer ne mogu da namestim da mi fetch radi sa parametrom
+    // fetch(`${apiUrl}/recipes-all?${urlParam}`),
+    fetch(`${apiUrl}/recipes-details/${id}`),
   ]);
 
   const [recipesData, detailsData] = await Promise.all([

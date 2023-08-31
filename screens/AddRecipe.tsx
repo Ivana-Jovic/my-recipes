@@ -2,7 +2,8 @@ import React, { createRef, useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { QueryFunctionContext, UseQueryResult, useQuery } from "react-query";
 import { useNavigation } from "@react-navigation/native";
-import { useStore } from "../store/store";
+import { useRecipes } from "../store/recipes";
+import { useUser } from "../store/user";
 import {
   KeyboardAvoidingView,
   TextInput,
@@ -13,7 +14,7 @@ import {
   Alert,
 } from "react-native";
 //Components
-import Input from "../components/Input";
+import InputWrapper from "../components/InputWrapper";
 import ImagePicker from "../components/ImagePicker";
 import Button from "../components/Button";
 //Utils
@@ -22,7 +23,6 @@ import { RecipeType, NavigationProp } from "../utils/types";
 import ScreenMessage from "../components/ScreenMessage";
 import { addRecipes } from "../utils/functions/addRecipes";
 import { editRecipes } from "../utils/functions/editRecipes";
-import { useUser } from "../store/user"; //todo pitaj jel okej u storu jedan user
 
 type TextInputRef = {
   current: TextInput | null;
@@ -52,10 +52,10 @@ const AddRecipe: React.FC<AddRecipe> = (props) => {
   const [images, setImages] = useState<string[]>([]);
   const [newRecipe, setNewRecipe] = useState<RecipeType | undefined>(undefined);
 
-  const clearRecentRecipes = useStore((state) => state.clearRecentRecipes);
-  const recipeTemplate = useStore((state) => state.recipeTemplate);
-  const addRecipeTemplate = useStore((state) => state.addRecipeTemplate);
-  const clearRecipeTemplate = useStore((state) => state.clearRecipeTemplate);
+  const clearRecentRecipes = useRecipes((state) => state.clearRecentRecipes);
+  const recipeTemplate = useRecipes((state) => state.recipeTemplate);
+  const addRecipeTemplate = useRecipes((state) => state.addRecipeTemplate);
+  const clearRecipeTemplate = useRecipes((state) => state.clearRecipeTemplate);
 
   const user = useUser((state) => state.user);
 
@@ -156,12 +156,13 @@ const AddRecipe: React.FC<AddRecipe> = (props) => {
   return (
     <View style={styles.screen}>
       <KeyboardAvoidingView
-        // behavior={"position"} //TODO not working
+        behavior="padding"
         style={{ flex: 1 }}
+        keyboardVerticalOffset={50}
       >
         <ScrollView style={styles.container}>
           <View style={styles.container}>
-            <Input label="Title" error={errors.title?.message}>
+            <InputWrapper label="Title" error={errors.title?.message}>
               <Controller
                 control={control}
                 rules={{
@@ -181,9 +182,12 @@ const AddRecipe: React.FC<AddRecipe> = (props) => {
                 )}
                 name="title"
               />
-            </Input>
+            </InputWrapper>
             <View style={styles.shorterInputsContainer}>
-              <Input label="Cooking time" error={errors.cookTime?.message}>
+              <InputWrapper
+                label="Cooking time"
+                error={errors.cookTime?.message}
+              >
                 <Controller
                   control={control}
                   rules={{
@@ -204,8 +208,11 @@ const AddRecipe: React.FC<AddRecipe> = (props) => {
                   )}
                   name="cookTime"
                 />
-              </Input>
-              <Input label="Difficulty" error={errors.difficulty?.message}>
+              </InputWrapper>
+              <InputWrapper
+                label="Difficulty"
+                error={errors.difficulty?.message}
+              >
                 <Controller
                   control={control}
                   rules={{
@@ -234,9 +241,12 @@ const AddRecipe: React.FC<AddRecipe> = (props) => {
                   )}
                   name="difficulty"
                 />
-              </Input>
+              </InputWrapper>
             </View>
-            <Input label="Description" error={errors.description?.message}>
+            <InputWrapper
+              label="Description"
+              error={errors.description?.message}
+            >
               <Controller
                 control={control}
                 rules={{ required: "Description is required" }}
@@ -253,8 +263,11 @@ const AddRecipe: React.FC<AddRecipe> = (props) => {
                 )}
                 name="description"
               />
-            </Input>
-            <Input label="Instructions" error={errors.instructions?.message}>
+            </InputWrapper>
+            <InputWrapper
+              label="Instructions"
+              error={errors.instructions?.message}
+            >
               <Controller
                 control={control}
                 rules={{ required: "Instructions are required" }}
@@ -270,8 +283,8 @@ const AddRecipe: React.FC<AddRecipe> = (props) => {
                 )}
                 name="instructions"
               />
-            </Input>
-            <Input
+            </InputWrapper>
+            <InputWrapper
               label="Ingredients (each in a new line)"
               error={errors.ingredients?.message}
             >
@@ -292,7 +305,7 @@ const AddRecipe: React.FC<AddRecipe> = (props) => {
                 )}
                 name="ingredients"
               />
-            </Input>
+            </InputWrapper>
             <View style={styles.errors}>
               <ImagePicker
                 onImagesChange={handleImagesChange}

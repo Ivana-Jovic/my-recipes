@@ -1,45 +1,41 @@
-import React, { useState } from "react";
+import React from "react";
 import { FlatList, View, StyleSheet, RefreshControl } from "react-native";
 import {
   useInfiniteQuery,
   UseInfiniteQueryResult,
   useQueryClient,
 } from "react-query";
-import { useStore } from "../store/store";
+import { useUser } from "../store/user";
 //Components
 import RecipeCard from "../components/RecipeCard";
 import ScreenMessage from "../components/ScreenMessage";
 //Utils
 import { Colors } from "../utils/colors";
 import { RecipeDetailsType } from "../utils/types";
-import { useUser } from "../store/user";
+
+const apiUrl = process.env.EXPO_PUBLIC_API_URL;
 
 const fetchRecipes: (page: number) => Promise<RecipeDetailsType[]> = async (
   page,
 ) => {
-  const response = await fetch(
-    `http://localhost:3000/recipes-details/?_page=${page}`,
-  ); // TODO: ne radi na androidu network
+  const response = await fetch(`${apiUrl}/recipes-details/?_page=${page}`); // TODO: ne radi na androidu network
   const jsonData = (await response.json()) as RecipeDetailsType[];
   return jsonData;
 };
 
 const Recipes: React.FC = () => {
-  const [refreshing, setRefreshing] = useState(false);
   const queryClient = useQueryClient();
-
-  const recipesContext = useStore((state) => state.recipes);
-  const addRecipes = useStore((state) => state.addRecipes);
-  const clearRecipes = useStore((state) => state.clearRecipes);
-
   const user = useUser((state) => state.user);
 
   const {
     isLoading,
+    data,
     isError,
     refetch,
     hasNextPage,
     fetchNextPage,
+    isRefetching,
+    isFetching,
   }: UseInfiniteQueryResult<RecipeDetailsType[], [string, number]> =
     useInfiniteQuery(
       "recipes",
@@ -50,25 +46,17 @@ const Recipes: React.FC = () => {
             lastPage.length === 10 ? allPages.length + 1 : undefined;
           return nextPage;
         },
-        onSuccess(data) {
-          const tmpRcipes = data.pages[data.pages.length - 1];
-          addRecipes(tmpRcipes);
-        },
       },
     );
 
   const onRefresh = () => {
-    setRefreshing(true);
     queryClient.removeQueries(["recipes"]);
-    clearRecipes();
     refetch()
-      .then(() => {
-        setRefreshing(false);
-      })
+      .then(() => {})
       .catch(() => {});
   };
 
-  if (isLoading) {
+  if (isLoading && !isFetching) {
     return <ScreenMessage msg="Loading..." />;
   }
 
@@ -80,7 +68,7 @@ const Recipes: React.FC = () => {
     <View style={styles.container}>
       <View style={styles.list}>
         <FlatList
-          data={recipesContext}
+          data={data?.pages.flat()}
           renderItem={({ item }) => (
             <RecipeCard
               recipe={item}
@@ -96,9 +84,9 @@ const Recipes: React.FC = () => {
             }
           }}
           // formula: wholeList.len - ( threshold * visibleElem.len )-> 10-(x*6)
-          onEndReachedThreshold={0.8}
+          onEndReachedThreshold={0.725} // if greater than this, when calling refetch, all the cards move down and it triggers refetching another page, which is not what is wanted
           refreshControl={
-            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+            <RefreshControl refreshing={isRefetching} onRefresh={onRefresh} />
           }
         />
       </View>

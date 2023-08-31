@@ -1,13 +1,13 @@
 import React, { ReactNode } from "react";
 import { StyleSheet, Text, View } from "react-native";
 
-interface InputProps {
+interface InputWrapperProps {
   label: string;
   error?: string;
   children: ReactNode;
 }
 
-const Input: React.FC<InputProps> = (props) => {
+const InputWrapper: React.FC<InputWrapperProps> = (props) => {
   const { label, children, error } = props;
 
   return (
@@ -19,7 +19,7 @@ const Input: React.FC<InputProps> = (props) => {
   );
 };
 
-export default Input;
+export default InputWrapper;
 
 const styles = StyleSheet.create({
   container: {

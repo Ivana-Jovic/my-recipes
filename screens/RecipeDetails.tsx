@@ -1,24 +1,22 @@
 import React, { useLayoutEffect } from "react";
 import { Text, StyleSheet, View, Image, ScrollView } from "react-native";
 import { useNavigation, useRoute } from "@react-navigation/native";
-import { useStore } from "../store/store";
+import { useRecipes } from "../store/recipes";
+import { useUser } from "../store/user";
 import { UseQueryResult, useQuery } from "react-query";
 import Ionicons from "@expo/vector-icons/Ionicons";
 //Components
 import Carousel from "../components/Carousel";
 import ScreenMessage from "../components/ScreenMessage";
 import DetailItem from "../components/DetailItem";
+import Button from "../components/Button";
 //Utils
 import {
   RecipeType,
   NavigationProp,
   ToRecipeDetailsRouteProp,
-  // RecipeDetailsType,
-  // RecipeDBAllType,
 } from "../utils/types";
 import { fetchRecipesById } from "../utils/functions/fetchRecipesById";
-import { useUser } from "../store/user";
-import Button from "../components/Button";
 import { Colors } from "../utils/colors";
 
 const RecipeDetails: React.FC = () => {
@@ -26,8 +24,8 @@ const RecipeDetails: React.FC = () => {
   const router = useRoute<ToRecipeDetailsRouteProp>();
   const recipeId = parseInt(router.params.recipeId);
 
-  const addRecentRecipes = useStore((state) => state.addRecentRecipes);
-  const recentRecipe = useStore((state) => state.recentRecipe);
+  const addRecentRecipes = useRecipes((state) => state.addRecentRecipes);
+  const recentRecipe = useRecipes((state) => state.recentRecipe);
 
   const toggleFavouritesHelper = useUser((state) => state.toggleFavourites);
   const user = useUser((state) => state.user);

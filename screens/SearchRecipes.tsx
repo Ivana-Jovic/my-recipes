@@ -1,13 +1,14 @@
 import React, { useState } from "react";
 import { SearchBar } from "@rneui/themed";
 import { View, StyleSheet, ScrollView } from "react-native";
-import { searchRecipes } from "../utils/functions/searchRecipes";
 import { UseQueryResult, useQuery } from "react-query";
 import { useDebounce } from "@uidotdev/usehooks";
+import { useUser } from "../store/user";
 // //Utils
 import { RecipeDetailsType } from "../utils/types";
+import { searchRecipes } from "../utils/functions/searchRecipes";
+// Components
 import RecipeCard from "../components/RecipeCard";
-import { useUser } from "../store/user";
 import ScreenMessage from "../components/ScreenMessage";
 
 const SearchRecipes: React.FC = () => {
@@ -36,6 +37,7 @@ const SearchRecipes: React.FC = () => {
   if (isError) {
     return <ScreenMessage msg="Error fetching data" />;
   }
+
   return (
     <View style={styles.view}>
       {/* //todo search bar izgubi fokus */}

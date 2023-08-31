@@ -1,6 +1,4 @@
 import React, { useState } from "react";
-// import { Text, StyleSheet, View, Image, ScrollView } from "react-native";
-import AddRecipe from "./AddRecipe";
 import { UseQueryResult, useQuery } from "react-query";
 import { useRoute } from "@react-navigation/native";
 //Utils
@@ -8,6 +6,7 @@ import { fetchRecipesById } from "../utils/functions/fetchRecipesById";
 import { RecipeType, ToRecipeDetailsRouteProp } from "../utils/types";
 //Component
 import ScreenMessage from "../components/ScreenMessage";
+import AddRecipe from "./AddRecipe";
 
 const Modal: React.FC = () => {
   const router = useRoute<ToRecipeDetailsRouteProp>();

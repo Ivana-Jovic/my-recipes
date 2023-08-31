@@ -2,6 +2,8 @@ import { QueryFunctionContext } from "react-query";
 // Utils
 import { RecipeDetailsType, RecipeDBAllType } from "../types";
 
+const apiUrl = process.env.EXPO_PUBLIC_API_URL;
+
 export const searchRecipes: (
   context: QueryFunctionContext<[string, string]>,
 ) => Promise<RecipeDetailsType[]> = async (context) => {
@@ -10,8 +12,8 @@ export const searchRecipes: (
   if (searchString.length === 0) return [];
 
   const [ingredientsResponse, titleResponse] = await Promise.all([
-    fetch(`http://localhost:3000/recipes-all?ingredients_like=${searchString}`),
-    fetch(`http://localhost:3000/recipes-details?title_like=${searchString}`),
+    fetch(`${apiUrl}/recipes-all?ingredients_like=${searchString}`),
+    fetch(`${apiUrl}/recipes-details?title_like=${searchString}`),
   ]);
 
   const [ingredientsData, titleData] = await Promise.all([
@@ -30,7 +32,7 @@ export const searchRecipes: (
     });
 
     const ingredientsDataDetailsResponse = await fetch(
-      `http://localhost:3000/recipes-details?${urlParam}`,
+      `${apiUrl}/recipes-details?${urlParam}`,
     );
 
     const ingredientsDataDetails =
