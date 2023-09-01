@@ -12,10 +12,10 @@ npm start
 
 You also need to start the server:
 ```
-json-server --watch db.json
+npm run server
 ```
 
 **Notes**
 
-This app is, for now, tested and works for ios simulators.  
-You can read the task requirements in the task-requirements.md file
+`-` This app is, for now, tested and works for ios simulators.  
+`-` You can read the task requirements in the task-requirements.md file
