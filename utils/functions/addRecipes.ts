@@ -1,17 +1,9 @@
-import { QueryFunctionContext } from "react-query";
 // Utils
 import { RecipeType, RecipeDetailsType, RecipeDBAllType } from "../types";
 
 const apiUrl = process.env.EXPO_PUBLIC_API_URL;
 
-export const addRecipes: (
-  context: QueryFunctionContext<
-    [string, RecipeType | undefined, number | undefined]
-  >,
-) => Promise<void> = async (context) => {
-  const recipe = context.queryKey[1];
-  // const isToEdit = context.queryKey[2];
-
+export const addRecipes = async (recipe: RecipeType): Promise<void> => {
   if (!recipe) {
     console.log("Recipe is undefined");
     return;

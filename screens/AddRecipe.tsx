@@ -1,6 +1,6 @@
 import React, { createRef, useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
-import { QueryFunctionContext, UseQueryResult, useQuery } from "react-query";
+import { useMutation } from "react-query";
 import { useNavigation } from "@react-navigation/native";
 import { useRecipes } from "../store/recipes";
 import { useUser } from "../store/user";
@@ -28,17 +28,19 @@ type TextInputRef = {
   current: TextInput | null;
 };
 
-const addOrEditRecipes: (
-  context: QueryFunctionContext<
-    [string, RecipeType | undefined, number | undefined]
-  >,
-) => Promise<void> = async (context) => {
-  const isToEdit = context.queryKey[2];
+interface addOrEditRecipesType {
+  recipe: RecipeType;
+  idToEdit: number | undefined; // id details
+}
 
-  if (isToEdit) {
-    await editRecipes(context);
+const addOrEditRecipes = async ({
+  recipe,
+  idToEdit,
+}: addOrEditRecipesType): Promise<void> => {
+  if (idToEdit) {
+    await editRecipes(recipe, idToEdit);
   } else {
-    await addRecipes(context);
+    await addRecipes(recipe);
   }
 };
 
@@ -50,7 +52,6 @@ interface AddRecipe {
 const AddRecipe: React.FC<AddRecipe> = (props) => {
   const { recipeToEdit, edit } = props;
   const [images, setImages] = useState<string[]>([]);
-  const [newRecipe, setNewRecipe] = useState<RecipeType | undefined>(undefined);
 
   const recipeTemplate = useRecipes((state) => state.recipeTemplate);
   const addRecipeTemplate = useRecipes((state) => state.addRecipeTemplate);
@@ -63,19 +64,16 @@ const AddRecipe: React.FC<AddRecipe> = (props) => {
     setImages(newValue);
   };
 
-  const {
-    isLoading,
-    isError,
-  }: UseQueryResult<
-    RecipeType[],
-    [string, RecipeType | undefined, number | undefined]
-  > = useQuery(["recipes", newRecipe, recipeToEdit?.id], addOrEditRecipes, {
-    onSuccess() {
-      Alert.alert("Added recipe");
-      navigation.navigate("Recipes");
+  const { isLoading, isError, mutate } = useMutation(
+    "recipes",
+    addOrEditRecipes,
+    {
+      onSuccess() {
+        Alert.alert(recipeToEdit?.id ? "Edited recipe" : "Added recipe");
+        navigation.navigate("Recipes");
+      },
     },
-    enabled: !!newRecipe,
-  });
+  );
 
   const {
     control,
@@ -121,7 +119,7 @@ const AddRecipe: React.FC<AddRecipe> = (props) => {
     if (images.length === 0) return;
     data.pictures = images;
     data.author = user?.name ?? "";
-    setNewRecipe(data);
+    mutate({ recipe: data, idToEdit: recipeToEdit?.id });
     clearRecipeTemplate();
   };
 

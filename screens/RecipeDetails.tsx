@@ -18,6 +18,8 @@ import {
 import { fetchRecipesById } from "../utils/functions/fetchRecipesById";
 import { Colors } from "../utils/colors";
 
+const staleTime = 1000 * 60 * 2;
+
 const RecipeDetails: React.FC = () => {
   const navigation = useNavigation<NavigationProp>();
   const router = useRoute<ToRecipeDetailsRouteProp>();
@@ -38,7 +40,7 @@ const RecipeDetails: React.FC = () => {
     ["recipesId", recipeId],
     fetchRecipesById,
     {
-      staleTime: 1000 * 60 * 2,
+      staleTime,
     },
   );
 
